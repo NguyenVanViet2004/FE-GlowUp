@@ -15,7 +15,6 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
   const [message, setMessage] = useState<string>('')
   const [shakeAnimation] = useState(new Animated.Value(0))
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
-
   const colors = getColors(useColorScheme())
   const inputRefs = useRef<Array<TextInput | null>>([])
   const { t } = useTranslation()
