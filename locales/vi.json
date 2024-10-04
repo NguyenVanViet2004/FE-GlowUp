@@ -69,6 +69,14 @@
             "sendCode": "Nhập mã code",
             "titleForgot": "Vui lòng nhập email của bạn bên dưới và chúng tôi sẽ cung cấp cho bạn mã OTP",
             "forgotPassword": "Quên mật khẩu"
+        },
+        "verify": {
+            "receiveCode": "Bạn không nhận được mã ?",
+            "resend" : "Gửi lại",
+            "titleVetify" : "Xác minh danh tính của bạn ",
+            "subVerify" : "Vui lòng nhập OTP tới 071****05. Điền xuống bên dưới.",
+            "continue" : "Tiếp tục",
+            "notification" : "Mã OTP không chính xác vui lòng thử lại!"
         }
     },
     "user": {
