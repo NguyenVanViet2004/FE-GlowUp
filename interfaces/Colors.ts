@@ -19,4 +19,11 @@ export interface Colors {
   bookingDetailsBackgroundCard: string
   lightSilver: string
   radioColor: string
+  green: string
+  red: string
+  blueOTP: string
+  lightGreen: string
+  lightRed: string
+  lightGray: string
+  borderInputaOTP: string
 }
