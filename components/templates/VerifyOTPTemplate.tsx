@@ -1,14 +1,21 @@
-import { isNil } from 'lodash'
-import React, { useRef, useState } from 'react'
-import { Animated, KeyboardAvoidingView, Platform, StyleSheet, type TextInput, useColorScheme } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import {
+  Animated,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  type TextInput,
+  useColorScheme
+} from 'react-native'
 import { Input, ScrollView, Text, View, YStack } from 'tamagui'
 
 import ContentTitle from '~/components/atoms/ContentTitle'
-import { PositiveButton } from '~/components/atoms/PositiveButton'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import TextWithLink from '~/components/molecules/TextWithLink'
 import getColors from '~/constants/Colors'
 import useTranslation from '~/hooks/useTranslation'
+
+import DynamicIcon from '../atoms/Icons'
 
 const VerifyOTPTemplate: React.FC = (): JSX.Element => {
   const [code, setCode] = useState<string[]>(['', '', '', ''])
@@ -19,15 +26,24 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
   const inputRefs = useRef<Array<TextInput | null>>([])
   const { t } = useTranslation()
 
+  useEffect(() => {
+    if (code.every((digit) => digit.length === 1)) {
+      handleVerify()
+    }
+  }, [code])
   const handleInputChange = (value: string, index: number): void => {
     const newCode = [...code]
     newCode[index] = value
     setCode(newCode)
 
-    if (value.length === 1 && index < code.length - 1) {
-      inputRefs.current[index + 1]?.focus()
-    } else if (value.length === 0 && index > 0) {
+    if (value === '' && index > 0) {
       inputRefs.current[index - 1]?.focus()
+    } else if (value.length === 1 && index < code.length - 1) {
+      inputRefs.current[index + 1]?.focus()
+    }
+
+    if (newCode.every((digit) => digit.length === 1)) {
+      handleVerify()
     }
   }
 
@@ -35,6 +51,7 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
     const enteredCode = code.join('')
     if (enteredCode === '1234') {
       setIsCorrect(true)
+      setMessage('')
     } else {
       setIsCorrect(false)
       setMessage(t('screens.verify.notification'))
@@ -80,12 +97,24 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
       <KeyboardAvoidingView
         style={styles.keyBoard}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
-        <View style={styles.container} testID="View">
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
+      >
+        <View style={styles.container}>
           <ScrollView
             contentContainerStyle={styles.scrollContentContainer}
-            keyboardShouldPersistTaps="handled">
-            <YStack space="$4" padding="$6" flex={1}>
+            keyboardShouldPersistTaps="handled"
+          >
+            <YStack space="$4" padding="$5" flex={1}>
+              <View left="$-1.5">
+                <DynamicIcon
+                  name="ChevronLeft"
+                  size={24}
+                  color={colors.text}
+                  onPress={() => {
+                    console.log('tha')
+                  }}
+                />
+              </View>
               <View marginTop={'13%'}>
                 <ContentTitle
                   title={t('screens.verify.titleVerify')}
@@ -94,10 +123,12 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
               </View>
 
               <Animated.View style={shakeStyle}>
-                <YStack space="$3"
+                <YStack
+                  space="$3"
                   flexDirection="row"
                   justifyContent="center"
-                  marginTop={'10%'}>
+                  marginTop={'10%'}
+                >
                   {code.map((digit, index) => (
                     <Input
                       key={index}
@@ -108,14 +139,15 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
                       maxLength={1}
                       keyboardType="numeric"
                       value={digit}
-                      onChangeText={
-                        (value) => { handleInputChange(value, index) }}
+                      onChangeText={(value) => {
+                        handleInputChange(value, index)
+                      }}
                       color={colors.text}
                       focusStyle={{
                         borderColor: colors.blue
                       }}
                       borderColor={
-                        !isNil(isCorrect) && isCorrect
+                        isCorrect === true
                           ? colors.green
                           : isCorrect === false
                             ? colors.red
@@ -126,7 +158,7 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
                           ? colors.lightGray
                           : isCorrect
                             ? colors.lightGray
-                            : colors.inputBackground
+                            : colors.lightRed
                       }
                     />
                   ))}
@@ -134,7 +166,7 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
               </Animated.View>
 
               {message.length > 0 && (
-                <Text alignItems="center" color="red">
+                <Text alignItems="center" left="$3" color="red">
                   {message}
                 </Text>
               )}
@@ -145,11 +177,6 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
               />
             </YStack>
           </ScrollView>
-
-          <PositiveButton
-            title={t('screens.verify.continue')}
-            onPress={handleVerify}
-          />
         </View>
       </KeyboardAvoidingView>
     </LinearGradientBackground>
