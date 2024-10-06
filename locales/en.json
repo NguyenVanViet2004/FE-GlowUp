@@ -73,7 +73,7 @@
         "verify": {
             "receiveCode": "Didn’t receive a code?",
             "resend" : "Resend",
-            "titleVetify" : "Verify Your Identity",
+            "titleVerify" : "Verify Your Identity",
             "subVerify" : "We’ve sent a 4-digit code to 071****05. Please enter it below.",
             "continue" : "Continue",
             "notification" : "The code you entered is incorrect. Please try again."
