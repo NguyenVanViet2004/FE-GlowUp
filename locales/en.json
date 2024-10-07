@@ -69,6 +69,11 @@
             "sendCode": "Send code",
             "titleForgot": "Please type your email below and we will give you a OTP code",
             "forgotPassword": "Forgot your password"
+        },
+        "resetPassword":{
+            "newPassword":"New password",
+            "resetPasswordPrompt":"Now, you can create new password and confirm it below",
+            "confirmNewPassword":"Confirm new password"
         }
     },
     "user": {

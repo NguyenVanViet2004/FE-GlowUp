@@ -69,6 +69,11 @@
             "sendCode": "Nhập mã code",
             "titleForgot": "Vui lòng nhập email của bạn bên dưới và chúng tôi sẽ cung cấp cho bạn mã OTP",
             "forgotPassword": "Quên mật khẩu"
+        },
+        "resetPassword":{
+            "newPassword":"Mật khẩu mới",
+            "resetPasswordPrompt":"Bây giờ, bạn có thể tạo mật khẩu mới và xác nhận bên dưới",
+            "confirmNewPassword":"Xác nhận mật khẩu mới"
         }
     },
     "user": {
