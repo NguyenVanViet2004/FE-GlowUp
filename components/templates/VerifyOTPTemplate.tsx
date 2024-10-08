@@ -53,7 +53,7 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
       setMessage('')
     } else {
       setIsCorrect(false)
-      setMessage(t('screens.verify.notification'))
+      setMessage(t('screens.verify.incorrectOtp'))
       startShakeAnimation()
     }
 
@@ -108,9 +108,9 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
                 <Header
 
                   backIcon={
-                    <FontAwesome5 name="chevron-left" 
-                    size={20} 
-                    color={colors.text} />
+                    <FontAwesome5 name="chevron-left"
+                      size={20}
+                      color={colors.text} />
                   } />
               </View>
               <View marginTop={'5%'} justifyContent="center" >

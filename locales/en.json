@@ -76,7 +76,7 @@
             "titleVerify" : "Verify Your Identity",
             "subVerify" : "We’ve sent a 4-digit code to 071****05. Please enter it below.",
             "continue" : "Continue",
-            "notification" : "The code you entered is incorrect. Please try again."
+            "incorrectOtp" : "The code you entered is incorrect. Please try again."
         }
     },
     "user": {

@@ -76,7 +76,7 @@
             "titleVerify" : "Xác minh danh tính của bạn ",
             "subVerify" : "Vui lòng nhập OTP tới 071****05. Điền xuống bên dưới.",
             "continue" : "Tiếp tục",
-            "notification" : "Mã OTP không chính xác vui lòng thử lại!"
+            "incorrectOtp" : "Mã OTP không chính xác vui lòng thử lại!"
         }
     },
     "user": {
