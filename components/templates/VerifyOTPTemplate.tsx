@@ -1,3 +1,4 @@
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Animated,
@@ -10,13 +11,11 @@ import {
 import { Input, ScrollView, Text, View, YStack } from 'tamagui'
 
 import ContentTitle from '~/components/atoms/ContentTitle'
+import Header from '~/components/molecules/Header'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import TextWithLink from '~/components/molecules/TextWithLink'
 import getColors from '~/constants/Colors'
 import useTranslation from '~/hooks/useTranslation'
-
-import DynamicIcon from '../atoms/Icons'
-
 const VerifyOTPTemplate: React.FC = (): JSX.Element => {
   const [code, setCode] = useState<string[]>(['', '', '', ''])
   const [message, setMessage] = useState<string>('')
@@ -105,17 +104,16 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
             keyboardShouldPersistTaps="handled"
           >
             <YStack space="$4" padding="$5" flex={1}>
-              <View left="$-1.5">
-                <DynamicIcon
-                  name="ChevronLeft"
-                  size={24}
-                  color={colors.text}
-                  onPress={() => {
-                    console.log('tha')
-                  }}
-                />
+              <View left="$-2.5">
+                <Header
+
+                  backIcon={
+                    <FontAwesome5 name="chevron-left" 
+                    size={20} 
+                    color={colors.text} />
+                  } />
               </View>
-              <View marginTop={'13%'}>
+              <View marginTop={'5%'} justifyContent="center" >
                 <ContentTitle
                   title={t('screens.verify.titleVerify')}
                   subtitle={t('screens.verify.subVerify')}
