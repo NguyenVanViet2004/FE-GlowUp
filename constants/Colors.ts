@@ -8,7 +8,7 @@ const colors: Record<'light' | 'dark', Colors> = {
     blue: '#235AFF',
     blueOTP: '#898A8D',
     blueSapphire: '#156778',
-    bookingDetailsBackgroundCard: '#1C2655',
+    bookingDetailsBackgroundCard: '',
     gray: '#979797',
     borderInputaOTP: '#21A7C3',
     green: '#00EE00',
