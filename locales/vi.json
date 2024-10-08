@@ -16,7 +16,12 @@
     },
     "screens": {
         "home": {
-            "title": "Trang chủ"
+            "title": "Trang chủ",
+            "yourBeautyIsOurPride": "Vẻ đẹp của bạn là niềm tự hào của chúng tôi",
+            "enterAddressOrCityName": "Nhập dịch vụ",
+            "services": "Dịch vụ",
+            "combo": "Gói dịch vụ",
+            "bookNow": "Đặt ngay"
         },
         "booking": {
             "title": "Đặt lịch"

@@ -16,7 +16,12 @@
     },
     "screens": {
         "home": {
-            "title": "Home"
+            "title": "Home",
+            "yourBeautyIsOurPride": "Your beauty is our pride",
+            "enterAddressOrCityName":"Enter service or combo",
+            "services":"Services",
+            "combo":"Combo",
+            "bookNow":"Book Now"
         },
         "booking": {
             "title": "Bookings"
