@@ -4,7 +4,10 @@ export interface Colors {
   oceanMist: string
   white: string
   blueSapphire: string
+  deepOrange: string
+  ghostWhite: string
   gray: string
+  lightYellow: string
   lightTransparentBlack: string
   midnightGlow: string
   inputBackground: string
