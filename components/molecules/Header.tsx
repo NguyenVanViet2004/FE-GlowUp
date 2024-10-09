@@ -43,7 +43,6 @@ export default function Header ({
           padding={10}
           borderRadius={50}
           marginBottom={20}
-          backgroundColor={colors.white}
           alignSelf="baseline"
           testID="back-icon"
         >

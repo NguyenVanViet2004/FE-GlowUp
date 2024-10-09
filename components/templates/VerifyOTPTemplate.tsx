@@ -142,7 +142,7 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
                       }}
                       color={colors.text}
                       focusStyle={{
-                        borderColor: colors.blue
+                        borderColor: colors.blueOTP
                       }}
                       borderColor={
                         isCorrect === true
