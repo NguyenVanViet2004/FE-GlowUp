@@ -21,7 +21,8 @@
             "enterAddressOrCityName":"Enter service or combo",
             "services":"Services",
             "combo":"Combo",
-            "bookNow":"Book Now"
+            "bookNow":"Book Now",
+            "open": "Open"
         },
         "booking": {
             "title": "Bookings"
