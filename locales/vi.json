@@ -21,7 +21,8 @@
             "enterAddressOrCityName": "Nhập dịch vụ",
             "services": "Dịch vụ",
             "combo": "Gói dịch vụ",
-            "bookNow": "Đặt ngay"
+            "bookNow": "Đặt ngay",
+            "open": "Mở"
         },
         "booking": {
             "title": "Đặt lịch"
