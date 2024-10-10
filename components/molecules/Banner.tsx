@@ -27,9 +27,12 @@ const Banner = (props: Props): React.ReactElement => {
           colors={['rgba(0, 128, 255, 0.5)',
             'rgba(0, 128, 255, 0.3)',
             'transparent']}
-          style={{ ...StyleSheet.absoluteFillObject }}
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            borderRadius: RADIUS_BUTTON
+          }}
           start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}/>
+          end={{ x: 1, y: 0 }} />
         <Text fontSize={16} color={colors.white} fontWeight={'bold'}>
           {props.nameCombo}
         </Text>
