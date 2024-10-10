@@ -2,6 +2,7 @@ import React from 'react'
 import { ImageBackground, StyleSheet, useColorScheme } from 'react-native'
 import type { ViewProps } from 'tamagui'
 import { Button, Text, View } from 'tamagui'
+import { LinearGradient } from 'tamagui/linear-gradient'
 
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
@@ -22,6 +23,13 @@ const Banner = (props: Props): React.ReactElement => {
         source={props.img}
         borderRadius={RADIUS_BUTTON}
         style={styles.banner}>
+        <LinearGradient
+          colors={['rgba(0, 128, 255, 0.5)',
+            'rgba(0, 128, 255, 0.3)',
+            'transparent']}
+          style={{ ...StyleSheet.absoluteFillObject }}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}/>
         <Text fontSize={16} color={colors.white} fontWeight={'bold'}>
           {props.nameCombo}
         </Text>
