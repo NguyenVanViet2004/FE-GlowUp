@@ -1,26 +1,27 @@
-import { ChevronLeft, Map } from "@tamagui/lucide-icons";
-import React from "react";
-import { ImageBackground, StyleSheet, useColorScheme } from "react-native";
-import { Button, ScrollView, Separator, View } from "tamagui";
+import { ChevronLeft, Map } from '@tamagui/lucide-icons'
+import { isNil } from 'lodash'
+import React from 'react'
+import { ImageBackground, StyleSheet, useColorScheme } from 'react-native'
+import { Button, ScrollView, Separator, View } from 'tamagui'
 
-import BookNow from "~/components/molecules/BookNow";
-import Header from "~/components/molecules/Header";
-import LabelWithDescription from "~/components/molecules/LabelWithDescription";
-import LinearGradientBackground from "~/components/molecules/LinearGradientBackground";
-import OpeningHours from "~/components/molecules/OpeningHours";
-import OurServices from "~/components/molecules/OurServices";
-import OurSpecialist from "~/components/molecules/OurSpecialist";
-import ServiceCardTitle from "~/components/molecules/ServiceCardTitle";
-import UserReviews from "~/components/molecules/UserReviews";
-import getColors from "~/constants/Colors";
-import { dataComboList } from "~/constants/ComboListData";
-import useTranslation from "~/hooks/useTranslation";
+import BookNow from '~/components/molecules/BookNow'
+import Header from '~/components/molecules/Header'
+import LabelWithDescription from '~/components/molecules/LabelWithDescription'
+import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
+import OpeningHours from '~/components/molecules/OpeningHours'
+import OurServices from '~/components/molecules/OurServices'
+import OurSpecialist from '~/components/molecules/OurSpecialist'
+import ServiceCardTitle from '~/components/molecules/ServiceCardTitle'
+import UserReviews from '~/components/molecules/UserReviews'
+import getColors from '~/constants/Colors'
+import { dataComboList } from '~/constants/ComboListData'
+import useTranslation from '~/hooks/useTranslation'
 
 const ComboDetailTemplate = (): React.ReactElement => {
-  const colors = getColors(useColorScheme());
-  const { t } = useTranslation();
+  const colors = getColors(useColorScheme())
+  const { t } = useTranslation()
 
-  const data = dataComboList[0];
+  const data = dataComboList[0]
 
   const renderIconButton = (icon: React.ReactElement): JSX.Element => (
     <Button
@@ -34,12 +35,12 @@ const ComboDetailTemplate = (): React.ReactElement => {
     >
       {icon}
     </Button>
-  );
+  )
   return (
     <LinearGradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require("~/assets/images/backGroundDetail.png")}
+          source={require('~/assets/images/backGroundDetail.png')}
           style={styles.imageBackground}
         >
           <Header
@@ -61,8 +62,10 @@ const ComboDetailTemplate = (): React.ReactElement => {
             <ServiceCardTitle
               comboName={data.name}
               timeOpenToday={
-                data.comboStepId.duration + t("screens.details.hour") ||
-                t("screens.details.openToday")
+                !isNil(data.comboStepId.duration) &&
+                data.comboStepId.duration.trim() !== ''
+                  ? `${data.comboStepId.duration} ${t('screens.details.hour')}`
+                  : t('screens.details.openToday')
               }
               dealCombo={data.deal}
               rateCombo={data.rate}
@@ -97,15 +100,15 @@ const ComboDetailTemplate = (): React.ReactElement => {
         deal={data.price}
       />
     </LinearGradientBackground>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   imageBackground: {
     height: 180,
-    justifyContent: "center",
-    width: "100%",
-  },
-});
+    justifyContent: 'center',
+    width: '100%'
+  }
+})
 
-export default ComboDetailTemplate;
+export default ComboDetailTemplate

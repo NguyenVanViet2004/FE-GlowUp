@@ -7,7 +7,7 @@ import { Text, type TextProps, XStack, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
-import useTranslation from '~/hooks/useTranslation';
+import useTranslation from '~/hooks/useTranslation'
 
 type Props = {
   comboName: string
@@ -21,7 +21,7 @@ type Props = {
 const ServiceCardTitle = (props: Props): JSX.Element => {
   const colors = getColors(useColorScheme())
   const { fonts } = useAppFonts()
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   return (
     <YStack gap={50}>
       <Text
@@ -60,8 +60,8 @@ const ServiceCardTitle = (props: Props): JSX.Element => {
             icon={
               <FontAwesome5 name="tag" size={16} color={colors.blueSapphire} />
             }
-            title={props.dealCombo.toString() + "%"}
-            subTitle={t("screens.details.paxAvailable")}
+            title={props.dealCombo.toString() + '%'}
+            subTitle={t('screens.details.paxAvailable')}
             subTitleColor="$gray10Dark"
           />
 

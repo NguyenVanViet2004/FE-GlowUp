@@ -1,3 +1,4 @@
+import { isNil } from 'lodash'
 import React from 'react'
 import { FlatList, useColorScheme } from 'react-native'
 import { Image, Text, YStack } from 'tamagui'
@@ -6,14 +7,18 @@ import getColors from '~/constants/Colors'
 import { dataStylist } from '~/constants/StylistData'
 import type Stylist from '~/interfaces/Stylist'
 
-const StylistList = () => {
+const StylistList = (): JSX.Element => {
   const colors = getColors(useColorScheme())
 
-  const renderStylistItem = ({ item }: { item: Stylist }) => (
-    <YStack alignItems="center" marginBottom={20} paddingRight={14} >
+  const renderStylistItem = ({
+    item
+  }: {
+    item: Stylist
+  }): React.ReactElement => (
+    <YStack alignItems="center" marginBottom={20} paddingRight={14}>
       <Image
         source={
-          item.avatarUrl
+          !isNil(item.avatarUrl) && item.avatarUrl !== ''
             ? { uri: item.avatarUrl }
             : require('~/assets/images/avataDefault.jpg')
         }
@@ -22,7 +27,9 @@ const StylistList = () => {
         borderRadius={50}
         marginBottom={5}
       />
-      <Text fontSize={14} color={colors.text}>{item.fullName}</Text>
+      <Text fontSize={14} color={colors.text}>
+        {item.fullName}
+      </Text>
     </YStack>
   )
   return (

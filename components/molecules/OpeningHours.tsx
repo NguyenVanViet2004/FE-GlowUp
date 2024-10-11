@@ -11,8 +11,12 @@ const OpeningHours = (): JSX.Element => {
     <YStack gap={25}>
       <LabelTitle title={t('screens.details.openingHours')} />
       <XStack justifyContent="space-between">
-        <TimeHours days={t('screens.details.mondayFriday')} times={t('screens.details.time1')} />
-        <TimeHours days={t('screens.details.saturdaySunday')} times={t('screens.details.time2')} />
+        <TimeHours
+          days={t('screens.details.mondayFriday')}
+          times={t('screens.details.time1')} />
+        <TimeHours
+          days={t('screens.details.saturdaySunday')}
+          times={t('screens.details.time2')} />
       </XStack>
     </YStack>
   )

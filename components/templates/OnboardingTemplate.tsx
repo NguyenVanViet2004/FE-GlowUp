@@ -1,13 +1,14 @@
 import { type Router, useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useRef, useState } from 'react'
-import { Animated, FlatList, type ViewToken } from 'react-native'
+import { Animated, FlatList, useColorScheme, type ViewToken } from 'react-native'
 import { Spacer, View } from 'tamagui'
 
 import Panagitor from '~/components/atoms/Panagitor'
 import PrimaryButton from '~/components/atoms/PrimaryButton'
 import TransparentButton from '~/components/atoms/TransparentButton'
 import OnboardingItem from '~/components/molecules/OnboardingItem'
+import getColors from '~/constants/Colors'
 import useDataOnboarding from '~/constants/DataOnboarding'
 import useTranslation from '~/hooks/useTranslation'
 
@@ -46,6 +47,7 @@ const OnboardingTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
   const dataOnboading = useDataOnboarding()
   const router = useRouter()
+  const colors = getColors(useColorScheme())
 
   const viewableItemsChanged = useRef(({ viewableItems }:
   { viewableItems: ViewToken[] }) => {
@@ -96,7 +98,9 @@ const OnboardingTemplate = (): React.ReactElement => {
         <View flex={1} >
           <TransparentButton
             title={t('screens.onboarding.login')}
-            onPress={useHandleLogin(router)} />
+            onPress={useHandleLogin(router)} 
+            colorProps={colors.white}/>
+
         </View>
         <Spacer height={23} />
         <View flex={1}>

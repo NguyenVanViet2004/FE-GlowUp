@@ -1,21 +1,19 @@
-import { Circle } from "@tamagui/lucide-icons";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useColorScheme } from "react-native";
-import { Text, type TextProps, XStack, YStack } from "tamagui";
+import { Circle } from '@tamagui/lucide-icons'
+import React from 'react'
+import { useColorScheme } from 'react-native'
+import { Text, type TextProps, XStack, YStack } from 'tamagui'
 
-import getColors from "~/constants/Colors";
-import { useAppFonts } from "~/hooks/useAppFonts";
+import getColors from '~/constants/Colors'
+import { useAppFonts } from '~/hooks/useAppFonts'
 
 type Props = {
-  days: string;
-  times: string;
-} & TextProps;
+  days: string
+  times: string
+} & TextProps
 
 const TimeHours = (props: Props): JSX.Element => {
-  const { t } = useTranslation();
-  const { fonts } = useAppFonts();
-  const colors = getColors(useColorScheme());
+  const { fonts } = useAppFonts()
+  const colors = getColors(useColorScheme())
   return (
     <XStack alignItems="center" gap={10}>
       <Circle
@@ -25,7 +23,7 @@ const TimeHours = (props: Props): JSX.Element => {
         color={colors.white}
       />
       <YStack gap={8}>
-        <Text fontSize={14} color={"gray"}>
+        <Text fontSize={14} color={'gray'}>
           {props.days}
         </Text>
         <Text fontSize={14} fontFamily={fonts.JetBrainsMonoBold}>
@@ -33,7 +31,7 @@ const TimeHours = (props: Props): JSX.Element => {
         </Text>
       </YStack>
     </XStack>
-  );
-};
+  )
+}
 
-export default TimeHours;
+export default TimeHours

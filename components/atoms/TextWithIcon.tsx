@@ -1,12 +1,12 @@
-import React from "react";
-import { Text, type TextProps, XStack } from "tamagui";
+import React from 'react'
+import { Text, type TextProps, XStack } from 'tamagui'
 
 type Props = {
-  icon: React.ReactElement;
-  title: string;
-  subTitle?: string;
-  subTitleColor?: string;
-} & TextProps;
+  icon: React.ReactElement
+  title: string
+  subTitle?: string
+  subTitleColor?: string
+} & TextProps
 
 const TextWithIcon = (props: Props): JSX.Element => {
   return (
@@ -19,7 +19,7 @@ const TextWithIcon = (props: Props): JSX.Element => {
         </Text>
       </Text>
     </XStack>
-  );
-};
+  )
+}
 
-export default TextWithIcon;
+export default TextWithIcon

@@ -1,18 +1,18 @@
-import React from "react";
-import { useColorScheme } from "react-native";
-import { Text, type TextProps, XStack } from "tamagui";
+import React from 'react'
+import { useColorScheme } from 'react-native'
+import { Text, type TextProps, XStack } from 'tamagui'
 
-import getColors from "~/constants/Colors";
-import { useAppFonts } from "~/hooks/useAppFonts";
+import getColors from '~/constants/Colors'
+import { useAppFonts } from '~/hooks/useAppFonts'
 
 type Props = {
-  title: string;
-  subTitle?: string;
-} & TextProps;
+  title: string
+  subTitle?: string
+} & TextProps
 
 const LabelTitle = (props: Props): JSX.Element => {
-  const colors = getColors(useColorScheme());
-  const { fonts } = useAppFonts();
+  const colors = getColors(useColorScheme())
+  const { fonts } = useAppFonts()
   return (
     <XStack justifyContent="space-between">
       <Text
@@ -26,7 +26,7 @@ const LabelTitle = (props: Props): JSX.Element => {
         {props.subTitle}
       </Text>
     </XStack>
-  );
-};
+  )
+}
 
-export default LabelTitle;
+export default LabelTitle

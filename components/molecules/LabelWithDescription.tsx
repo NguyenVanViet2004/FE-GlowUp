@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Text, type TextProps, YStack } from 'tamagui'
 
+import LabelTitle from '~/components/atoms/LabelTitle'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import useTranslation from '~/hooks/useTranslation'
-import LabelTitle from '~/components/atoms/LabelTitle'
 
 type Props = {
   Description: string
@@ -15,7 +15,7 @@ const LabelWithDescription = (props: Props): JSX.Element => {
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
-  const toggleDescription = () => {
+  const toggleDescription = (): void => {
     setIsExpanded(!isExpanded)
   }
 
@@ -27,8 +27,11 @@ const LabelWithDescription = (props: Props): JSX.Element => {
         {isExpanded
           ? props.Description
           : `${props.Description.slice(0, 100)}...`}{' '}
-        <Text fontSize={12} onPress={toggleDescription} fontFamily={fonts.JetBrainsMonoBold}>
-          {isExpanded ? '' : t("screens.details.readMore")}
+        <Text
+          fontSize={12}
+          onPress={toggleDescription}
+          fontFamily={fonts.JetBrainsMonoBold}>
+          {isExpanded ? '' : t('screens.details.readMore')}
         </Text>
       </Text>
     </YStack>
