@@ -114,9 +114,9 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
           title={props.positiveButtonTitle}/>
 
         <View flexDirection="row" alignItems="center" justifyContent="center">
-          <Separator borderColor={colors.oceanMist}/>
+          <Separator borderColor={colors.smokeStone}/>
           <Text marginHorizontal={SPACING_20} color={colors.text} >or</Text>
-          <Separator borderColor={colors.oceanMist}/>
+          <Separator borderColor={colors.smokeStone}/>
         </View>
 
         <NegativeButton
