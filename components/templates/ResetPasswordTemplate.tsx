@@ -17,7 +17,6 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false)
 
-
   const renderPasswordIcon = (): JSX.Element => {
     const IconVisiablePassword = showPassword ? EyeOff : Eye
     return (
@@ -38,7 +37,6 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
       />
     )
   }
-
 
   return (
     <LinearGradientBackground>
