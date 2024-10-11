@@ -1,10 +1,9 @@
-import { Bell, Search } from '@tamagui/lucide-icons'
-import React from 'react'
+import { Bell } from '@tamagui/lucide-icons'
+import React, { useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, useColorScheme } from 'react-native'
 import { View } from 'tamagui'
 
 import ContentTitle from '~/components/atoms/ContentTitle'
-import InputWithIcons from '~/components/atoms/InputWithIcons'
 import Banner from '~/components/molecules/Banner'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import ListCombo from '~/components/molecules/ListCombo'
@@ -53,12 +52,22 @@ const comboDemo: Combo[] = [
   }
 ]
 
+const MemoizedBanner = React.memo(Banner)
+const MemoizedListCombo = React.memo(ListCombo)
+const MemoizedSpecialComboCard = React.memo(SpecialComboCard)
+
 const HomeTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
   const colors = getColors(useColorScheme())
   const isDarkMode = useColorScheme() === 'dark'
+  const [selectCombo, setSelectCombo] = useState<Combo | null>(null)
 
   const backGroundColor = isDarkMode ? 'transparent' : colors.ghostWhite
+
+  const handleSelectCombo = (combo: Combo): void => {
+    setSelectCombo(combo)
+  }
+
   return (
     <LinearGradientBackground>
       <SafeAreaView
@@ -67,39 +76,47 @@ const HomeTemplate = (): React.ReactElement => {
           <View
             flexDirection="row"
             alignItems="center"
-            justifyContent="space-between">
-            <ContentTitle title={t('screens.home.yourBeautyIsOurPride')} />
+            width={'100%'}>
+
+            <View flex={5}>
+              <ContentTitle title={t('screens.home.yourBeautyIsOurPride')} />
+            </View>
+            <View flex={2} />
             <View
               borderRadius={RADIUS_BUTTON}
+              borderColor={isDarkMode ? colors.white : colors.gray}
               borderWidth={1}
-              borderColor={isDarkMode ? colors.white : colors.lightMist}
-              padding={10}>
+              padding={10}
+              alignItems="flex-end"
+
+            >
               <Bell color={isDarkMode ? colors.white : colors.black} />
             </View>
           </View>
-          <InputWithIcons
-            iconRight={<Search color={colors.placeholderColor} />}
-            placeholder={t('screens.home.enterAddressOrCityName')} />
 
-          <Banner
-            marginTop={24}
+          <MemoizedBanner
+            marginTop={15}
             img={require('~/assets/images/imgBanner.png')}
             nameCombo="Morning Special!"
             percent="20" />
-          <ListCombo
+
+          <MemoizedListCombo
+            onSelectCombo={(combo) => { handleSelectCombo(combo) }}
             title={t('screens.home.combo')}
             combo={comboDemo}
             marginTop={32} />
-          <SpecialComboCard
+
+          {selectCombo !== undefined && <MemoizedSpecialComboCard
             marginTop={32}
-            nameCombo="Plush Beauty Lounge"
+            nameCombo={selectCombo?.name ?? 'Default Combo Name'}
             percent="58"
             quantity="6"
             star="4.7"
-            view="20" />
+            view="20" />}
+
         </ScrollView>
       </SafeAreaView>
-    </LinearGradientBackground>
+    </LinearGradientBackground >
   )
 }
 
@@ -108,7 +125,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: 120,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     paddingTop: 30
   }
 })
