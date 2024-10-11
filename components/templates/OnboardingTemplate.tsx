@@ -12,12 +12,6 @@ import getColors from '~/constants/Colors'
 import useDataOnboarding from '~/constants/DataOnboarding'
 import useTranslation from '~/hooks/useTranslation'
 
-const useHandleLogin = (router: Router): VoidFunction => {
-  return () => {
-    router.replace('/authentication/Login')
-  }
-}
-
 const scrollToNext = (
   dataOnboading: any[],
   currentIndex: number,
@@ -48,6 +42,9 @@ const OnboardingTemplate = (): React.ReactElement => {
   const dataOnboading = useDataOnboarding()
   const router = useRouter()
   const colors = getColors(useColorScheme())
+  const useHandleLogin = (): void => {
+    router.replace('/authentication/Login')
+  }
 
   const viewableItemsChanged = useRef(({ viewableItems }:
   { viewableItems: ViewToken[] }) => {
@@ -98,7 +95,7 @@ const OnboardingTemplate = (): React.ReactElement => {
         <View flex={1} >
           <TransparentButton
             title={t('screens.onboarding.login')}
-            onPress={useHandleLogin(router)} 
+            onPress={useHandleLogin}
             colorProps={colors.white}/>
 
         </View>
