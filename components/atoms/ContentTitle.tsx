@@ -13,7 +13,7 @@ const ContentTitle: React.FC<Props> = ({ title, subtitle }) => {
   const colors = getColors(useColorScheme())
   const { fonts } = useAppFonts()
   return (
-    <YStack gap={10}>
+    <YStack >
       <Text
         fontSize={24}
         fontFamily={fonts.JetBrainsMonoBold}
