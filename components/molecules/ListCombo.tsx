@@ -11,16 +11,17 @@ import type Combo from '~/interfaces/Combo'
 interface Props extends ViewProps {
   title: string
   combo: Combo[]
+  onSelectCombo: (combo: Combo) => void
 }
 
 const ListCombo = (props: Props): React.ReactElement => {
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme())
-  const [selectedId, setSelectedId] = useState<string | null>(null)
   const isDarkMode = useColorScheme() === 'dark'
+  const [selectedCombo, setSelectedCombo] = useState<Combo | null>(null)
 
   const renderItem = ({ item }: { item: Combo }): React.ReactElement => {
-    const isSelected = item._id === selectedId
+    const isSelected = item._id === selectedCombo?._id
 
     const backgroundColor = isDarkMode
       ? colors.lightMist
@@ -38,7 +39,10 @@ const ListCombo = (props: Props): React.ReactElement => {
         backgroundColor={backgroundColor}
         paddingVertical={12}
         paddingHorizontal={10}
-        onPress={() => { setSelectedId(item._id) }}
+        onPress={() => {
+          setSelectedCombo(item)
+          props.onSelectCombo(item)
+        }}
       >
         <Text
           fontSize={12}
