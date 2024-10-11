@@ -16,4 +16,9 @@ export interface Colors {
   blue: string
   spaceCadet: string
   yellow: string
+  mistWhite: string
+  sunsetOrange: string
+  smokeStone: string
+  tealGreen: string
+  lightSunset: string
 }
