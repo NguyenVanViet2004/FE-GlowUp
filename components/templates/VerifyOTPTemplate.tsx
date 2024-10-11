@@ -24,7 +24,7 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
   const colors = getColors(useColorScheme())
   const inputRefs = useRef<Array<TextInput | null>>([])
   const { t } = useTranslation()
-
+  const [phoneNumber] = useState<string>('0123456789')
   useEffect(() => {
     if (code.every((digit) => digit.length === 1)) {
       handleVerify()
@@ -103,10 +103,10 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
             contentContainerStyle={styles.scrollContentContainer}
             keyboardShouldPersistTaps="handled"
           >
-            <YStack space="$4" padding="$5" flex={1}>
-              <View left="$-2.5">
+            <YStack space="$4" padding="$5" marginTop={'3%'} flex={1}>
+              <View left="$-3.5">
                 <Header
-
+                  title={t('screens.verify.verify')}
                   backIcon={
                     <FontAwesome5 name="chevron-left"
                       size={20}
@@ -116,7 +116,9 @@ const VerifyOTPTemplate: React.FC = (): JSX.Element => {
               <View marginTop={'5%'} justifyContent="center" >
                 <ContentTitle
                   title={t('screens.verify.titleVerify')}
-                  subtitle={t('screens.verify.subVerify')}
+                  subtitle={`${t('screens.verify.subVerify')} 
+                  ${phoneNumber} 
+                  ${t('screens.verify.subVerify2')}` }
                 />
               </View>
 

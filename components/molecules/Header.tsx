@@ -37,31 +37,40 @@ export default function Header ({
 
   return (
     <View testID="Header">
-      {!isNil(backIcon) && (
-        <Button
-          unstyled
-          padding={10}
-          borderRadius={50}
-          marginBottom={20}
-          alignSelf="baseline"
-          testID="back-icon"
-        >
-          {backIcon}
-        </Button>
-      )}
-      <XStack marginTop={30} gap={5} alignItems="center">
+      <XStack
+        marginTop={30}
+        gap={5}
+        alignItems="center"
+        justifyContent="center"
+      >
+        {!isNil(backIcon) && (
+          <Button
+            unstyled
+            padding={10}
+            borderRadius={50}
+            marginBottom={20}
+            testID="back-icon"
+          >
+            {backIcon}
+          </Button>
+        )}
+        {!isUndefined(title) && (
+          <H3
+            fontWeight="bold"
+            textAlign="center"
+            alignSelf="center"
+            testID="title"
+            flex={1}
+            top={-9}
+            color={colors.text}
+          >
+            {title}
+          </H3>
+        )}
+      </XStack>
+      <XStack marginTop={10} gap={5} alignItems="center">
         {renderIcon(leftIcon, 'left')}
         <View flex={1} alignItems="center">
-          {!isUndefined(title) && (
-            <H3
-              fontWeight="bold"
-              textAlign="center"
-              alignSelf="center"
-              testID="title"
-            >
-              {title}
-            </H3>
-          )}
           {!isUndefined(subtitle) && (
             <Text color={colors.oceanTeal} testID="subtitle">
               {subtitle}
