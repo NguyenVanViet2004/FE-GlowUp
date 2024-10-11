@@ -1,5 +1,5 @@
-import { LockKeyhole } from '@tamagui/lucide-icons'
-import React from 'react'
+import { Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
+import React, { useState } from 'react'
 import { StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View } from 'tamagui'
@@ -14,6 +14,31 @@ import useTranslation from '~/hooks/useTranslation'
 const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
   const colors = getColors(useColorScheme())
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false)
+
+
+  const renderPasswordIcon = (): JSX.Element => {
+    const IconVisiablePassword = showPassword ? EyeOff : Eye
+    return (
+      <IconVisiablePassword
+        size={16}
+        color={colors.oceanTeal}
+        onPress={() => { setShowPassword(!showPassword) }}
+      />
+    )
+  }
+  const renderPasswordIconComfirm = (): JSX.Element => {
+    const IconVisiablePassword = showPasswordConfirm ? EyeOff : Eye
+    return (
+      <IconVisiablePassword
+        size={16}
+        color={colors.oceanTeal}
+        onPress={() => { setShowPasswordConfirm(!showPasswordConfirm) }}
+      />
+    )
+  }
+
 
   return (
     <LinearGradientBackground>
@@ -29,12 +54,16 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
           <InputWithIcons
             iconRight={<LockKeyhole size={16} color={colors.oceanTeal} />}
             placeholder={t('screens.resetPassword.newPassword')}
+            iconLeft={renderPasswordIcon()}
+            secureTextEntry={!showPassword}
             onChangeText={() => {}}
           />
 
           <InputWithIcons
             iconRight={<LockKeyhole size={16} color={colors.oceanTeal} />}
             placeholder={t('screens.resetPassword.confirmNewPassword')}
+            iconLeft={renderPasswordIconComfirm()}
+            secureTextEntry={!showPasswordConfirm}
             onChangeText={() => {}}
           />
         </View>
