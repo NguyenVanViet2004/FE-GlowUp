@@ -61,7 +61,7 @@
             "step3": "Đặt một chuyên viên massage để giải tỏa căng thẳng.",
             "step4": "Tìm kiếm tiệm làm đẹp tốt nhất gần bạn để đáp ứng mọi nhu cầu về làm đẹp."
         },
-        "forgot":{
+        "forgot": {
             "emailAddress": "Địa chỉ Email",
             "usePhoneNumber": "Sử dụng số điện thoại",
             "useEmailAddress": "Sử dụng địa chỉ Email",
@@ -69,13 +69,35 @@
             "sendCode": "Nhập mã code",
             "titleForgot": "Vui lòng nhập email của bạn bên dưới và chúng tôi sẽ cung cấp cho bạn mã OTP",
             "forgotPassword": "Quên mật khẩu"
+        },
+        "details": {
+            "openToday": "[Mở cửa hôm nay]",
+            "views": "lượt xem",
+            "paxAvailable": "(6 chỗ trống)",
+            "bookNow": "Đặt ngay",
+            "total": "Tổng cộng",
+            "about": "Giới thiệu",
+            "readMore": "Đọc thêm",
+            "openingHours": "Giờ mở cửa",
+            "mondayFriday": "Thứ Hai - Thứ Sáu",
+            "saturdaySunday": "Thứ Bảy - Chủ Nhật",
+            "time1": "08:00SA - 03:00CH",
+            "time2": "09:00SA - 02:00CH",
+            "ourServices": "Dịch vụ của chúng tôi",
+            "ourSpecialist": "Chuyên gia của chúng tôi",
+            "viewAll": "Xem tất cả",
+            "reviews": "Đánh giá",
+            "unknownUser": "Người dùng không xác định",
+            "showLess": "Thu gọn",
+            "viewAllServices": "Xem tất cả dịch vụ",
+            "hour": "giờ"
         }
     },
     "user": {
         "userInfo": "Thông tin cá nhân",
         "yourFavorite": "Danh sách yêu thích"
     },
-    "button" : {
+    "button": {
         "confirm": "Có",
         "cancel": "Hủy"
     },
