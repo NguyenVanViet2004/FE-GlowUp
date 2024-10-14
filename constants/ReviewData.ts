@@ -4,8 +4,8 @@ export const dataReviews: Review[] = [
   {
     _id: 'review1',
     appointmentId: 'appointment1',
-    comment: 'The place was clean, great serivce, stall'+
-    ' are friendly. I will certainly recommend to my'+
+    comment: 'The place was clean, great serivce, stall' +
+    ' are friendly. I will certainly recommend to my' +
     ' friends and visit again! ;)',
     createdAt: new Date().toISOString(),
     image: null,
@@ -17,8 +17,8 @@ export const dataReviews: Review[] = [
   {
     _id: 'review2',
     appointmentId: 'appointment1',
-    comment: "Very nice service from the specialist."+
-    " I always going here for my treatment.",
+    comment: 'Very nice service from the specialist.' +
+    ' I always going here for my treatment.',
     createdAt: new Date().toISOString(),
     image: null,
     rating: 4,
