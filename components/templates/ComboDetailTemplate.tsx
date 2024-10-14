@@ -4,7 +4,7 @@ import React from 'react'
 import { ImageBackground, StyleSheet, useColorScheme } from 'react-native'
 import { Button, ScrollView, Separator, View } from 'tamagui'
 
-import BookNow from '~/components/molecules/BookNow'
+import TotalAmount from '~/components/molecules/TotalAmount'
 import Header from '~/components/molecules/Header'
 import LabelWithDescription from '~/components/molecules/LabelWithDescription'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
@@ -84,7 +84,7 @@ const ComboDetailTemplate = (): React.ReactElement => {
           </View>
         </View>
       </ScrollView>
-      <BookNow
+      <TotalAmount
         price={Number((data.price - data.price * (data.deal / 100)).toFixed(2))}
         deal={data.price}
       />

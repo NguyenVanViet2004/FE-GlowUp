@@ -12,7 +12,7 @@ type Props = {
   deal: number
 } & TextProps
 
-const BookNow = (props: Props): JSX.Element => {
+const TotalAmount = (props: Props): JSX.Element => {
   const colors = getColors(useColorScheme())
   const { fonts } = useAppFonts()
   const { t } = useTranslation()
@@ -34,4 +34,4 @@ const BookNow = (props: Props): JSX.Element => {
   )
 }
 
-export default BookNow
+export default TotalAmount
