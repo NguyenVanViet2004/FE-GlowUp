@@ -1,4 +1,5 @@
 import { Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -16,6 +17,9 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   const colors = getColors(useColorScheme())
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false)
+  const [password, setPassword] = useState<string>('')
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const router = useRouter()
 
   const renderPasswordIcon = (): JSX.Element => {
     const IconVisiablePassword = showPassword ? EyeOff : Eye
@@ -38,6 +42,22 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
     )
   }
 
+  const handleConfirmNewPassword = (): void => {
+    if (password === '' || confirmPassword === '') {
+      alert('Không thể để trống dữ liệu')
+      return
+    }
+    if (password !== confirmPassword) {
+      alert('Mật khẩu không trùng khớp')
+      return
+    }
+    if (password.length < 8) {
+      alert('Mật khẩu phải có ít nhất 8 ký tự')
+      return
+    }
+    router.replace('/authentication/Login')
+  }
+
   return (
     <LinearGradientBackground>
       <SafeAreaView style={styles.container}>
@@ -54,7 +74,7 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
             placeholder={t('screens.resetPassword.newPassword')}
             iconLeft={renderPasswordIcon()}
             secureTextEntry={!showPassword}
-            onChangeText={() => {}}
+            onChangeText={setPassword}
           />
 
           <InputWithIcons
@@ -62,12 +82,13 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
             placeholder={t('screens.resetPassword.confirmNewPassword')}
             iconLeft={renderPasswordIconComfirm()}
             secureTextEntry={!showPasswordConfirm}
-            onChangeText={() => {}}
+            onChangeText={setConfirmPassword}
           />
         </View>
 
         <View flex={1} justifyContent="flex-end">
           <PositiveButton
+            onPress={handleConfirmNewPassword}
             title={t('screens.resetPassword.confirmNewPassword')}
           />
         </View>
