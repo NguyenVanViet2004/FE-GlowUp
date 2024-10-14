@@ -74,23 +74,12 @@ const ComboDetailTemplate = (): React.ReactElement => {
             />
             <Separator borderColor={colors.smokeStone} />
           </View>
-          <View marginTop={25}>
+         
+          <View marginTop={25} gap={25}>
             <LabelWithDescription Description={data.description} />
-          </View>
-
-          <View marginTop={25}>
             <OpeningHours />
-          </View>
-
-          <View marginTop={25}>
             <OurServices />
-          </View>
-
-          <View marginTop={25}>
             <OurSpecialist />
-          </View>
-
-          <View marginTop={15}>
             <UserReviews />
           </View>
         </View>
