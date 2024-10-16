@@ -1,44 +1,185 @@
-import React, { useState } from 'react';
-import { Input, ScrollView, Text, View, YStack, Button, XStack } from 'tamagui';
+import AntDesign from '@expo/vector-icons/AntDesign'
+import React, { useEffect, useState } from 'react'
+import { FlatList, TouchableOpacity } from 'react-native'
+import { Button, Text, XStack, YStack } from 'tamagui'
 
-const DatePicker = () => {
-  const [selectedDay, setSelectedDay] = useState(10);
-  const days = [
-    { label: 'Wed', day: 9 },
-    { label: 'Thu', day: 10 },
-    { label: 'Fri', day: 11 },
-    { label: 'Sat', day: 12 },
-    { label: 'Sun', day: 13 },
-    { label: 'Mon', day: 14 },
-  ];
+import { useAppFonts } from '~/hooks/useAppFonts'
+
+import TimePicker from './Time'
+
+const DateComponent: React.FC = () => {
+  const currentDate = new Date()
+  const [month, setMonth] = useState<number>(currentDate.getMonth() + 1)
+  const [year, setYear] = useState<number>(currentDate.getFullYear())
+  const [days, setDays] = useState<
+  Array<{ day: string, dayOfWeek: string }>>([])
+  const [selectedDay, setSelectedDay] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
+  const { fonts } = useAppFonts()
+
+  const dayNames = [
+    'Chủ Nhật',
+    'Thứ Hai',
+    'Thứ Ba',
+    'Thứ Tư',
+    'Thứ Năm',
+    'Thứ Sáu',
+    'Thứ Bảy'
+  ]
+
+  const getAllDaysInMonth =
+  (month: number, year: number):
+  Array<{ day: string, dayOfWeek: string }> => {
+    if (month >= 1 && month <= 12 && year > 0) {
+      const lastDay = new Date(year, month, 0).getDate()
+      const daysArray = []
+
+      for (let day = 1; day <= lastDay; day++) {
+        const dateObj = new Date(year, month - 1, day)
+        const dayOfWeek = dayNames[dateObj.getDay()]
+        const formattedDay =
+         `${year}-${month.toString()
+           .padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+        daysArray.push({ day: formattedDay, dayOfWeek })
+      }
+      return daysArray
+    }
+    return []
+  }
+
+  const fetchDataForDays =
+   async (month: number, year: number): Promise<void> => {
+     setLoading(true)
+     const daysList = getAllDaysInMonth(month, year)
+
+     const fetchedData =
+    await new Promise<Array<{ day: string, dayOfWeek: string }>>((resolve) => {
+      setTimeout(() => {
+        resolve(daysList)
+      }, 1000)
+    })
+
+     setDays(fetchedData)
+     setLoading(false)
+   }
+
+  useEffect(() => {
+    fetchDataForDays(month, year)
+  }, [month, year])
+
+  const handleMonthChange =
+  (direction: 'prev' | 'next'): void => {
+    let newMonth = month
+    let newYear = year
+
+    if (direction === 'prev') {
+      if (newMonth === 1) {
+        newMonth = 12
+        newYear -= 1
+      } else {
+        newMonth -= 1
+      }
+    } else {
+      if (newMonth === 12) {
+        newMonth = 1
+        newYear += 1
+      } else {
+        newMonth += 1
+      }
+    }
+
+    setMonth(newMonth)
+    setYear(newYear)
+  }
+
+  const handleDayPress = (day: string): void => {
+    setSelectedDay(day === selectedDay ? null : day)
+  }
+
+  const formatSelectedDay = (day: string | null): string => {
+    if (!day) return 'No day selected.'
+
+    const [year, month, dayNumber] = day.split('-')
+    const dateObj =
+    new Date(Number(year), Number(month) - 1, Number(dayNumber))
+    const dayOfWeek = dayNames[dateObj.getDay()]
+
+    return `${dayOfWeek}, ${dayNumber}/${month}/${year}`
+  }
 
   return (
-    <YStack space="$4" alignItems="center">
-      <Text fontSize="$6" fontWeight="600">March, 2021</Text>
-      <XStack space="$2" alignItems="center">
+    <YStack padding={16}>
+      <Text>date</Text>
+      <XStack
+        justifyContent="space-between"
+        alignItems="center" space
+        marginTop="5%">
+        <TouchableOpacity
+          onPress={() => { handleMonthChange('prev') }}
+          style={{ alignItems: 'flex-start', flex: 1 }}>
+          <AntDesign name="left" size={18} color="black" />
+        </TouchableOpacity>
 
-        {days.map((item) => (
-          <Button
-            key={item.day}
-            onPress={() => setSelectedDay(item.day)}
-            backgroundColor={selectedDay === item.day ? '$blue7' : '$gray2'}
-            borderRadius="$4"
-            paddingHorizontal="$3"
-            paddingVertical="$2"
-          >
-            <Text
-              fontSize="$6"
-              color={selectedDay === item.day ? '$white' : '$black'}
-              fontWeight={selectedDay === item.day ? '600' : '400'}
-            >
-              {item.label} {'\n'} {item.day}
-            </Text>
-          </Button>
-        ))}
+        <Text paddingHorizontal={16}
+          fontSize={18}
+          fontFamily={fonts.JetBrainsMonoBold}>
+          {new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' })
+            .format(new Date(year, month - 1))}
+        </Text>
 
+        <TouchableOpacity
+          onPress={() => { handleMonthChange('next') }}
+          style={{ alignItems: 'flex-end', flex: 1 }}>
+          <AntDesign name="right" size={18} color="black" />
+        </TouchableOpacity>
       </XStack>
-    </YStack>
-  );
-};
 
-export default DatePicker;
+      {loading
+        ? (
+          <Text>Loading...</Text>
+        )
+        : (
+          <FlatList
+            data={days}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            renderItem={({ item }) => {
+              const dayNumber = item.day.split('-')[2]
+              const isSelected = selectedDay === item.day
+              return (
+                <Button
+                  onPress={() => { handleDayPress(item.day) }}
+                  margin={5}
+                  padding={10}
+                  borderRadius={50}
+                  backgroundColor={isSelected ? '#007B83' : '#F0F3F6'}
+                  width={55}
+                  height={77}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <YStack>
+                    <Text fontSize={10} textAlign="center">
+                      {item.dayOfWeek.slice(0, 8)}
+                    </Text>
+                    <Text textAlign="center"
+                      fontFamily={fonts.JetBrainsMonoBold} marginTop={5}>
+                      {dayNumber}
+                    </Text>
+                  </YStack>
+                </Button>
+              )
+            }}
+          />
+        )}
+
+      <Text marginTop={16} fontSize={16} fontWeight="bold">
+        Selected Day:
+      </Text>
+      <Text>{formatSelectedDay(selectedDay)}</Text>
+      <TimePicker />
+    </YStack>
+  )
+}
+
+export default DateComponent
