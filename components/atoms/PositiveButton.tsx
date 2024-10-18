@@ -18,6 +18,7 @@ export const PositiveButton = (props: Props): React.ReactElement => {
       height={HEIGHT_BUTTON}
       fontSize={16}
       color={colors.white}
+      pressStyle={{ backgroundColor: colors.gray }}
       backgroundColor={colors.blueSapphire}
       borderRadius={RADIUS_BUTTON}
     >{props.title}</Button>

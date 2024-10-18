@@ -1,23 +1,46 @@
 import React from 'react'
+import { StyleSheet, useColorScheme } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, View } from 'tamagui'
 
+import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
+import BookingMenuTabList from '~/components/organisms/BookingMenuTabList'
+import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import useTranslation from '~/hooks/useTranslation'
 
 const BookingTemplate = (): React.ReactElement => {
   const { fonts } = useAppFonts()
+  const colors = getColors(useColorScheme())
+  const { t } = useTranslation()
 
   return (
-    <View
-      flex={1}
-      alignItems="center"
-      justifyContent="center">
-      <Text
-        fontSize={20}
-        fontFamily={fonts.JetBrainsMonoBold}>
-        BookingTemplate
-      </Text>
-    </View>
+    <LinearGradientBackground>
+      <SafeAreaView style={styles.container}>
+        <View alignItems="center">
+          <Text
+            fontSize={16}
+            color={colors.text}
+            fontFamily={fonts.JetBrainsMonoBold}
+          >
+            {t('screens.booking.title')}
+          </Text>
+        </View>
+
+        <View flex={1}>
+          <BookingMenuTabList />
+        </View>
+      </SafeAreaView>
+    </LinearGradientBackground>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 20
+  }
+})
 
 export default BookingTemplate

@@ -11,4 +11,6 @@ export default interface Combo {
   name: string
   description: string
   comboStepId: comboStep
+  deal: number
+  rate: number
 }

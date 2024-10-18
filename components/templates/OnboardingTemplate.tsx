@@ -95,6 +95,7 @@ const OnboardingTemplate = (): React.ReactElement => {
       >
         <View flex={1} >
           <TransparentButton
+            colorProps={'white'}
             title={t('screens.onboarding.login')}
             onPress={useHandleLogin(router)} />
         </View>

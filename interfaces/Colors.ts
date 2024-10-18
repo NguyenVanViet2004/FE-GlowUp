@@ -16,4 +16,5 @@ export interface Colors {
   blue: string
   spaceCadet: string
   yellow: string
+  deepNeutral: string
 }

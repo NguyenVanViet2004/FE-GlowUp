@@ -8,21 +8,23 @@ import { useAppFonts } from '~/hooks/useAppFonts'
 
 type Props = {
   title: string
+  colorProps: string
 } & ButtonProps
 const TransparentButton = (props: Props): React.ReactElement => {
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme())
   return (
     <Button
+      {...props}
       onPress={props.onPress}
       bg="$colorTransparent"
       borderRadius={RADIUS_BUTTON}
-      borderColor={colors.white}
+      borderColor={props.colorProps}
       pressStyle={{ backgroundColor: colors.gray }}
       borderWidth={1}>
       <Text
         fontFamily={fonts.JetBrainsMonoBold}
-        color={colors.white}
+        color={props.colorProps}
         fontSize={16}>
         {props.title}
       </Text>

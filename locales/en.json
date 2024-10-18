@@ -19,7 +19,12 @@
             "title": "Home"
         },
         "booking": {
-            "title": "Bookings"
+            "title": "Bookings",
+            "upcoming": "Upcoming",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "cancelBooking": "Cancel Booking",
+            "viewReceipt": "View Receipt"
         },
         "search": {
             "title": "Search"
