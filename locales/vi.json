@@ -19,7 +19,12 @@
             "title": "Trang chủ"
         },
         "booking": {
-            "title": "Đặt lịch"
+            "title": "Đặt lịch",
+            "upcoming": "Đã đặt",
+            "completed": "Hoàn thành",
+            "cancelled": "Đã hủy",
+            "cancelBooking": "Hủy đặt",
+            "viewReceipt": "Xem phiếu"
         },
         "search": {
             "title": "Tìm lịch"
@@ -61,7 +66,7 @@
             "step3": "Đặt một chuyên viên massage để giải tỏa căng thẳng.",
             "step4": "Tìm kiếm tiệm làm đẹp tốt nhất gần bạn để đáp ứng mọi nhu cầu về làm đẹp."
         },
-        "forgot":{
+        "forgot": {
             "emailAddress": "Địa chỉ Email",
             "usePhoneNumber": "Sử dụng số điện thoại",
             "useEmailAddress": "Sử dụng địa chỉ Email",
@@ -75,7 +80,7 @@
         "userInfo": "Thông tin cá nhân",
         "yourFavorite": "Danh sách yêu thích"
     },
-    "button" : {
+    "button": {
         "confirm": "Có",
         "cancel": "Hủy"
     },
