@@ -98,8 +98,11 @@
     "booking": {
         "title": "Booking",
         "bookingCheckout": "Booking Checkout",
+        "checkout": "Checkout",
         "date": "Date",
         "time": "Time",
+        "startTime": "Start Time",
+        "speciaList": "SpeciaList",
         "duration": "Duration",
         "customerName": "Customer Name",
         "customerPhoneNumber": "Customer Phone Number",
@@ -122,6 +125,8 @@
     "payment": {
         "title": "Payment",
         "payAtSalon": "Pay at salon",
-        "payOnlineNow": "Pay now"
+        "payOnlineNow": "Pay now",
+        "salonDescription": "Secure your booking instantly",
+        "onlineDescription": "Settle payment after your appointment"
     }
 }

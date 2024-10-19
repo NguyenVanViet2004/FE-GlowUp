@@ -98,9 +98,12 @@
     "booking": {
         "title": "Đặt lịch",
         "bookingCheckout": "Thanh toán",
+        "checkout": "Thanh toán",
         "date": "Ngày",
         "time": "Thời gian",
-        "duration": "Thời gian dài",
+        "startTime": "Thời gian bắt đầu",
+        "speciaList": "Nhân viên",
+        "duration": "Thời gian ước tính",
         "customerName": "Tên khách hàng",
         "customerPhoneNumber": "Số điện thoại khách hàng",
         "submit": "Đặt lịch",
@@ -121,6 +124,8 @@
     "payment": {
         "title": "Thanh toán",
         "payAtSalon": "Thanh toán tại salon",
-        "payOnlineNow": "Thanh toán online ngay bây giờ"
+        "payOnlineNow": "Thanh toán online ngay bây giờ",
+        "salonDescription": "Đảm bảo đặt phòng của bạn ngay lập tức",
+        "onlineDescription": "Giải quyết thanh toán sau cuộc hẹn của bạn"
     }
 }
