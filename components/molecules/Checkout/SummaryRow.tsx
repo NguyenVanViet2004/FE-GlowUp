@@ -1,5 +1,5 @@
 import React from 'react'
-import { XStack, Text } from 'tamagui'
+import { Text, XStack } from 'tamagui'
 
 interface SummaryRowProps {
   label: string
@@ -8,7 +8,12 @@ interface SummaryRowProps {
   color: string
 }
 
-const SummaryRow: React.FC<SummaryRowProps> = ({ label, value, fonts, color }) => (
+const SummaryRow: React.FC<SummaryRowProps> = ({
+  label,
+  value,
+  fonts,
+  color
+}) => (
   <XStack>
     <Text flex={1} fontFamily={fonts.fonts.JetBrainsMonoBold}>
       {label}

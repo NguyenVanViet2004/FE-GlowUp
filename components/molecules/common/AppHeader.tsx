@@ -1,3 +1,4 @@
+import { isNil } from 'lodash'
 import React from 'react'
 import { Text, type TextProps, XStack, type XStackProps } from 'tamagui'
 
@@ -24,8 +25,8 @@ const AppHeader: React.FC<headerProps> = ({
       {...props}>
       {leftIcon}
       <Text
-        textAlign={isHeaderCenter ? 'center' : 'left'}
-        marginLeft={isHeaderCenter ? 0 : 10}
+        textAlign={!isNil(isHeaderCenter) ? 'center' : 'left'}
+        marginLeft={!isNil(isHeaderCenter) ? 0 : 10}
         fontSize={18}
         flex={1}
         fontFamily={fontFamily}>

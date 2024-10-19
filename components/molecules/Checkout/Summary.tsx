@@ -1,8 +1,10 @@
+import { isNil } from 'lodash'
 import React from 'react'
 import { View } from 'tamagui'
+
 import SummaryRow from '~/components/molecules/Checkout/SummaryRow'
-import { Colors } from '~/interfaces/Colors'
-import Combo from '~/interfaces/Combo'
+import { type Colors } from '~/interfaces/Colors'
+import type Combo from '~/interfaces/Combo'
 
 interface SummaryProps {
   combo: Combo
@@ -12,14 +14,14 @@ interface SummaryProps {
 }
 
 const Summary: React.FC<SummaryProps> = ({ combo, colors, fonts, t }) => {
-  const discountAmount = combo.voucher?.percent 
-    ? (combo.price * combo.voucher.percent) / 100 
+  const discountAmount = !isNil(combo.voucher?.percent)
+    ? (combo.price * combo.voucher.percent) / 100
     : 0
   const total = combo.price - discountAmount
 
   const summaryData = [
     { label: t('booking.subTotal'), value: `$${combo.price}` },
-    { label: t('booking.discount'), value: `${combo.voucher?.percent || 0}%` },
+    { label: t('booking.discount'), value: `${combo.voucher?.percent ?? 0}%` },
     { label: t('booking.total'), value: `$${total}` }
   ]
 

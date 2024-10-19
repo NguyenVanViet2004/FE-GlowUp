@@ -1,8 +1,9 @@
-import { useNavigation } from 'expo-router'
+import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
+import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import React from 'react'
 import { useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Card, Separator } from 'tamagui'
+import { Card } from 'tamagui'
 
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import BookingInfoSection from '~/components/molecules/Checkout/BookingInfoSection'
@@ -11,23 +12,19 @@ import ServiceInfoSection from '~/components/molecules/Checkout/ServiceInfoSecti
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import useTranslation from '~/hooks/useTranslation'
 import type Combo from '~/interfaces/Combo'
 import type Step from '~/interfaces/Step'
 import type Voucher from '~/interfaces/voucher'
-import AppHeader from '~/components/molecules/common/AppHeader'
-import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
-import { useExpoRouter } from 'expo-router/build/global-state/router-store'
-import useTranslation from '~/hooks/useTranslation'
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
   const colors = getColors(useColorScheme())
-  const navigation = useNavigation()
   const router = useExpoRouter()
   const leftIcon = <ChevronLeft size={25} onPress={() => router.goBack()}/>
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
-  
+
   const bookingData = [
     {
       flex: 2,
@@ -118,7 +115,8 @@ const CheckoutTemplate = (): React.ReactElement => {
   const comboExample: Combo = {
     _id: 'combo1',
     description:
-      'Transform your look with our Ultimate Hair Makeover package, including consultation, wash, cut, and styling.',
+      `Transform your look with our Ultimate Hair Makeover 
+      package, including consultation, wash, cut, and styling.`,
     imageUrl: 'https://example.com/images/salon_combo.jpg',
     name: 'Ultimate Hair Makeover',
     price: 35,
@@ -126,10 +124,9 @@ const CheckoutTemplate = (): React.ReactElement => {
     voucher
   }
 
-  const handleSubmitPress = () => {
+  const handleSubmitPress = (): void => {
     console.log(selectedMethodID)
   }
-  
 
   return (
     <>

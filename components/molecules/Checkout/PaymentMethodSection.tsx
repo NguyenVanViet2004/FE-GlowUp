@@ -6,18 +6,28 @@ import useTranslation from '~/hooks/useTranslation'
 import { PaymentMethod } from '~/interfaces/enum/Payment'
 
 const paymentMethods = [
-  { descriptions: 'Secure your booking instantly', id: PaymentMethod.CASH, label: 'Pay at salon' },
-  { descriptions: 'Settle payment after your appointment', id: PaymentMethod.ONLINE, label: 'Pay online now' }
+  {
+    descriptions: 'Secure your booking instantly',
+    id: PaymentMethod.CASH,
+    label: 'Pay at salon'
+  },
+  {
+    descriptions: 'Settle payment after your appointment',
+    id: PaymentMethod.ONLINE,
+    label: 'Pay online now'
+  }
 ]
 
 const PaymentMethodSection = (): {
   renderPaymentMethods: () => JSX.Element
   selectedMethodID: string
 } => {
-  const [selectedMethodID, setSelectedMethodID] = useState<string>(PaymentMethod.CASH)
+  const [selectedMethodID, setSelectedMethodID] = useState<string>(
+    PaymentMethod.CASH
+  )
   const { t } = useTranslation()
 
-  const renderPaymentMethods = () => {
+  const renderPaymentMethods = (): React.JSX.Element => {
     return (
       <View width="100%">
         <Text textAlign="center">{t('payment.title')}</Text>

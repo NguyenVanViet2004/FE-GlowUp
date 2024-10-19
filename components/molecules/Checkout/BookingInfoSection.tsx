@@ -27,7 +27,7 @@ const BookingInfoSection: React.FC<BookingInfoSectionProps> = ({ data }) => {
   }: {
     item: BookingInfo
     index: number
-  }) => (
+  }): React.ReactElement => (
     <LabelValueRow
       label={item.label}
       value={item.value}
@@ -55,7 +55,9 @@ const BookingInfoSection: React.FC<BookingInfoSectionProps> = ({ data }) => {
           scrollEnabled={false}
         />
       </XStack>
-      <Separator borderColor={colors.lightSilver} width="100%" marginTop={10} marginBottom={30} />
+      <Separator
+        borderColor={colors.lightSilver}
+        width="100%" marginTop={10} marginBottom={30} />
     </>
   )
 }

@@ -1,14 +1,12 @@
+import { isNil } from 'lodash'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { type SafeAreaProviderProps, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ScrollView, Separator, View, type ViewProps } from 'tamagui'
-import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 
-import AppHeader, { headerProps } from '~/components/molecules/common/AppHeader'
+import AppHeader, { type headerProps } from '~/components/molecules/common/AppHeader'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import { useAppFonts } from '~/hooks/useAppFonts'
-import { useExpoRouter } from 'expo-router/build/global-state/router-store'
-import { isNil } from 'lodash'
 
 type GradientScrollContainerProps = {
   children: React.ReactNode
@@ -26,12 +24,11 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
   fontFamily,
   ...props
 }) => {
-  const router = useExpoRouter()
   const fonts = useAppFonts()
   const [headerHeight, setHeaderHeight] = React.useState(0)
   const insets = useSafeAreaInsets()
 
-  const header = () => {
+  const header = (): React.JSX.Element => {
     return (
       <View onLayout={(event) => {
         setHeaderHeight(event.nativeEvent.layout.height)
@@ -44,7 +41,7 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
           rightIcon={rightIcon}
           paddingHorizontal={20}
           zIndex={1000}
-          backgroundColor='$colorTransparent'
+          backgroundColor="$colorTransparent"
           marginTop={insets.top} />
         <Separator marginVertical={0} />
       </View>
@@ -57,7 +54,8 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
       <ScrollView fullscreen
         marginTop={isNil(headerTitle) ? undefined : headerHeight}
         showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={{ ...styles.container, ...props as any }} edges={edges}>
+        <SafeAreaView style={{ ...styles.container, ...props as any }}
+          edges={edges}>
           {children}
         </SafeAreaView>
       </ScrollView>

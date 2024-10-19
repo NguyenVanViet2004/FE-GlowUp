@@ -6,7 +6,7 @@ import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import useTranslation from '~/hooks/useTranslation'
 import type Combo from '~/interfaces/Combo'
-import SummaryRow from '~/components/molecules/Checkout/SummaryRow'
+
 import Summary from './Summary'
 
 interface props {
@@ -16,8 +16,6 @@ interface props {
 const ServiceInfoSection: React.FC<props> = ({ combo }) => {
   const colors = getColors(useColorScheme())
   const fonts = useAppFonts()
-  const discountAmount = combo.voucher?.percent ? (combo.price * combo.voucher.percent) / 100 : 0
-  const total = combo.price - discountAmount
   const { t } = useTranslation()
 
   return (
@@ -36,7 +34,10 @@ const ServiceInfoSection: React.FC<props> = ({ combo }) => {
           </Text>
         </XStack>
       ))}
-      <Separator borderColor={colors.lightSilver} width="100%" marginVertical={20} />
+      <Separator
+        borderColor={colors.lightSilver}
+        width="100%"
+        marginVertical={20} />
 
       <Summary colors={colors} combo={combo} fonts={fonts} t={t}/>
     </View>
