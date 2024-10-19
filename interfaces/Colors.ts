@@ -16,4 +16,7 @@ export interface Colors {
   blue: string
   spaceCadet: string
   yellow: string
+  bookingDetailsBackgroundCard: string
+  lightSilver: string
+  radioColor: string
 }
