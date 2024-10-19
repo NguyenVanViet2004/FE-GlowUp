@@ -28,7 +28,7 @@ const CheckoutTemplate = (): React.ReactElement => {
   const bookingData = [
     {
       flex: 2,
-      label: 'Date',
+      label: t('booking.date'),
       value: 'March, 10th 2021',
       valueProps: {
         color: colors.blueSapphire,
@@ -37,7 +37,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     },
     {
       flex: undefined,
-      label: 'Start time',
+      label: t('booking.startTime'),
       value: '10:00 AM',
       valueProps: {
         color: colors.blueSapphire,
@@ -46,7 +46,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     },
     {
       flex: 2,
-      label: 'Specialist',
+      label: t('booking.speciaList'),
       value: 'Random',
       valueProps: {
         color: colors.blueSapphire,
@@ -55,7 +55,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     },
     {
       flex: undefined,
-      label: 'Duration',
+      label: t('booking.duration'),
       value: '5 hours',
       valueProps: {
         color: colors.blueSapphire,
@@ -153,7 +153,7 @@ const CheckoutTemplate = (): React.ReactElement => {
       </GradientScrollContainer>
 
       <PositiveButton
-        title="checkout"
+        title={t('booking.checkout')}
         marginHorizontal={20}
         position="absolute"
         left={0}

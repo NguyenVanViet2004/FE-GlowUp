@@ -5,18 +5,6 @@ import RadioGroupItemWithLabel from '~/components/molecules/common/RadioGroupIte
 import useTranslation from '~/hooks/useTranslation'
 import { PaymentMethod } from '~/interfaces/enum/Payment'
 
-const paymentMethods = [
-  {
-    descriptions: 'Secure your booking instantly',
-    id: PaymentMethod.CASH,
-    label: 'Pay at salon'
-  },
-  {
-    descriptions: 'Settle payment after your appointment',
-    id: PaymentMethod.ONLINE,
-    label: 'Pay online now'
-  }
-]
 
 const PaymentMethodSection = (): {
   renderPaymentMethods: () => JSX.Element
@@ -26,6 +14,18 @@ const PaymentMethodSection = (): {
     PaymentMethod.CASH
   )
   const { t } = useTranslation()
+  const paymentMethods = [
+    {
+      descriptions: t('payment.salonDescription'),
+      id: PaymentMethod.CASH,
+      label: t('payment.payAtSalon')
+    },
+    {
+      descriptions: t('payment.onlineDescription'),
+      id: PaymentMethod.ONLINE,
+      label: t('payment.payOnlineNow')
+    }
+  ]
 
   const renderPaymentMethods = (): React.JSX.Element => {
     return (
