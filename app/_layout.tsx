@@ -1,10 +1,13 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
-import { SplashScreen, Stack } from 'expo-router'
-import { useEffect } from 'react'
+import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
+import { SplashScreen, Stack, useRouter } from 'expo-router'
+import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
-import { TamaguiProvider } from 'tamagui'
+import { Separator, TamaguiProvider } from 'tamagui'
 
+import AppHeader from '~/components/molecules/common/AppHeader'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import useTranslation, { useInitializeI18n } from '~/hooks/useTranslation'
 import store from '~/redux/store'
@@ -47,6 +50,7 @@ export default function RootLayout (): React.ReactElement {
 
 function RootLayoutNav (): React.ReactElement {
   const colorScheme = useColorScheme()
+  const router = useRouter()
   const { t } = useTranslation()
 
   return (
@@ -64,6 +68,11 @@ function RootLayoutNav (): React.ReactElement {
           />
           <Stack.Screen
             name="authentication/SignUp"
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="checkout/BookingCheckout"
             options={{ headerShown: false }}
           />
         </Stack>
