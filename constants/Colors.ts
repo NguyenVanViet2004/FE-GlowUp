@@ -11,7 +11,9 @@ const colors: Record<'light' | 'dark', Colors> = {
     inputBackground: '#1C2655',
     labelButton: '#000000',
     lightMist: '#1C2655',
+    bookingDetailsBackgroundCard: '#1C2655',
     lightTransparentBlack: 'rgba(0, 0, 0, 0.3)',
+    lightSilver: '#D1D5DB',
     midnightGlow: '#141B3D',
     oceanMist: '#F4E5E5',
     oceanTeal: '#21A7C3',
@@ -20,7 +22,8 @@ const colors: Record<'light' | 'dark', Colors> = {
     spaceCadet: '#1C2655',
     text: '#fff',
     white: '#FFFFFF',
-    yellow: '#ffff00'
+    yellow: '#ffff00',
+    radioColor: '#FFFFFF'
   },
   light: {
     black: '#000000',
@@ -30,7 +33,9 @@ const colors: Record<'light' | 'dark', Colors> = {
     inputBackground: '#FFFFFF',
     labelButton: '#156778',
     lightMist: '#F0F3F6',
+    bookingDetailsBackgroundCard: '#E1F5FA',
     lightTransparentBlack: 'rgba(0, 0, 0, 0.3)',
+    lightSilver: '#D1D5DB',
     midnightGlow: '#FFFFFF',
     oceanMist: '#50555C',
     oceanTeal: '#156778',
@@ -39,7 +44,8 @@ const colors: Record<'light' | 'dark', Colors> = {
     spaceCadet: '#1C2655',
     text: '#000',
     white: '#FFFFFF',
-    yellow: '#ffff00'
+    yellow: '#ffff00',
+    radioColor: 'blue'
   }
 }
 
