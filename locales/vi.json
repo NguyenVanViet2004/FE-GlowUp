@@ -69,6 +69,13 @@
             "sendCode": "Nhập mã code",
             "titleForgot": "Vui lòng nhập email của bạn bên dưới và chúng tôi sẽ cung cấp cho bạn mã OTP",
             "forgotPassword": "Quên mật khẩu"
+        },
+        "review":{
+            "cancel": "Hủy",
+            "score":"Điểm:",
+            "title": "Tiêu đề",
+            "description":"Nội dung",
+            "post":"Đăng"
         }
     },
     "user": {
