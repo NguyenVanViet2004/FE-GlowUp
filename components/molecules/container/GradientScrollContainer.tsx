@@ -66,7 +66,7 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 350,
+    paddingBottom: 150,
     paddingHorizontal: 20
   }
 })
