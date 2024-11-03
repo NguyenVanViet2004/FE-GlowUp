@@ -158,7 +158,7 @@ const CheckoutTemplate = (): React.ReactElement => {
         position="absolute"
         left={0}
         right={0}
-        bottom={insets.bottom}
+        bottom={insets.bottom === 0 ? 20 : insets.bottom}
         onPress={handleSubmitPress}
       />
     </>
