@@ -69,6 +69,13 @@
             "sendCode": "Send code",
             "titleForgot": "Please type your email below and we will give you a OTP code",
             "forgotPassword": "Forgot your password"
+        },
+        "review":{
+            "cancel": "Cancel",
+            "score":"Score:",
+            "title": "Title",
+            "description":"Description",
+            "post":"Post"
         }
     },
     "user": {
