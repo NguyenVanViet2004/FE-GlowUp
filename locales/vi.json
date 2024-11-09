@@ -82,5 +82,50 @@
     "common": {
         "warning": "Cảnh báo",
         "doYouWantToLogout": "Bạn có chắc muốn đăng xuất?"
+    },
+    "voucher": {
+        "title": "Voucher",
+        "apply": "Áp dụng",
+        "code": "Mã giảm giá",
+        "enterCode": "Nhập mã giảm giá",
+        "expired": "Hết hạn",
+        "redeemed": "Đã sử dụng",
+        "notRedeemed": "Chưa sử dụng",
+        "invalidCode": "Mã giảm giá không hợp lệ",
+        "applySuccess": "Áp dụng mã giảm giá thành công",
+        "applyFailed": "Lỗi khi áp dụng mã giảm giá"
+    },
+    "booking": {
+        "title": "Đặt lịch",
+        "bookingCheckout": "Thanh toán",
+        "checkout": "Thanh toán",
+        "date": "Ngày",
+        "time": "Thời gian",
+        "startTime": "Thời gian bắt đầu",
+        "speciaList": "Nhân viên",
+        "duration": "Thời gian ước tính",
+        "customerName": "Tên khách hàng",
+        "customerPhoneNumber": "Số điện thoại khách hàng",
+        "submit": "Đặt lịch",
+        "success": "Đặt lịch thành công",
+        "failed": "Đặt lịch thất bại",
+        "successMessage": "Đã đặt lịch thành công. Chúng tôi sẽ liên lạc với bạn sau.",
+        "failedMessage": "Đặt lịch thất bại. Vui lòng thử lại sau.",
+        "bookingHistory": "Lịch sử đặt lịch",
+        "noHistory": "Chưa có lịch sử đặt lịch",
+        "subTotal": "Giá gốc",
+        "discount": "Giảm giá",
+        "total": "Tổng",
+        "service": "Dịch vụ",
+        "cancelBooking": "Huỷ đặt lịch",
+        "cancelBookingSuccess": "Hủy đặt lịch thành công",
+        "cancelBookingFailed": "Hủy đặt lịch thất bại"
+    },
+    "payment": {
+        "title": "Thanh toán",
+        "payAtSalon": "Thanh toán tại salon",
+        "payOnlineNow": "Thanh toán online ngay bây giờ",
+        "salonDescription": "Đảm bảo đặt phòng của bạn ngay lập tức",
+        "onlineDescription": "Giải quyết thanh toán sau cuộc hẹn của bạn"
     }
 }

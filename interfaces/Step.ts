@@ -4,4 +4,5 @@ export default interface Step {
   description: string
   duration: string | null
   imageUrl: string
+  price: number
 }
