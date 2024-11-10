@@ -5,6 +5,8 @@ import { useColorScheme } from 'react-native'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
 
+import Specialist from '~/components/organisms/Specialist'
+import SpecialistTemplate from '~/components/templates/SpecialistTemplate'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import useNotifications from '~/hooks/useNotifications'
 import useTranslation, { useInitializeI18n } from '~/hooks/useTranslation'
@@ -55,7 +57,7 @@ function RootLayoutNav (): React.ReactElement {
   return (
     <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
+         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }}/>
           <Stack.Screen
             name="(tabs)"

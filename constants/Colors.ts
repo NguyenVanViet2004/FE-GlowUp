@@ -45,7 +45,8 @@ const colors: Record<'light' | 'dark', Colors> = {
     text: '#fff',
     textDate: '#979797',
     white: '#FFFFFF',
-    yellow: '#ffff00'
+    yellow: '#ffff00',
+    textDate :  '#979797'
   },
   light: {
     bgDate: '#007B83',
@@ -87,7 +88,8 @@ const colors: Record<'light' | 'dark', Colors> = {
     text: '#000',
     textDate: '#000',
     white: '#FFFFFF',
-    yellow: '#ffff00'
+    yellow: '#ffff00',
+    textDate :  '#000'
   }
 }
 
