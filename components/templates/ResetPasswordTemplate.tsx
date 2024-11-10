@@ -8,11 +8,11 @@ import { View } from 'tamagui'
 import ContentTitle from '~/components/atoms/ContentTitle'
 import InputWithIcons from '~/components/atoms/InputWithIcons'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
+import AppHeader from '~/components/molecules/common/AppHeader'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import getColors from '~/constants/Colors'
-import useTranslation from '~/hooks/useTranslation'
-import AppHeader from '~/components/molecules/common/AppHeader'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import useTranslation from '~/hooks/useTranslation'
 
 const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
@@ -66,9 +66,10 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
       <SafeAreaView style={styles.container}>
         <View>
           <AppHeader
-          headerTitle={t('common.back')}
-          fontFamily={fonts.JetBrainsMonoRegular}
-          leftIcon={<ChevronLeft size={24} onPress={() => router.back()}/>}
+            headerTitle={t('common.back')}
+            fontFamily={fonts.JetBrainsMonoRegular}
+            leftIcon={
+              <ChevronLeft size={24} onPress={() => { router.back() }}/>}
           />
         </View>
         <View marginTop={'13%'}>
