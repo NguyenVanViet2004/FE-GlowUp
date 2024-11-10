@@ -86,7 +86,8 @@
     },
     "common": {
         "warning": "Warning",
-        "doYouWantToLogout": "Do you want to log out?"
+        "doYouWantToLogout": "Do you want to log out?",
+        "back": "Back"
     },
     "voucher": {
         "title": "Voucher",

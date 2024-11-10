@@ -86,7 +86,8 @@
     },
     "common": {
         "warning": "Cảnh báo",
-        "doYouWantToLogout": "Bạn có chắc muốn đăng xuất?"
+        "doYouWantToLogout": "Bạn có chắc muốn đăng xuất?",
+        "back": "Quay lại"
     },
     "voucher": {
         "title": "Voucher",
