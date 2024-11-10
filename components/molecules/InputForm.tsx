@@ -9,7 +9,6 @@ import { NegativeButton } from '~/components/atoms/NegativeButton'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import { TextTitle } from '~/components/atoms/TextTitle'
 import getColors from '~/constants/Colors'
-import { SPACING_20 } from '~/constants/Constants'
 import useTranslation from '~/hooks/useTranslation'
 
 type Props = {
@@ -92,10 +91,10 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
       {
         !isNil(props.visibleForgotPassword) && props.visibleForgotPassword
           ? <TextTitle
-            marginTop={SPACING_20}
+            marginTop={20}
             text={t('screens.login.forgotPassword')}
             textAlign="right"/>
-          : <Text fontSize={14} textAlign="left" marginTop={SPACING_20}>
+          : <Text fontSize={14} textAlign="left" marginTop={20}>
             {t('screens.signUp.TermsOfUse1')}
             <TextTitle text={t('screens.signUp.TermsOfUse2')}/>
           </Text>
@@ -108,14 +107,14 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
           : 'none'}
       />
 
-      <YStack gap={20} marginTop={SPACING_20}>
+      <YStack gap={20} marginTop={20}>
         <PositiveButton
           onPress={props.onLoginPress}
           title={props.positiveButtonTitle}/>
 
         <View flexDirection="row" alignItems="center" justifyContent="center">
           <Separator borderColor={colors.oceanMist}/>
-          <Text marginHorizontal={SPACING_20} color={colors.text} >or</Text>
+          <Text marginHorizontal={20} color={colors.text} >or</Text>
           <Separator borderColor={colors.oceanMist}/>
         </View>
 

@@ -1,4 +1,4 @@
-import { Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
+import { ChevronLeft, Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { StyleSheet, useColorScheme } from 'react-native'
@@ -11,6 +11,8 @@ import { PositiveButton } from '~/components/atoms/PositiveButton'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import getColors from '~/constants/Colors'
 import useTranslation from '~/hooks/useTranslation'
+import AppHeader from '~/components/molecules/common/AppHeader'
+import { useAppFonts } from '~/hooks/useAppFonts'
 
 const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
@@ -20,6 +22,7 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const router = useRouter()
+  const { fonts } = useAppFonts()
 
   const renderPasswordIcon = (): JSX.Element => {
     const IconVisiablePassword = showPassword ? EyeOff : Eye
@@ -61,6 +64,13 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   return (
     <LinearGradientBackground>
       <SafeAreaView style={styles.container}>
+        <View>
+          <AppHeader
+          headerTitle={t('common.back')}
+          fontFamily={fonts.JetBrainsMonoRegular}
+          leftIcon={<ChevronLeft size={24} onPress={() => router.back()}/>}
+          />
+        </View>
         <View marginTop={'13%'}>
           <ContentTitle
             title={t('screens.resetPassword.newPassword')}
