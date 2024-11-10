@@ -1,3 +1,4 @@
+
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
@@ -51,17 +52,14 @@ const TimePicker: React.FC = () => {
   )
 
   return (
-    <Stack space="$4" alignItems="center">
-      <Text fontWeight="bold">Time</Text>
+    <Stack space="$4" >
+      <Text >Time</Text>
       <FlatList
         data={times}
         keyExtractor={(item) => item}
         horizontal
         renderItem={renderItem}
       />
-      <Text>Selected Time: {selectedTime}</Text>
-      <Text>Hour: {selectedHour}</Text>
-      <Text>Minute: {selectedMinute}</Text>
     </Stack>
   )
 }

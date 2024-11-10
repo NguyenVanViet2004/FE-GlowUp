@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Feather'
 import React, { useState } from 'react'
-import { useColorScheme } from 'react-native'
+import { StyleSheet, useColorScheme } from 'react-native'
 import { Avatar, Stack, Text, View } from 'tamagui'
 
 import getColors from '~/constants/Colors'
@@ -21,14 +21,14 @@ const Specialist: React.FC = () => {
   const colorScheme = useColorScheme()
   const colors = getColors(colorScheme)
   const [selectedUserIndex, setSelectedUserIndex] =
-  useState<number | null>(null)
+   useState<number | null>(null)
 
   const handleAvatarPress = (index: number): void => {
     setSelectedUserIndex(index === selectedUserIndex ? null : index)
   }
 
   return (
-    <View>
+    <View marginTop={30} padding={20}>
       <Text>Special list</Text>
       <Stack flexDirection="row" alignItems="center" gap="$2" marginTop="$3.5">
         {users.map((user, index) => (
@@ -41,23 +41,16 @@ const Specialist: React.FC = () => {
               circular
               size={80}
               borderWidth={index === selectedUserIndex ? 3 : 0}
-              borderColor="black"
-              style={{
-                opacity: index === selectedUserIndex ? 0.5 : 1
-              }}
+              borderColor= {colors.labelButton}
+              style={index === selectedUserIndex && styles.avatarSelected}
             >
               <Avatar.Image source={{ uri: user.image }} />
               {index === selectedUserIndex && (
                 <Feather
                   name="check"
                   size={24}
-                  color={colors.text}
-                  style={{
-                    left: '50%',
-                    position: 'absolute',
-                    top: '50%',
-                    transform: [{ translateX: -12 }, { translateY: -12 }]
-                  }}
+                  color={colors.labelButton}
+                  style={styles.checkIcon}
                 />
               )}
             </Avatar>
@@ -68,5 +61,17 @@ const Specialist: React.FC = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  avatarSelected: {
+    opacity: 0.5
+  },
+  checkIcon: {
+    left: '50%',
+    position: 'absolute',
+    top: '50%',
+    transform: [{ translateX: -12 }, { translateY: -12 }]
+  }
+})
 
 export default Specialist
