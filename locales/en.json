@@ -70,6 +70,16 @@
             "titleForgot": "Please type your email below and we will give you a OTP code",
             "forgotPassword": "Forgot your password"
         },
+        "verify": {
+            "verify" : "OTP Verification",
+            "receiveCode": "Didn’t receive a code?",
+            "resend" : "Resend",
+            "titleVerify" : "Verify Your Identity",
+            "subVerify" : "We’ve sent a 4-digit code to ",
+            "subVerify2" : " Please enter it below. ",
+            "continue" : "Continue",
+            "incorrectOtp" : "The code you entered is incorrect. Please try again."
+        },
         "resetPassword":{
             "newPassword":"New password",
             "resetPasswordPrompt":"Now, you can create new password and confirm it below",

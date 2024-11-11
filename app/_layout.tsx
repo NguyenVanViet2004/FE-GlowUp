@@ -68,7 +68,9 @@ function RootLayoutNav (): React.ReactElement {
           />
 
           <Stack.Screen
-            name="checkout/BookingCheckout"
+            name="checkout/BookingCheckout"/>
+          <Stack.Screen
+            name="authentication/VerifyOTP"
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -80,6 +82,7 @@ function RootLayoutNav (): React.ReactElement {
             options={{ headerShown: false }}
           />
         </Stack>
+
       </ThemeProvider>
     </TamaguiProvider>
   )

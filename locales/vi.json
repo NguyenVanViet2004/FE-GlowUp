@@ -70,6 +70,16 @@
             "titleForgot": "Vui lòng nhập email của bạn bên dưới và chúng tôi sẽ cung cấp cho bạn mã OTP",
             "forgotPassword": "Quên mật khẩu"
         },
+        "verify": {
+            "verify" : " Xác minh OTP ",
+            "receiveCode": "Bạn không nhận được mã ?",
+            "resend" : "Gửi lại",
+            "titleVerify" : "Xác minh danh tính của bạn ",
+            "subVerify" : "Vui lòng nhập OTP",
+            "subVerify2" : ". Điền xuống bên dưới. ",
+            "continue" : "Tiếp tục",
+            "incorrectOtp" : "Mã OTP không chính xác vui lòng thử lại!"
+        },
         "resetPassword":{
             "newPassword":"Mật khẩu mới",
             "resetPasswordPrompt":"Bây giờ, bạn có thể tạo mật khẩu mới và xác nhận bên dưới",
