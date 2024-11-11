@@ -5,7 +5,6 @@ import RadioGroupItemWithLabel from '~/components/molecules/common/RadioGroupIte
 import useTranslation from '~/hooks/useTranslation'
 import { PaymentMethod } from '~/interfaces/enum/Payment'
 
-
 const PaymentMethodSection = (): {
   renderPaymentMethods: () => JSX.Element
   selectedMethodID: string
