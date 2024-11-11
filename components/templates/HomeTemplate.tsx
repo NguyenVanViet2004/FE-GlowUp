@@ -16,39 +16,54 @@ import type Combo from '~/interfaces/Combo'
 const comboDemo: Combo[] = [
   {
     _id: 'combo1',
-    comboStepId: {
-      _id: 'step1',
-      duration: '30 phút',
-      stepId: ['stepA', 'stepB']
-    },
     description: 'Combo này bao gồm các món ăn ngon nhất của chúng tôi.',
     imageUrl: 'https://example.com/image1.jpg',
     name: 'Combo Đặc Biệt 1',
-    price: 199.99
+    price: 199.99,
+    steps: [
+      {
+        _id: 'step1',
+        description: 'Preparation of the first course',
+        duration: '30 phút',
+        imageUrl: 'https://example.com/step1.jpg',
+        name: 'Step 1',
+        price: 50
+      }
+    ]
   },
   {
     _id: 'combo2',
-    comboStepId: {
-      _id: 'step2',
-      duration: '45 phút',
-      stepId: ['stepC', 'stepD']
-    },
     description: 'Combo bao gồm một bữa ăn cho 2 người với giá ưu đãi.',
     imageUrl: 'https://example.com/image2.jpg',
     name: 'Combo Đặc Biệt 2',
-    price: 249.99
+    price: 249.99,
+    steps: [
+      {
+        _id: 'step2',
+        description: 'Main course preparation',
+        duration: '45 phút',
+        imageUrl: 'https://example.com/step2.jpg',
+        name: 'Step 2',
+        price: 80
+      }
+    ]
   },
   {
     _id: 'combo3',
-    comboStepId: {
-      _id: 'step3',
-      duration: null,
-      stepId: ['stepE', 'stepF']
-    },
     description: 'Combo này được thiết kế để tiết kiệm chi phí cho bạn.',
     imageUrl: 'https://example.com/image3.jpg',
     name: 'Combo Tiết Kiệm',
-    price: 149.99
+    price: 149.99,
+    steps: [
+      {
+        _id: 'step3',
+        description: 'Dessert preparation',
+        duration: null,
+        imageUrl: 'https://example.com/step3.jpg',
+        name: 'Step 3',
+        price: 60
+      }
+    ]
   }
 ]
 
