@@ -79,6 +79,11 @@
             "subVerify2" : " Please enter it below. ",
             "continue" : "Continue",
             "incorrectOtp" : "The code you entered is incorrect. Please try again."
+        },
+        "resetPassword":{
+            "newPassword":"New password",
+            "resetPasswordPrompt":"Now, you can create new password and confirm it below",
+            "confirmNewPassword":"Confirm new password"
         }
     },
     "user": {
@@ -91,7 +96,8 @@
     },
     "common": {
         "warning": "Warning",
-        "doYouWantToLogout": "Do you want to log out?"
+        "doYouWantToLogout": "Do you want to log out?",
+        "back": "Back"
     },
     "voucher": {
         "title": "Voucher",

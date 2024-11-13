@@ -79,6 +79,11 @@
             "subVerify2" : ". Điền xuống bên dưới. ",
             "continue" : "Tiếp tục",
             "incorrectOtp" : "Mã OTP không chính xác vui lòng thử lại!"
+        },
+        "resetPassword":{
+            "newPassword":"Mật khẩu mới",
+            "resetPasswordPrompt":"Bây giờ, bạn có thể tạo mật khẩu mới và xác nhận bên dưới",
+            "confirmNewPassword":"Xác nhận mật khẩu mới"
         }
     },
     "user": {
@@ -91,7 +96,8 @@
     },
     "common": {
         "warning": "Cảnh báo",
-        "doYouWantToLogout": "Bạn có chắc muốn đăng xuất?"
+        "doYouWantToLogout": "Bạn có chắc muốn đăng xuất?",
+        "back": "Quay lại"
     },
     "voucher": {
         "title": "Voucher",
