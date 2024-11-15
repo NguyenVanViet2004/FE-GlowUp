@@ -52,7 +52,7 @@ const TimePicker: React.FC = () => {
   )
 
   return (
-    <Stack space="$4" >
+    <Stack space="$4" paddingTop={10}>
       <Text >Time</Text>
       <FlatList
         data={times}

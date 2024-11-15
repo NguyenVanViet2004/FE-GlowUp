@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather'
+import { fonts } from '@tamagui/config/v3'
 import React, { useState } from 'react'
 import { StyleSheet, useColorScheme } from 'react-native'
 import { Avatar, Stack, Text, View } from 'tamagui'
@@ -28,8 +29,8 @@ const Specialist: React.FC = () => {
   }
 
   return (
-    <View marginTop={30} padding={20}>
-      <Text>Special list</Text>
+    <View padding={10}>
+      <Text >Special list</Text>
       <Stack flexDirection="row" alignItems="center" gap="$2" marginTop="$3.5">
         {users.map((user, index) => (
           <Stack
