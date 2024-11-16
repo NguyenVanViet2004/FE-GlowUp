@@ -81,6 +81,10 @@ function RootLayoutNav (): React.ReactElement {
             name="authentication/ResetPassword"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="combo/ComboDetails"
+            options={{ headerShown: false }}
+          />
         </Stack>
 
       </ThemeProvider>
