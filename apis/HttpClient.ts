@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import store from '~/redux/store'
 
-const BASE_URL = 'https:/growup/api/'
+const BASE_URL = 'http://192.168.1.101:3000/'
 
 const headers = {
   'Content-Type': 'application/json',
@@ -11,6 +11,7 @@ const headers = {
 }
 
 export interface Response<T = any> {
+  data: T
   success: boolean
   message: string
   result: T
