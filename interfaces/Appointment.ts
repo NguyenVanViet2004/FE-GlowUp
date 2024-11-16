@@ -3,7 +3,7 @@ import { type Status } from '~/interfaces/enum/Status'
 export default interface Appointment {
   _id: string
   userId: string
-  packageId: string
+  comboId: string
   stylistId: string
   status: Status
   appointmentDate: Date

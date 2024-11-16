@@ -3,7 +3,7 @@ import React from 'react'
 import { Text, type TextProps, XStack, type XStackProps } from 'tamagui'
 
 export type headerProps = {
-  headerTitle: string
+  headerTitle?: string
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
   isHeaderCenter?: boolean

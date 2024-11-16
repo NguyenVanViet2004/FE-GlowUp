@@ -1,8 +1,10 @@
 export default interface Step {
-  _id: string
+  id: string
   name: string
   description: string
-  duration: string | null
-  imageUrl: string
-  price: number
+  total_time?: string | null
+  picture: string
+  price: string
+  createdAt?: string
+  updatedAt?: string
 }
