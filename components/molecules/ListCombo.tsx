@@ -21,14 +21,14 @@ const ListCombo = (props: Props): React.ReactElement => {
   const [selectedCombo, setSelectedCombo] = useState<Combo | null>(null)
 
   const renderItem = ({ item }: { item: Combo }): React.ReactElement => {
-    const isSelected = item._id === selectedCombo?._id
+    const isSelected = item.id === selectedCombo?.id
 
     const backgroundColor = isDarkMode
       ? colors.lightMist
       : (isSelected ? colors.blueSapphire : colors.white)
     return (
       <View
-        key={item._id}
+        key={item.id}
         borderWidth={isDarkMode && isSelected
           ? 1
           : 0}
@@ -68,7 +68,7 @@ const ListCombo = (props: Props): React.ReactElement => {
       <FlatList
         data={props.combo}
         renderItem={renderItem}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.id.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={() => <View width={8} />}

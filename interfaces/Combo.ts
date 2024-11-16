@@ -1,5 +1,5 @@
 export default interface Combo {
-  _id: string
+  id: string
   name: string
   description: string
   price: number
