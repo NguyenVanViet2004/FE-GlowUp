@@ -1,4 +1,4 @@
-import { Eye, EyeOff, LockKeyhole, Mail, Phone, User2 } from '@tamagui/lucide-icons'
+import { Eye, EyeOff, LockKeyhole, Phone, User2 } from '@tamagui/lucide-icons'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { useColorScheme } from 'react-native'
@@ -17,13 +17,17 @@ type Props = {
   visibleForgotPassword?: boolean
   visibleSpace?: boolean
   onChangeNameText?: (text: string) => void
-  onChangeEmailText?: (text: string) => void
+  onChangeConfirmPassWordText?: (text: string) => void
   onChangePhoneText?: (text: string) => void
   onChangePasswordText?: (text: string) => void
   onLoginPress?: () => void
   onLoginGooglePress?: () => void
   positiveButtonTitle: string
   negativeButtonTitle: string
+  nameError?: string
+  phoneError?: string
+  passwordError?: string
+  confirmPasswordError?: string
 } & InputProps
 
 const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
@@ -55,29 +59,18 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
             iconRight={<User2 size={16} color={colors.oceanTeal} />}
             placeholder={t('screens.signUp.name')}
             onChangeText={props.onChangeNameText}
+            errorMessage={props.nameError}
           />
 
         </View>
 
         <InputWithIcons
-          iconRight={<Mail size={16} color={colors.oceanTeal} />}
-          placeholder={t('screens.login.email')}
-          onChangeText={props.onChangeEmailText}
+          iconRight={<Phone size={16} color={colors.oceanTeal}/>}
+          placeholder={t('screens.signUp.mobileNumber')}
+          onChangeText={props.onChangePhoneText}
+          errorMessage={props.phoneError}
+          keyboardType="number-pad"
         />
-
-        <View display={
-          !isNil(props.visibleInputWithIcons) &&
-                        props.visibleInputWithIcons
-            ? 'flex'
-            : 'none'}>
-
-          <InputWithIcons
-            iconRight={<Phone size={16} color={colors.oceanTeal} />}
-            placeholder={t('screens.signUp.mobileNumber')}
-            onChangeText={props.onChangePhoneText}
-          />
-
-        </View>
 
         <InputWithIcons
           iconLeft={renderPasswordIcon()}
@@ -85,7 +78,26 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
           placeholder={t('screens.login.password')}
           secureTextEntry={!showPassword}
           onChangeText={props.onChangePasswordText}
+          errorMessage={props.passwordError}
         />
+
+        <View display={
+          !isNil(props.visibleInputWithIcons) &&
+                          props.visibleInputWithIcons
+            ? 'flex'
+            : 'none'}>
+
+          <InputWithIcons
+            iconLeft={renderPasswordIcon()}
+            iconRight={<LockKeyhole size={16} color={colors.oceanTeal} />}
+            placeholder={t('screens.login.confirmPassword')}
+            onChangeText={props.onChangeConfirmPassWordText}
+            secureTextEntry={!showPassword}
+            errorMessage={props.confirmPasswordError}
+
+          />
+
+        </View>
       </YStack>
 
       {
