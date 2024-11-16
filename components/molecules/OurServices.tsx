@@ -5,14 +5,20 @@ import LabelTitle from '~/components/atoms/LabelTitle'
 import StepList from '~/components/organisms/StepList'
 import useTranslation from '~/hooks/useTranslation'
 
-const OurServices = (): React.ReactElement => {
+interface Props {
+  data: any
+}
+
+const OurServices = (props: Props): React.ReactElement => {
   const { t } = useTranslation()
   return (
     <YStack gap={30}>
       <LabelTitle title={t('screens.details.ourServices')} />
 
       <View>
-        <StepList />
+        <StepList
+          dataStep={props.data}
+        />
       </View>
     </YStack>
   )
