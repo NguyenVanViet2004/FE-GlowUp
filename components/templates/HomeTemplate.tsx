@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import React, { useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, useColorScheme } from 'react-native'
 import { View } from 'tamagui'
 
-import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
 import Banner from '~/components/molecules/Banner'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
@@ -10,8 +10,12 @@ import ListCombo from '~/components/molecules/ListCombo'
 import SpecialComboCard from '~/components/molecules/SpecialComboCard'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
+import useFetchCombo from '~/hooks/useFetchCombo'
 import useTranslation from '~/hooks/useTranslation'
 import type Combo from '~/interfaces/Combo'
+
+import Loading from '../atoms/Loading'
+
 const MemoizedBanner = React.memo(Banner)
 const MemoizedListCombo = React.memo(ListCombo)
 const MemoizedSpecialComboCard = React.memo(SpecialComboCard)
@@ -20,38 +24,15 @@ const HomeTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
   const colors = getColors(useColorScheme())
   const isDarkMode = useColorScheme() === 'dark'
+
   const [selectCombo, setSelectCombo] = useState<Combo | null>(null)
-  const [combos, setCombos] = useState<Combo[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const backGroundColor = isDarkMode ? 'transparent' : colors.ghostWhite
+  const { combos, isLoading } = useFetchCombo()
 
   const handleSelectCombo = (combo: Combo): void => {
     setSelectCombo(combo)
   }
-
-  useEffect(() => {
-    const fetchCombos = async (): Promise<void> => {
-      try {
-        const response = await request.get<Combo[]>('combo')
-        console.log(response.success)
-        if (response.success) {
-          setCombos(response.result as [])
-        } else {
-          console.error('Failed to fetch combos:', response.message)
-        }
-      } catch (error) {
-        console.error('Error while fetching combos:', error)
-      } finally {
-        setIsLoading(false)
-      }
-      console.log(combos)
-    }
-
-    fetchCombos()
-      .catch(error => { console.error('Error while fetching combos:', error) })
-  }, [])
-
   return (
     <LinearGradientBackground>
       <SafeAreaView
@@ -68,7 +49,12 @@ const HomeTemplate = (): React.ReactElement => {
               borderWidth={1}
               padding={10}
               alignItems="flex-end"
-            />
+            >
+              <MaterialCommunityIcons
+                name="bell-ring-outline"
+                size={24}
+                color="black" />
+            </View>
           </View>
 
           <MemoizedBanner
@@ -78,11 +64,9 @@ const HomeTemplate = (): React.ReactElement => {
             percent="20"
           />
 
-          {isLoading
+          {isLoading === true
             ? (
-              <View>
-                <ContentTitle title={t('screens.home.loading')} />
-              </View>)
+              <Loading />)
             : (
               <MemoizedListCombo
                 onSelectCombo={(combo) => { handleSelectCombo(combo) }}
