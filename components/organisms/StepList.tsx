@@ -1,84 +1,107 @@
 import { isNil } from 'lodash'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, useColorScheme } from 'react-native'
 import { Image, Text, View, XStack, YStack } from 'tamagui'
 
+import { request } from '~/apis/HttpClient'
 import TransparentButton from '~/components/atoms/TransparentButton'
 import getColors from '~/constants/Colors'
-import { dataComboList } from '~/constants/ComboListData'
-import { dataSteps } from '~/constants/StepData'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import useTranslation from '~/hooks/useTranslation'
-import type Combo from '~/interfaces/Combo'
+import type Step from '~/interfaces/Step'
 
-const StepList = (): JSX.Element => {
+interface Props {
+  dataStep: any
+}
+
+const StepList = (props: Props): JSX.Element => {
   const colors = getColors(useColorScheme())
   const { fonts } = useAppFonts()
   const { t } = useTranslation()
   const [showAllSteps, setShowAllSteps] = useState<boolean>(false)
+  const [dataService, setDataService] = useState<Step[]>([])
 
   const handleViewAllServices = (): void => {
     setShowAllSteps((prev) => !prev)
   }
 
-  const renderStepItem = ({ item }: { item: Combo }): React.ReactElement => {
-    const steps = item.comboStepId.stepId.map((stepId) =>
-      dataSteps.find((step) => step._id === stepId)
-    )
+  useEffect(() => {
+    const getData = async (): Promise<void> => {
+      try {
+        const res = await request.get<Step[]>('/service')
+        setDataService(res.data as [])
+      } catch (e: any) {
+        console.error(e)
+      }
+    }
+    void getData()
+  }, [])
 
-    return (
-      <YStack>
-        {(showAllSteps
-          ? steps
-          : steps.slice(0, 3)).map((step) => !isNil(step)
-          ? (
-            <XStack
-              key={step._id}
-              marginBottom={10}
-              pressStyle={{ backgroundColor: colors.smokeStone }}
-              borderRadius={8}
-            >
-              <Image
-                source={{ uri: step.imageUrl }}
-                width={114}
-                height={114}
-                borderTopLeftRadius={8}
-                borderBottomLeftRadius={8}
-              />
-              <YStack
-                marginLeft={16}
-                flex={1}
-                justifyContent="center" gap={6}>
-                <Text
-                  color={colors.text}
-                  fontSize={14}
-                  fontFamily={fonts.JetBrainsMonoBold}
-                >
-                  {step.name}
-                </Text>
-                <Text color={colors.text} fontSize={12}>
-                  {step.duration}
-                </Text>
-                <Text color={colors.text} fontSize={14}>
-                  {step.description.length > 40
-                    ? `${step.description.slice(0, 40)}...`
-                    : step.description}
-                </Text>
-              </YStack>
-            </XStack>)
-          : null)}
-      </YStack>
-    )
-  }
+  const servicesList = !isNil(dataService) ? dataService : []
+  const serviceIds = !isNil(props.dataStep?.services)
+    ? props.dataStep.services
+    : []
+
+  const detailedServices = Array.isArray(servicesList) &&
+  servicesList.length > 0
+    ? serviceIds.map((id: string) => servicesList.find(
+      (service: { id: string }) => service.id === id
+    ) ?? null)
+    : []
+
+  const displayedServices = showAllSteps
+    ? detailedServices
+    : detailedServices.slice(0, 3)
 
   return (
     <View>
       <FlatList
         scrollEnabled={false}
-        data={dataComboList}
-        renderItem={renderStepItem}
-        keyExtractor={(item) => item._id}
+        data={displayedServices}
+        renderItem={({ item }) => (
+          <YStack>
+            {!isNil(item) && (
+              <XStack
+                marginBottom={10}
+                pressStyle={{ backgroundColor: colors.smokeStone }}
+                borderRadius={8}
+              >
+                <Image
+                  source={{ uri: item.picture }}
+                  width={114}
+                  height={114}
+                  borderTopLeftRadius={8}
+                  borderBottomLeftRadius={8}
+                />
+                <YStack
+                  marginLeft={16}
+                  flex={1}
+                  justifyContent="center"
+                  gap={6}
+                >
+                  <Text
+                    color={colors.text}
+                    fontSize={14}
+                    fontFamily={fonts.JetBrainsMonoBold}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text color={colors.text} fontSize={12}>
+                    {item.price}$
+                  </Text>
+                  <Text color={colors.text} fontSize={14}>
+                    {item.description.length > 40
+                      ? `${item.description.slice(0, 40)}...`
+                      : item.description}
+                  </Text>
+                </YStack>
+              </XStack>
+            )}
+          </YStack>
+        )}
+        keyExtractor={(item) => item.id.toString()}
       />
+
       <TransparentButton
         onPress={handleViewAllServices}
         title={

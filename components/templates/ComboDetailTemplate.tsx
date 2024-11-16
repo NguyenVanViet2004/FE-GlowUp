@@ -1,10 +1,10 @@
 import { ChevronLeft, Map } from '@tamagui/lucide-icons'
-import { isNil } from 'lodash'
+import { router, useLocalSearchParams } from 'expo-router'
 import React from 'react'
 import { ImageBackground, StyleSheet, useColorScheme } from 'react-native'
 import { Button, ScrollView, Separator, View } from 'tamagui'
 
-import Header from '~/components/molecules/Header'
+import AppHeader from '~/components/molecules/common/AppHeader'
 import LabelWithDescription from '~/components/molecules/LabelWithDescription'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import OpeningHours from '~/components/molecules/OpeningHours'
@@ -14,14 +14,16 @@ import ServiceCardTitle from '~/components/molecules/ServiceCardTitle'
 import TotalAmount from '~/components/molecules/TotalAmount'
 import UserReviews from '~/components/molecules/UserReviews'
 import getColors from '~/constants/Colors'
-import { dataComboList } from '~/constants/ComboListData'
 import useTranslation from '~/hooks/useTranslation'
 
 const ComboDetailTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
 
-  const data = dataComboList[0]
+  const dataCombo = useLocalSearchParams()
+  const parsedItem = typeof dataCombo.item === 'string'
+    ? JSON.parse(dataCombo.item)
+    : null
 
   const renderIconButton = (icon: React.ReactElement): JSX.Element => (
     <Button
@@ -40,12 +42,17 @@ const ComboDetailTemplate = (): React.ReactElement => {
     <LinearGradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('~/assets/images/backGroundDetail.png')}
+          source={{ uri: parsedItem.picture }}
           style={styles.imageBackground}
         >
-          <Header
+
+          <AppHeader
+            paddingHorizontal={20}
             leftIcon={renderIconButton(
-              <ChevronLeft size={24} color={colors.blueSapphire} />
+              <ChevronLeft
+                onPress={() => { router.back() }}
+                size={24}
+                color={colors.blueSapphire} />
             )}
             rightIcon={renderIconButton(
               <Map
@@ -54,39 +61,41 @@ const ComboDetailTemplate = (): React.ReactElement => {
                 color={colors.mistWhite}
               />
             )}
+
           />
         </ImageBackground>
 
         <View paddingHorizontal={20} marginTop={35}>
           <View gap={30}>
             <ServiceCardTitle
-              comboName={data.name}
-              timeOpenToday={
-                !isNil(data.comboStepId.duration) &&
-                data.comboStepId.duration.trim() !== ''
-                  ? `${data.comboStepId.duration} ${t('screens.details.hour')}`
-                  : t('screens.details.openToday')
-              }
-              dealCombo={data.deal}
-              rateCombo={data.rate}
-              reviewsCombo=" (2.7k)"
+              comboName={parsedItem.name}
+              timeOpenToday={t('screens.details.openToday')}
+              dealCombo={23}
+              rateCombo={4}
+              reviewsCombo="(2.7k)"
               viewsCombo="10k"
             />
             <Separator borderColor={colors.smokeStone} />
           </View>
 
           <View marginTop={25} gap={25}>
-            <LabelWithDescription Description={data.description} />
+            <LabelWithDescription Description={parsedItem.description} />
             <OpeningHours />
-            <OurServices />
+            <OurServices
+              data={parsedItem}
+            />
             <OurSpecialist />
             <UserReviews />
           </View>
         </View>
       </ScrollView>
       <TotalAmount
-        price={Number((data.price - data.price * (data.deal / 100)).toFixed(2))}
-        deal={data.price}
+        price={
+          Number(
+            (parsedItem.price - parsedItem.price * (10 / 100)).toFixed(2)
+          )
+        }
+        deal={parsedItem.price}
       />
     </LinearGradientBackground>
   )
@@ -94,7 +103,7 @@ const ComboDetailTemplate = (): React.ReactElement => {
 
 const styles = StyleSheet.create({
   imageBackground: {
-    height: 180,
+    height: 200,
     justifyContent: 'center',
     width: '100%'
   }
