@@ -1,6 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
@@ -66,7 +66,23 @@ function RootLayoutNav (): React.ReactElement {
             name="authentication/SignUp"
             options={{ headerShown: false }}
           />
+
+          <Stack.Screen
+            name="checkout/BookingCheckout"/>
+          <Stack.Screen
+            name="authentication/VerifyOTP"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="authentication/ForgotPassword"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="authentication/ResetPassword"
+            options={{ headerShown: false }}
+          />
         </Stack>
+
       </ThemeProvider>
     </TamaguiProvider>
   )

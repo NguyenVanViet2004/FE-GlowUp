@@ -1,8 +1,5 @@
-interface comboStep {
-  _id: string
-  stepId: string[]
-  duration: string | null
-}
+import type Step from '~/interfaces/Step'
+import type Voucher from '~/interfaces/voucher'
 
 export default interface Combo {
   _id: string
@@ -10,7 +7,6 @@ export default interface Combo {
   price: number
   name: string
   description: string
-  comboStepId: comboStep
-  deal: number
-  rate: number
+  steps: Step[]
+  voucher?: Voucher
 }
