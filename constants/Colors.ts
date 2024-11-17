@@ -4,14 +4,17 @@ import { type Colors } from '~/interfaces/Colors'
 
 const colors: Record<'light' | 'dark', Colors> = {
   dark: {
+    bgDate: '#007B83',
     black: '#000000',
     blue: '#235AFF',
     blueOTP: '#898A8D',
     blueSapphire: '#156778',
-    bookingDetailsBackgroundCard: '',
+
+    bookingDetailsBackgroundCard: '#E1F5FA',
     borderInputaOTP: '#21A7C3',
     deepOrange: '#F98600',
     ghostWhite: '#f2f2f2',
+
     gray: '#979797',
     green: '#00EE00',
     inputBackground: '#1C2655',
@@ -38,11 +41,12 @@ const colors: Record<'light' | 'dark', Colors> = {
     sunsetOrange: '#F98600',
     tealGreen: '#0FEC82',
     text: '#fff',
+    textDate: '#979797',
     white: '#FFFFFF',
-    yellow: '#ffff00',
-    textDate :  '#979797'
+    yellow: '#ffff00'
   },
   light: {
+    bgDate: '#007B83',
     black: '#000000',
     blue: '#235AFF',
     blueOTP: '#235AFF',
@@ -77,9 +81,9 @@ const colors: Record<'light' | 'dark', Colors> = {
     sunsetOrange: '#F98600',
     tealGreen: '#156778',
     text: '#000',
+    textDate: '#000',
     white: '#FFFFFF',
-    yellow: '#ffff00',
-    textDate :  '#000'
+    yellow: '#ffff00'
   }
 }
 
