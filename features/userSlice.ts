@@ -4,9 +4,9 @@ import { GenderEnum } from '~/interfaces/enum/Gender'
 import { Role } from '~/interfaces/enum/Role'
 import type User from '~/interfaces/User'
 
-
 const initialState: User = {
   access_token: '',
+  refresh_token: '',
   result: {
     address: null,
     avatar: null,
@@ -19,9 +19,7 @@ const initialState: User = {
     profile: null,
     role: Role.USER,
     updatedAt: ''
-  },
-  refresh_token: ''
-
+  }
 }
 
 const userSlice = createSlice({
