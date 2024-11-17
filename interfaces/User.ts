@@ -4,7 +4,7 @@ import { type Role } from '~/interfaces/enum/Role'
 export default interface User {
   access_token: string
   refresh_token: string
-  data: {
+  result: {
     profile: string | null
     id: string
     gender: GenderEnum

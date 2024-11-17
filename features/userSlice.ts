@@ -1,19 +1,13 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 import { GenderEnum } from '~/interfaces/enum/Gender'
-// import { Rank } from '~/interfaces/enum/Rank'
 import { Role } from '~/interfaces/enum/Role'
-// import type Membership from '~/interfaces/Membership'
 import type User from '~/interfaces/User'
 
-// const initialMembership: Membership = {
-//   name: Rank.BRONZE,
-//   point: 0
-// }
 
 const initialState: User = {
   access_token: '',
-  data: {
+  result: {
     address: null,
     avatar: null,
     createdAt: '',
