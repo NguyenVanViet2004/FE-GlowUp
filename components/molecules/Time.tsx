@@ -1,14 +1,21 @@
-
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
+import { useColorScheme } from 'react-native'
 import { Button, Stack, Text } from 'tamagui'
 
+import getColors from '~/constants/Colors'
+import { useAppFonts } from '~/hooks/useAppFonts'
+import useTranslation from '~/hooks/useTranslation'
 const TimePicker: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedHour, setSelectedHour] = useState<string | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedMinute, setSelectedMinute] = useState<string | null>(null)
-
+  const { fonts } = useAppFonts()
+  const { t } = useTranslation()
+  const colors = getColors(useColorScheme())
   // Hàm tạo danh sách giờ từ 07:30 AM đến 10:30 PM với phút là 00 và 30
   const generateTimes = (): string[] => {
     const times: string[] = []
@@ -38,27 +45,31 @@ const TimePicker: React.FC = () => {
   const renderItem: ListRenderItem<string> = ({ item: time }) => (
     <Button
       size="$4"
-      backgroundColor={selectedTime === time ? '#E1F5FA' : 'transparent'}
-      borderColor={selectedTime === time ? '#156778' : '#ADB3BC'}
-      borderWidth={2}
-      borderRadius={50} // Rounded edges to mimic the pill shape
-      onPress={() => { handleTimeSelection(time) }} // Cập nhật thời gian đã chọn
+      backgroundColor={selectedTime === time
+        ? colors.bookingDetailsBackgroundCard
+        : colors.lightGray}
+      borderColor={selectedTime === time
+        ? colors.blueSapphire
+        : colors.placeholderColor}
+      borderRadius={50}
+      onPress={() => { handleTimeSelection(time) }}
       paddingHorizontal="$4"
       marginHorizontal="$2"
-      color={'#156778'}
+      color={colors.blueSapphire}
     >
       {time}
     </Button>
   )
 
   return (
-    <Stack space="$4" paddingTop={10}>
-      <Text >Time</Text>
+    <Stack space="$4" padding={16}>
+      <Text fontFamily={fonts.JetBrainsMonoBold} >{t('specialist.time')}</Text>
       <FlatList
         data={times}
         keyExtractor={(item) => item}
         horizontal
         renderItem={renderItem}
+        showsHorizontalScrollIndicator= {false}
       />
     </Stack>
   )
