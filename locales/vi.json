@@ -62,7 +62,9 @@
             "emtyName":"Không để trống tên!",
             "emtyPassword":"Mật khẩu quá ngắn!",
             "passwordDoesNotMatch":"Mật khẩu không trùng khớp!",
-            "checkPhone":"Phải là số điện thoại!"
+            "checkPhone":"Phải là số điện thoại!",
+            "registeredPhoneNumber": "Số điện thoại đã được đăng kí!"
+
         },
         "onboarding": {
             "getStarted": "Bắt đầu",
