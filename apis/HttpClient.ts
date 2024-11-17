@@ -13,7 +13,7 @@ const headers = {
 export interface Response<T = any> {
   statusCode?: number
   message?: string
-  data?: T
+  result?: T
   path?: string
   success?: boolean
 
