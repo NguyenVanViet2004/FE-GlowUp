@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScrollView, View } from 'tamagui'
@@ -30,44 +30,47 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
   const [passwordError, setPasswordError] = useState<string>('')
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('')
 
-  const validateForm = (): void => {
-    const nameError = fullName === '' ||
-    fullName === null
-      ? t('screens.signUp.emtyName')
-      : ''
-    const passwordError = password.length >= 6
-      ? ''
-      : t('screens.signUp.emtyPassword')
-    const confirmPasswordError = password === confirmPassword
-      ? ''
-      : t('screens.signUp.passwordDoesNotMatch')
-    const phoneError = validatePhoneNumber(phoneNumber)
-      ? ''
-      : t('screens.signUp.checkPhone')
-
-    setPasswordError(passwordError)
-    setConfirmPasswordError(confirmPasswordError)
-    setPhoneError(phoneError)
-    setNameError(nameError)
+  // Hàm validate từng trường
+  const validateFullName = (value: string): void => {
+    setNameError(value !== '' ? '' : t('screens.signUp.emtyName'))
   }
 
-  useEffect(() => {
-    validateForm()
-  }, [fullName, phoneNumber, password, confirmPassword])
+  const validatePhoneNumberInput = (value: string): void => {
+    setPhoneError(
+      validatePhoneNumber(value) ? '' : t('screens.signUp.checkPhone')
+    )
+  }
+
+  const validatePasswordInput = (value: string): void => {
+    setPasswordError(
+      value.length >= 6 ? '' : t('screens.signUp.emtyPassword')
+    )
+  }
+
+  const validateConfirmPasswordInput = (value: string): void => {
+    setConfirmPasswordError(
+      value === password ? '' : t('screens.signUp.passwordDoesNotMatch')
+    )
+  }
 
   const handleSignUp = async (): Promise<void> => {
+    validateFullName(fullName)
+    validatePhoneNumberInput(phoneNumber)
+    validatePasswordInput(password)
+    validateConfirmPasswordInput(confirmPassword)
+
+    if (
+      isNil(nameError) ||
+      isNil(phoneError) ||
+      isNil(passwordError) ||
+      isNil(confirmPasswordError) ||
+      fullName === '' ||
+      phoneNumber === '' ||
+      password === '' ||
+      confirmPassword === ''
+    ) { return }
+
     try {
-      validateForm()
-
-      if (
-        isNil(nameError) ||
-        isNil(phoneError) ||
-        isNil(passwordError) ||
-        isNil(confirmPasswordError)
-      ) {
-        return
-      }
-
       const payload = {
         full_name: fullName,
         password,
@@ -75,14 +78,15 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
       }
 
       const res = await request.post('/auth/register', payload)
-      if (res.success) {
+
+      if (res.success === true) {
         router.replace('/authentication/Login')
         Alert.alert(
           t('screens.signUp.succes'),
           t('screens.signUp.accountCreatedSuccessfully')
         )
       } else {
-        setPhoneError(res.message)
+        setPhoneError(t('screens.signUp.registeredPhoneNumber'))
       }
     } catch (err) {
       Alert.alert(
@@ -113,22 +117,34 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
               visibleForgotPassword={false}
               visibleSpace={false}
               onLoginPress={() => {
-                handleSignUp().catch(err => { console.log(err) })
+                handleSignUp().catch((err) => { console.log(err) })
               }}
               onLoginGooglePress={() => {}}
               positiveButtonTitle={t('screens.login.joinNow')}
               negativeButtonTitle={t('screens.signUp.joinWithGoogle')}
-              onChangeNameText={setFullName}
-              onChangePhoneText={setPhoneNumber}
-              onChangePasswordText={setPassword}
-              onChangeConfirmPassWordText={setConfirmPassword}
+              onChangeNameText={(value) => {
+                setFullName(value)
+                validateFullName(value)
+              }}
+              onChangePhoneText={(value) => {
+                setPhoneNumber(value)
+                validatePhoneNumberInput(value)
+              }}
+              onChangePasswordText={(value) => {
+                setPassword(value)
+                validatePasswordInput(value)
+              }}
+              onChangeConfirmPassWordText={(value) => {
+                setConfirmPassword(value)
+                validateConfirmPasswordInput(value)
+              }}
               nameError={nameError}
               phoneError={phoneError}
               passwordError={passwordError}
               confirmPasswordError={confirmPasswordError}
             />
           </View>
-          <View marginTop={'18%'} >
+          <View marginTop={'18%'}>
             <TextWithLink
               heading={t('screens.signUp.alreadyHaveAnAccount')}
               linkText={t('screens.login.signIn')}
