@@ -13,7 +13,7 @@ interface Props extends ViewProps {
   nameCombo: string
   percent: string
 }
-const Banner = (props: Props): React.ReactElement => {
+const BannerCombo = (props: Props): React.ReactElement => {
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
 
@@ -54,7 +54,7 @@ const Banner = (props: Props): React.ReactElement => {
   )
 }
 
-export default Banner
+export default BannerCombo
 const styles = StyleSheet.create({
   banner: {
     padding: 20
