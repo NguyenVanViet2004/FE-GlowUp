@@ -51,7 +51,7 @@ const LoginTemplate: React.FC = (): JSX.Element => {
       }
 
       const response = await request.post<User>('/auth/login', payload)
-      if (!isNil(response.refresh_token) && !isNil(response.access_token)) {
+      if (response.result !== null ) {
         await setObjectItem('userData', response)
         setUser(response)
         router.replace('/(tabs)/home')
