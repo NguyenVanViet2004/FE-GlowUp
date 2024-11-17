@@ -11,6 +11,7 @@ const headers = {
 }
 
 export interface Response<T = any> {
+  data?: T | null
   statusCode?: number
   message?: string
   result?: T
