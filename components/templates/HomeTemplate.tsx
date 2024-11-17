@@ -1,22 +1,25 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import React, { useState } from 'react'
+import { isNil } from 'lodash'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, useColorScheme } from 'react-native'
 import { View } from 'tamagui'
 
 import ContentTitle from '~/components/atoms/ContentTitle'
-import Banner from '~/components/molecules/Banner'
+import Loading from '~/components/atoms/Loading'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import ListCombo from '~/components/molecules/ListCombo'
 import SpecialComboCard from '~/components/molecules/SpecialComboCard'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
+import useFetchBanner from '~/hooks/useFetchBanner'
 import useFetchCombo from '~/hooks/useFetchCombo'
 import useTranslation from '~/hooks/useTranslation'
+import type Banner from '~/interfaces/Banner'
 import type Combo from '~/interfaces/Combo'
 
-import Loading from '../atoms/Loading'
+import BannerCombo from '../molecules/BannerCombo'
 
-const MemoizedBanner = React.memo(Banner)
+const MemoizedBanner = React.memo(BannerCombo)
 const MemoizedListCombo = React.memo(ListCombo)
 const MemoizedSpecialComboCard = React.memo(SpecialComboCard)
 
@@ -29,10 +32,17 @@ const HomeTemplate = (): React.ReactElement => {
 
   const backGroundColor = isDarkMode ? 'transparent' : colors.ghostWhite
   const { combos, isLoading } = useFetchCombo()
-
+  const { banner } = useFetchBanner()
+  const [bannerData, setBannerData] = useState<Banner | null>(null)
   const handleSelectCombo = (combo: Combo): void => {
     setSelectCombo(combo)
   }
+  useEffect(() => {
+    if (!isNil(banner) && banner.length > 0) {
+      setBannerData(banner[0])
+    }
+    console.log(bannerData?.banner[0])
+  }, [banner])
   return (
     <LinearGradientBackground>
       <SafeAreaView
@@ -53,14 +63,15 @@ const HomeTemplate = (): React.ReactElement => {
               <MaterialCommunityIcons
                 name="bell-ring-outline"
                 size={24}
-                color="black" />
+                color={isDarkMode ? colors.white : colors.black} />
             </View>
           </View>
 
           <MemoizedBanner
             marginTop={15}
-            img={require('~/assets/images/imgBanner.png')}
-            nameCombo="Morning Special!"
+            img={bannerData?.banner[0] ??
+              require('~/assets/images/imgBanner.png')}
+            nameCombo={bannerData?.name ?? ''}
             percent="20"
           />
 

@@ -12,7 +12,6 @@ const useFetchCombo = (): any => {
     const fetchCombos = async (): Promise<void> => {
       try {
         const response = await request.get<Combo[]>('combo')
-        console.log(response)
         if (response?.success && !isNil(response.data)) {
           setCombos(response.data)
         }
