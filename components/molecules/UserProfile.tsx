@@ -38,7 +38,9 @@ const UserProfile = ({ user }: props): JSX.Element => {
         borderColor="$borderColor" >
         <Avatar.Image
           accessibilityLabel="Cam"
-          src={user.result.avatar ?? 'https://xsgames.co/randomusers/avatar.php?g=female'}
+          src={user.result.avatar ??
+            'https://xsgames.co/randomusers/avatar.php?g=female'
+          }
         />
         <Avatar.Fallback alignItems="center" justifyContent="center">
           <User2 size="$3" color={colors.gray} />

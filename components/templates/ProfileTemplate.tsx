@@ -4,8 +4,7 @@ import { type TFunction } from 'i18next'
 import React from 'react'
 import { Alert, StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, ScrollView, Text } from 'tamagui'
 
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
@@ -15,12 +14,7 @@ import getColors from '~/constants/Colors'
 import { resetUser } from '~/features/userSlice'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
-import { GenderEnum } from '~/interfaces/enum/Gender'
-import { Rank } from '~/interfaces/enum/Rank'
-import { Role } from '~/interfaces/enum/Role'
-import type Membership from '~/interfaces/Membership'
-import type User from '~/interfaces/User'
-import { RootState } from '~/redux/store'
+import { type RootState } from '~/redux/store'
 
 const useHandleLogout = (
   t: TFunction<'translation', undefined>,
@@ -51,7 +45,7 @@ const ProfileTemplate = (): React.ReactElement => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { removeItem } = useStorage()
-  const userData = useSelector((state:RootState) => state.user)
+  const userData = useSelector((state: RootState) => state.user)
 
   return (
     <LinearGradientBackground>
@@ -67,9 +61,8 @@ const ProfileTemplate = (): React.ReactElement => {
             borderRadius="$2"
             borderColor="red"
             onPress={useHandleLogout(t, router, () => {
-              // Remove cached data here
               dispatch(resetUser())
-              removeItem('userData')
+              removeItem('userData').catch(err => { console.log(err) })
             })}
             icon={<LogOut color="$danger" />}
             justifyContent="center">

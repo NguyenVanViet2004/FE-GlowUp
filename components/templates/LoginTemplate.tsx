@@ -56,8 +56,8 @@ const LoginTemplate: React.FC = (): JSX.Element => {
       if (response.result !== null) {
         await setObjectItem('userData', response)
         dispatch(setUser(response))
-        console.log(response);
-        
+        console.log(response)
+
         router.replace('/(tabs)/home')
       } else {
         setPasswordError(t('screens.login.incorrectAccountOrPassword'))
