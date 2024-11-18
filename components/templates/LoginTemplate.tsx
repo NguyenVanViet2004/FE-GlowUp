@@ -3,6 +3,7 @@ import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { ScrollView, View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
@@ -17,6 +18,7 @@ import type User from '~/interfaces/User'
 
 const LoginTemplate: React.FC = (): JSX.Element => {
   const { setObjectItem } = useStorage<string | object>()
+  const dispatch = useDispatch()
   const { t } = useTranslation()
   const router = useRouter()
   const [phoneNumber, setPhoneNumber] = useState<string>('')
@@ -53,7 +55,8 @@ const LoginTemplate: React.FC = (): JSX.Element => {
       const response = await request.post<User>('/auth/login', payload)
       if (response.result !== null) {
         await setObjectItem('userData', response)
-        setUser(response)
+        // setUser(response)
+        dispatch(setUser(response))
         router.replace('/(tabs)/home')
       } else {
         setPasswordError(t('screens.login.incorrectAccountOrPassword'))
