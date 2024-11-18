@@ -19,8 +19,9 @@ const useFetchBanner = (): UseFetchComboReturn => {
         setIsLoading(true)
         const response =
         await request.get<Banner[]>('banner')
-        if (response?.success && !isNil(response.data)) {
-          setBanner(response.data)
+        console.log(response)
+        if (response?.success && !isNil(response.result)) {
+          setBanner(response.result)
         }
       } catch (err: any) {
         console.error('Error fetching combos:', err)

@@ -11,9 +11,9 @@ const useFetchCombo = (): any => {
   useEffect(() => {
     const fetchCombos = async (): Promise<void> => {
       try {
-        const response = await request.get<Combo[]>('combo')
-        if (response?.success && !isNil(response.data)) {
-          setCombos(response.data)
+        const response = await request.get<Combo[]>('combo')        
+        if (response?.success && !isNil(response.result)) {
+          setCombos(response.result)
         }
       } catch (err) {
         console.error('Error fetching combos:', err)
