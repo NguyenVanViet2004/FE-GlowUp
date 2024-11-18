@@ -41,7 +41,6 @@ const HomeTemplate = (): React.ReactElement => {
     if (!isNil(banner) && banner.length > 0) {
       setBannerData(banner[0])
     }
-    console.log(bannerData?.banner[0])
   }, [banner])
   return (
     <LinearGradientBackground>
