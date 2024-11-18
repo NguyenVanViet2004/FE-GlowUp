@@ -4,18 +4,23 @@ import { type TFunction } from 'i18next'
 import React from 'react'
 import { Alert, StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button, ScrollView, Text } from 'tamagui'
 
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import UserProfile from '~/components/molecules/UserProfile'
 import SettingList from '~/components/organisms/SettingList'
 import getColors from '~/constants/Colors'
+import { resetUser } from '~/features/userSlice'
+import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import { GenderEnum } from '~/interfaces/enum/Gender'
 import { Rank } from '~/interfaces/enum/Rank'
 import { Role } from '~/interfaces/enum/Role'
 import type Membership from '~/interfaces/Membership'
 import type User from '~/interfaces/User'
+import { RootState } from '~/redux/store'
 
 const useHandleLogout = (
   t: TFunction<'translation', undefined>,
@@ -27,6 +32,7 @@ const useHandleLogout = (
       {
         onPress: () => {
           removeCachedData()
+
           router.replace('/authentication/Login')
         },
         text: t('button.confirm')
@@ -43,32 +49,16 @@ const ProfileTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
   const router = useRouter()
-  const membership: Membership = {
-    name: Rank.BRONZE,
-    point: 0
-  }
-  const userExample: User = {
-    _id: '',
-    address: null,
-    avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female',
-    dateOfBirth: null,
-    email: '',
-    fullName: 'Baby shark',
-    gender: GenderEnum.MALE,
-    membership,
-    password: '',
-    phoneNumber: '+1 (123) 456-7890',
-    point: 0,
-    role: Role.USER,
-    token: 'hehe boy :)'
-  }
+  const dispatch = useDispatch()
+  const { removeItem } = useStorage()
+  const userData = useSelector((state:RootState) => state.user)
 
   return (
     <LinearGradientBackground>
       <ScrollView fullscreen showsVerticalScrollIndicator={false}>
         <SafeAreaView style={styles.container}>
 
-          <UserProfile user={userExample} />
+          <UserProfile user={userData} />
           <SettingList colors={colors} />
 
           <Button
@@ -78,6 +68,8 @@ const ProfileTemplate = (): React.ReactElement => {
             borderColor="red"
             onPress={useHandleLogout(t, router, () => {
               // Remove cached data here
+              dispatch(resetUser())
+              removeItem('userData')
             })}
             icon={<LogOut color="$danger" />}
             justifyContent="center">

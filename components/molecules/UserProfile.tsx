@@ -38,7 +38,7 @@ const UserProfile = ({ user }: props): JSX.Element => {
         borderColor="$borderColor" >
         <Avatar.Image
           accessibilityLabel="Cam"
-          src={user.avatarUrl ?? ''}
+          src={user.result.avatar ?? 'https://xsgames.co/randomusers/avatar.php?g=female'}
         />
         <Avatar.Fallback alignItems="center" justifyContent="center">
           <User2 size="$3" color={colors.gray} />
@@ -46,9 +46,9 @@ const UserProfile = ({ user }: props): JSX.Element => {
       </Avatar>
       <View flex={1} flexDirection="column">
         <Text fontSize={18} fontWeight="600" color={colors.text}>
-          {user.fullName}
+          {user.result.full_name}
         </Text>
-        <Text color={colors.text}>{user.phoneNumber}</Text>
+        <Text color={colors.text}>{user.result.phone_number}</Text>
       </View>
       <Button
         icon={isDarkMode
