@@ -1,19 +1,21 @@
 import { type GenderEnum } from '~/interfaces/enum/Gender'
 import { type Role } from '~/interfaces/enum/Role'
-import type Membership from '~/interfaces/Membership'
 
 export default interface User {
-  _id: string
-  avatarUrl: string | null
-  email: string
-  password: string
-  phoneNumber: string
-  address: string | null
-  gender: GenderEnum
-  dateOfBirth: Date | null
-  fullName: string
-  role: Role
-  membership: Membership
-  point: number
-  token: string
+  access_token: string
+  refresh_token: string
+  result: {
+    profile: string | null
+    id: string
+    gender: GenderEnum
+    role: Role
+    full_name: string
+    phone_number: string
+    avatar: string | null
+    date_of_birth: string | null
+    address: string | null
+    createdAt: string
+    updatedAt: string
+  }
+
 }

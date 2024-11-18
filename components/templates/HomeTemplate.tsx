@@ -1,23 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Text, View } from 'tamagui'
 
-import { request } from '~/apis/HttpClient'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { type RootState } from '~/redux/store'
 
 const HomeTemplate = (): React.ReactElement => {
   const { fonts } = useAppFonts()
-
-  useEffect(() => {
-    const getData = async (): Promise<void> => {
-      try {
-        const res = await request.get('/vouchers')
-        console.log(res)
-      } catch (e: any) {
-        console.error(e)
-      }
-    }
-    void getData()
-  }, [])
+  const user = useSelector((state: RootState) => state.user)
 
   return (
     <View
@@ -27,7 +17,7 @@ const HomeTemplate = (): React.ReactElement => {
       <Text
         fontSize={20}
         fontFamily={fonts.JetBrainsMonoBold}>
-        HomeTemplate
+        {user.result.full_name}
       </Text>
     </View>
   )
