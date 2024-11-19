@@ -16,7 +16,13 @@
     },
     "screens": {
         "home": {
-            "title": "Trang chủ"
+            "title": "Trang chủ",
+            "yourBeautyIsOurPride": "Vẻ đẹp của bạn là niềm tự hào của chúng tôi",
+            "enterAddressOrCityName": "Nhập dịch vụ",
+            "services": "Dịch vụ",
+            "combo": "Gói dịch vụ",
+            "bookNow": "Đặt ngay",
+            "open": "Mở"
         },
         "booking": {
             "title": "Đặt lịch"
@@ -36,11 +42,15 @@
             "loginPrompt": "Rất vui được gặp lại bạn!, vui lòng đăng nhập để sử dụng ứng dụng.",
             "email": "Email của bạn",
             "password": "Mật khẩu của bạn",
+            "confirmPassword": "Nhập lại mật khẩu",
             "forgotPassword": "Quên mật khẩu?",
             "signIn": "Đăng nhập",
             "signInWithGoogle": "Đăng nhập bằng google",
             "signupPrompt": "Bạn chưa có tài khoản?",
-            "joinNow": "Đăng ký ngay"
+            "joinNow": "Đăng ký ngay",
+            "emtyPhone": "Không để trống số điện thoại!",
+            "emtyPassword":"Không để trống mật khẩu!",
+            "incorrectAccountOrPassword": "Tài khoản hoặc mật khẩu không đúng!"
         },
         "signUp": {
             "name": "Tên của bạn",
@@ -50,7 +60,17 @@
             "createAnAccount": "Tạo một tài khoản,",
             "signUpPrompt": "Vui lòng nhập đầy đủ thông tin bên dưới và chúng tôi có thể tạo tài khoản cho bạn",
             "alreadyHaveAnAccount": "Đã có tài khoản?",
-            "joinWithGoogle": "Tham gia với Google"
+            "joinWithGoogle": "Tham gia với Google",
+            "succes": "Thành công",
+            "accountCreatedSuccessfully" : "Tạo tài khoản thành công",
+            "accountCreatedFalse": "Thao tác thất bại",
+            "false": "Thất bại",
+            "emtyName":"Không để trống tên!",
+            "emtyPassword":"Mật khẩu quá ngắn!",
+            "passwordDoesNotMatch":"Mật khẩu không trùng khớp!",
+            "checkPhone":"Phải là số điện thoại!",
+            "registeredPhoneNumber": "Số điện thoại đã được đăng kí!"
+
         },
         "onboarding": {
             "getStarted": "Bắt đầu",

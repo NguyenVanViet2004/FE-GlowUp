@@ -16,7 +16,13 @@
     },
     "screens": {
         "home": {
-            "title": "Home"
+            "title": "Home",
+            "yourBeautyIsOurPride": "Your beauty is our pride",
+            "enterAddressOrCityName":"Enter service or combo",
+            "services":"Services",
+            "combo":"Combo",
+            "bookNow":"Book Now",
+            "open": "Open"
         },
         "booking": {
             "title": "Bookings"
@@ -36,11 +42,15 @@
             "loginPrompt": "Glad to meet you again!, please login to use the app.",
             "email": "Email address",
             "password": "Password",
+            "confirmPassword": "Confirm Password",
             "forgotPassword": "Forgot password?",
             "signIn": "Sign In",
             "signInWithGoogle": "Sign in with google",
             "signupPrompt": "Don't have an account?",
-            "joinNow": "Join Now"
+            "joinNow": "Join Now",
+            "emtyPhone": "Do not leave phone blank!",
+            "emtyPassword":"Do not leave password blank!",
+            "incorrectAccountOrPassword!":"Incorrect account or password!"
         },
         "signUp": {
             "name": "Name",
@@ -50,7 +60,16 @@
             "createAnAccount": "Create an account,",
             "signUpPrompt": "Please type full information bellow and we can create your account",
             "alreadyHaveAnAccount": "Already have an account?",
-            "joinWithGoogle": "Join with Google"
+            "joinWithGoogle": "Join with Google",
+            "succes": "Successfully",
+            "accountCreatedSuccessfully" : "Account created successfully",
+            "accountCreatedFalse": "Operation failed",
+            "false": "Failed",
+            "emtyName":"Do not leave name blank!",
+            "emtyPassword":"Password too short!",
+            "passwordDoesNotMatch":"Password does not match!",
+            "checkPhone":"Must be a phone number!",
+            "registeredPhoneNumber": "Registered phone number!"
         },
         "onboarding": {
             "getStarted": "Get started",

@@ -1,5 +1,6 @@
 import { ChevronLeft, Map } from '@tamagui/lucide-icons'
 import { router, useLocalSearchParams } from 'expo-router'
+import { isNil } from 'lodash'
 import React from 'react'
 import { ImageBackground, StyleSheet, useColorScheme } from 'react-native'
 import { Button, ScrollView, Separator, View } from 'tamagui'
@@ -42,7 +43,11 @@ const ComboDetailTemplate = (): React.ReactElement => {
     <LinearGradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={{ uri: parsedItem.picture }}
+          source={
+            !isNil( parsedItem.picture ) && parsedItem.picture !== ''
+            ? { uri: parsedItem.picture }
+            : require('~/assets/images/backGroundDetail.png')
+          }
           style={styles.imageBackground}
         >
 

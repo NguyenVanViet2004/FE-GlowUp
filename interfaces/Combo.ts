@@ -1,12 +1,11 @@
-import type Step from '~/interfaces/Step'
-import type Voucher from '~/interfaces/voucher'
-
 export default interface Combo {
-  _id: string
-  imageUrl: string
-  price: number
+  id: string
   name: string
   description: string
-  steps: Step[]
-  voucher?: Voucher
+  price: number
+  picture: string
+  services: string[]
+  createdAt: string
+  updatedAt: string
+  deleted: boolean
 }

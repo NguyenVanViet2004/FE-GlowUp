@@ -29,7 +29,7 @@ const StepList = (props: Props): JSX.Element => {
     const getData = async (): Promise<void> => {
       try {
         const res = await request.get<Step[]>('/service')
-        setDataService(res.data as [])
+        setDataService(res.result as [])
       } catch (e: any) {
         console.error(e)
       }

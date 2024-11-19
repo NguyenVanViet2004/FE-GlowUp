@@ -4,11 +4,12 @@ import { FlatList, useColorScheme } from 'react-native'
 import { Image, Text, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
-import { dataStylist } from '~/constants/StylistData'
+import useFetchStylist from '~/hooks/useFetchStylist'
 import type Stylist from '~/interfaces/Stylist'
 
 const StylistList = (): JSX.Element => {
   const colors = getColors(useColorScheme())
+  const { styList } = useFetchStylist()
 
   const renderStylistItem = ({
     item
@@ -18,8 +19,8 @@ const StylistList = (): JSX.Element => {
     <YStack alignItems="center" marginBottom={20} paddingRight={14}>
       <Image
         source={
-          !isNil(item.avatarUrl) && item.avatarUrl !== ''
-            ? { uri: item.avatarUrl }
+          !isNil(item.avatar) && item.avatar !== ''
+            ? { uri: item.avatar }
             : require('~/assets/images/avataDefault.jpg')
         }
         width={72}
@@ -28,15 +29,15 @@ const StylistList = (): JSX.Element => {
         marginBottom={5}
       />
       <Text fontSize={14} color={colors.text}>
-        {item.fullName}
+        {item.full_name}
       </Text>
     </YStack>
   )
   return (
     <FlatList
-      data={dataStylist}
+      data={styList}
       renderItem={renderStylistItem}
-      keyExtractor={(item) => item._id}
+      keyExtractor={(item) => item.id}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     />

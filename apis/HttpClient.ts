@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import store from '~/redux/store'
 
-const BASE_URL = 'http://192.168.1.101:3000/'
+const BASE_URL = 'http://192.168.1.8:3000/'
 
 const headers = {
   'Content-Type': 'application/json',
@@ -11,10 +11,12 @@ const headers = {
 }
 
 export interface Response<T = any> {
-  data: T
+  statusCode?: number
+  message?: string
+  result?: T
+  path?: string
   success: boolean
-  message: string
-  result: T
+  data?: T | null
 }
 
 export type MyResponse<T = any> = Promise<Response<T>>
