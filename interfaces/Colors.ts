@@ -37,4 +37,6 @@ export interface Colors {
   midnightBlue: string
   textDate: string
   bgDate: string
+  bgInput: string
+  bgSearch: string
 }

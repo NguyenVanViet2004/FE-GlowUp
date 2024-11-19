@@ -5,6 +5,8 @@ import { type Colors } from '~/interfaces/Colors'
 const colors: Record<'light' | 'dark', Colors> = {
   dark: {
     bgDate: '#007B83',
+    bgInput: '#E1F5FA',
+    bgSearch: '#E1F5FA',
     black: '#000000',
     blue: '#235AFF',
     blueOTP: '#898A8D',
@@ -47,6 +49,8 @@ const colors: Record<'light' | 'dark', Colors> = {
   },
   light: {
     bgDate: '#007B83',
+    bgInput: '#E1F5FA',
+    bgSearch: '#F0F3F6',
     black: '#000000',
     blue: '#235AFF',
     blueOTP: '#235AFF',
