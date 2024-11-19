@@ -17,8 +17,7 @@ export interface Response<T = any> {
   message?: string
   result?: T
   path?: string
-  success: boolean
-  data?: T | null
+  success?: boolean  
 }
 
 export type MyResponse<T = any> = Promise<Response<T>>
