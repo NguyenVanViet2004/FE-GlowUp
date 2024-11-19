@@ -1,13 +1,13 @@
-import { AntDesign, FontAwesome5 } from '@expo/vector-icons'
-import { Clock, Star } from '@tamagui/lucide-icons'
-import TextWithIcon from 'components/atoms/TextWithIcon'
+// import { AntDesign, FontAwesome5 } from '@expo/vector-icons'
+// import { Clock, Star } from '@tamagui/lucide-icons'
+// import TextWithIcon from 'components/atoms/TextWithIcon'
 import React from 'react'
 import { useColorScheme } from 'react-native'
-import { Text, type TextProps, XStack, YStack } from 'tamagui'
+import { Text, type TextProps, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
-import useTranslation from '~/hooks/useTranslation'
+// import useTranslation from '~/hooks/useTranslation'
 
 type Props = {
   comboName: string
@@ -21,7 +21,7 @@ type Props = {
 const ServiceCardTitle = (props: Props): JSX.Element => {
   const colors = getColors(useColorScheme())
   const { fonts } = useAppFonts()
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   return (
     <YStack gap={50}>
       <Text
@@ -32,7 +32,7 @@ const ServiceCardTitle = (props: Props): JSX.Element => {
         {props.comboName}
       </Text>
 
-      <XStack gap={20}>
+      {/* <XStack gap={20}>
         <YStack gap={20}>
           <TextWithIcon
             icon={<Clock size={20} color={colors.blueSapphire} />}
@@ -73,7 +73,7 @@ const ServiceCardTitle = (props: Props): JSX.Element => {
             title={`${props.viewsCombo} ${t('screens.details.views')}`}
           />
         </YStack>
-      </XStack>
+      </XStack> */}
 
     </YStack>
   )

@@ -13,7 +13,7 @@ import OurServices from '~/components/molecules/OurServices'
 import OurSpecialist from '~/components/molecules/OurSpecialist'
 import ServiceCardTitle from '~/components/molecules/ServiceCardTitle'
 import TotalAmount from '~/components/molecules/TotalAmount'
-import UserReviews from '~/components/molecules/UserReviews'
+// import UserReviews from '~/components/molecules/UserReviews'
 import getColors from '~/constants/Colors'
 import useTranslation from '~/hooks/useTranslation'
 
@@ -44,9 +44,9 @@ const ComboDetailTemplate = (): React.ReactElement => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
           source={
-            !isNil( parsedItem.picture ) && parsedItem.picture !== ''
-            ? { uri: parsedItem.picture }
-            : require('~/assets/images/backGroundDetail.png')
+            !isNil(parsedItem.picture) && parsedItem.picture !== ''
+              ? { uri: parsedItem.picture }
+              : require('~/assets/images/backGroundDetail.png')
           }
           style={styles.imageBackground}
         >
@@ -90,7 +90,7 @@ const ComboDetailTemplate = (): React.ReactElement => {
               data={parsedItem}
             />
             <OurSpecialist />
-            <UserReviews />
+            {/* <UserReviews /> */}
           </View>
         </View>
       </ScrollView>
