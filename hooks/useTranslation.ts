@@ -1,4 +1,4 @@
-import * as Localization from 'expo-localization'
+// import * as Localization from 'expo-localization'
 import i18next from 'i18next'
 import { useEffect, useState } from 'react'
 import { initReactI18next, useTranslation } from 'react-i18next'
@@ -7,12 +7,12 @@ import en from '~/locales/en.json'
 import vi from '~/locales/vi.json'
 
 const initializeI18n = async (): Promise<void> => {
-  const languageCode = Localization.getLocales()[0]?.languageCode ?? 'en'
+  // const languageCode = Localization.getLocales()[0]?.languageCode ?? 'en'
   await i18next
     .use(initReactI18next)
     .init({
       compatibilityJSON: 'v3',
-      fallbackLng: languageCode,
+      fallbackLng: 'vi',
       interpolation: {
         escapeValue: false
       },
