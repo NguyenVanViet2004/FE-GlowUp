@@ -1,7 +1,7 @@
 import { isNil } from 'lodash'
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { type SafeAreaProviderProps, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { type SafeAreaProviderProps, SafeAreaView, type SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ScrollView, Separator, View, type ViewProps } from 'tamagui'
 
 import AppHeader, { type headerProps } from '~/components/molecules/common/AppHeader'
@@ -54,8 +54,11 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
       <ScrollView fullscreen
         marginTop={isNil(headerTitle) ? undefined : headerHeight}
         showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={{ ...styles.container, ...props as any }}
-          edges={edges}>
+        <SafeAreaView style={{
+          ...styles.container,
+          ...props as SafeAreaViewProps
+        }}
+        edges={edges}>
           {children}
         </SafeAreaView>
       </ScrollView>

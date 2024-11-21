@@ -1,20 +1,20 @@
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { Alert, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Alert } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { ScrollView, View } from 'tamagui'
+import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
 import InputForm from '~/components/molecules/InputForm'
-import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import TextWithLink from '~/components/molecules/TextWithLink'
 import { setUser } from '~/features/userSlice'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import type User from '~/interfaces/User'
+
+import GradientScrollContainer from '../molecules/container/GradientScrollContainer'
 
 const LoginTemplate: React.FC = (): JSX.Element => {
   const { setObjectItem } = useStorage<string | object>()
@@ -71,63 +71,52 @@ const LoginTemplate: React.FC = (): JSX.Element => {
     }
   }
 
-  const redirectToSignUp = (): void => {
+  const redirectToHome = (): void => {
     router.push('/authentication/SignUp')
   }
 
   return (
-    <LinearGradientBackground>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={styles.container}>
-          <View marginTop={'13%'}>
-            <ContentTitle
-              title={t('screens.login.welcomeBack')}
-              subtitle={t('screens.login.loginPrompt')}
-            />
-          </View>
+    <GradientScrollContainer>
+      <View marginTop={'15%'}>
+        <ContentTitle
+          title={t('screens.login.welcomeBack')}
+          subtitle={t('screens.login.loginPrompt')}
+        />
+      </View>
 
-          <View marginTop={'25%'}>
-            <InputForm
-              visibleInputWithIcons={false}
-              visibleForgotPassword={true}
-              visibleSpace={true}
-              onLoginPress={() => {
-                handleLogin().catch((err) => { console.log(err) })
-              }}
-              onLoginGooglePress={() => {}}
-              positiveButtonTitle={t('screens.login.signIn')}
-              negativeButtonTitle={t('screens.login.signInWithGoogle')}
-              onChangePhoneText={(value) => {
-                setPhoneNumber(value)
-                validatePhoneNumber(value)
-              }}
-              onChangePasswordText={(value) => {
-                setPassword(value)
-                validatePassword(value)
-              }}
-              passwordError={passwordError}
-              phoneError={phoneError}
-            />
-          </View>
+      <View marginTop={'25%'} flex={1}>
+        <InputForm
+          visibleInputWithIcons={false}
+          visibleForgotPassword={true}
+          visibleSpace={true}
+          onLoginPress={() => {
+            handleLogin().catch((err) => { console.log(err) })
+          }}
+          onLoginGooglePress={() => { router.replace('/(tabs)/home') }}
+          positiveButtonTitle={t('screens.login.signIn')}
+          negativeButtonTitle={'Bỏ qua'}
+          onChangePhoneText={(value) => {
+            setPhoneNumber(value)
+            validatePhoneNumber(value)
+          }}
+          onChangePasswordText={(value) => {
+            setPassword(value)
+            validatePassword(value)
+          }}
+          passwordError={passwordError}
+          phoneError={phoneError}
+        />
+      </View>
 
-          <View marginTop={'25%'}>
-            <TextWithLink
-              heading={t('screens.login.signupPrompt')}
-              linkText={t('screens.login.joinNow')}
-              onLinkPress={redirectToSignUp}
-            />
-          </View>
-        </SafeAreaView>
-      </ScrollView>
-    </LinearGradientBackground>
+      <View marginTop={'25%'}>
+        <TextWithLink
+          heading={t('screens.login.signupPrompt')}
+          linkText={t('screens.login.joinNow')}
+          onLinkPress={redirectToHome}
+        />
+      </View>
+    </GradientScrollContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20
-  }
-})
 
 export default LoginTemplate

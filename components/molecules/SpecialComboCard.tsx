@@ -19,7 +19,6 @@ interface Props extends ViewProps {
 const SpecialComboCard = (props: Props): React.ReactElement => {
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
-  const isDarkMode = useColorScheme() === 'dark'
 
   return (
     <Card
@@ -28,7 +27,7 @@ const SpecialComboCard = (props: Props): React.ReactElement => {
       paddingBottom={28}
       paddingHorizontal={24}
       borderRadius={RADIUS_BUTTON}
-      backgroundColor={isDarkMode ? colors.lightMist : colors.white}>
+      backgroundColor={colors.lightMist}>
       <Text
         fontSize={20}
         fontWeight={'bold'}

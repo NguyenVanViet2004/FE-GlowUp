@@ -2,7 +2,7 @@ import { Eye, EyeOff, LockKeyhole, Phone, User2 } from '@tamagui/lucide-icons'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { useColorScheme } from 'react-native'
-import { Image, type InputProps, Separator, Text, View, YStack } from 'tamagui'
+import { type InputProps, Separator, Text, View, YStack } from 'tamagui'
 
 import InputWithIcons from '~/components/atoms/InputWithIcons'
 import { NegativeButton } from '~/components/atoms/NegativeButton'
@@ -126,7 +126,7 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
 
         <View flexDirection="row" alignItems="center" justifyContent="center">
           <Separator borderColor={colors.oceanMist}/>
-          <Text marginHorizontal={20} color={colors.text} >or</Text>
+          <Text marginHorizontal={20} color={colors.text}>Hoặc</Text>
           <Separator borderColor={colors.oceanMist}/>
         </View>
 
@@ -135,12 +135,6 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
           title={props.negativeButtonTitle}
           backgroundColor={colors.white}
           color={colors.labelButton}
-          icon={
-            <Image
-              width={20}
-              height={20}
-              src={require('~/assets/images/iconGoogle.png')} />
-          }
         />
       </YStack>
 
