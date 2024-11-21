@@ -9,6 +9,7 @@ import Loading from '~/components/atoms/Loading'
 import BannerCombo from '~/components/molecules/BannerCombo'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import ListCombo from '~/components/molecules/ListCombo'
+import OurSpecialist from '~/components/molecules/OurSpecialist'
 import SpecialComboCard from '~/components/molecules/SpecialComboCard'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
@@ -17,7 +18,6 @@ import useFetchCombo from '~/hooks/useFetchCombo'
 import useTranslation from '~/hooks/useTranslation'
 import type Banner from '~/interfaces/Banner'
 import type Combo from '~/interfaces/Combo'
-import OurSpecialist from '~/components/molecules/OurSpecialist'
 
 const MemoizedBanner = React.memo(BannerCombo)
 const MemoizedListCombo = React.memo(ListCombo)
@@ -98,7 +98,7 @@ const HomeTemplate = (): React.ReactElement => {
           />
 
           <View marginTop={30}>
-          <OurSpecialist />
+            <OurSpecialist />
           </View>
         </>)}
     </GradientScrollContainer>
