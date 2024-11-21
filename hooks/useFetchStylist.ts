@@ -1,33 +1,35 @@
-import { useEffect, useState } from 'react';
-import { request } from '~/apis/HttpClient';
-import type Stylist from '~/interfaces/Stylist';
+import { isNil } from 'lodash'
+import { useEffect, useState } from 'react'
+
+import { request } from '~/apis/HttpClient'
+import type Stylist from '~/interfaces/Stylist'
 
 const useFetchStylist = (): {
-  stylist: Stylist[];
-  isLoading: boolean;
+  stylist: Stylist[]
+  isLoading: boolean
 } => {
-  const [stylist, setStylist] = useState<Stylist[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [stylist, setStylist] = useState<Stylist[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchStylist = async (): Promise<void> => {
       try {
-        setIsLoading(true);
-        const response = await request.get<Stylist[]>('stylist');
-        if (response?.success && response.data) {
-          setStylist(response.data);
+        setIsLoading(true)
+        const response = await request.get<Stylist[]>('stylist')
+        if (response?.success && !isNil(response.data)) {
+          setStylist(response.data)
         }
       } catch (err) {
-        console.error('Error fetching stylist:', err);
+        console.error('Error fetching stylist:', err)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchStylist();
-  }, []);
+    fetchStylist().catch(err => { console.log(err) })
+  }, [])
 
-  return { stylist, isLoading };
-};
+  return { isLoading, stylist }
+}
 
-export default useFetchStylist;
+export default useFetchStylist
