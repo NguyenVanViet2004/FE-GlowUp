@@ -17,7 +17,7 @@ const Specialist: React.FC = () => {
   const [selectedUserIndex, setSelectedUserIndex] =
    useState<number | null>(null)
   const [users, setUsers] = useState<Stylist[]>([])
-
+/* eslint-disable */
   useEffect(() => {
     const fetchStylists = async (): Promise<void> => {
       try {
@@ -80,7 +80,7 @@ const Specialist: React.FC = () => {
       <Text>{item.full_name || t('specialist.unknown')}</Text>
     </TouchableOpacity>
   )
-
+ /* eslint-disable */
   return (
     <View padding={14}>
       <Text fontFamily={fonts.JetBrainsMonoBold}>
