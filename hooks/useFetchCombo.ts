@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react'
 import { request } from '~/apis/HttpClient'
 import type Combo from '~/interfaces/Combo'
 
-const useFetchCombo = (): any => {
+const useFetchCombo = (): {
+  combos: Combo[]
+  isLoading: boolean
+} => {
   const [combos, setCombos] = useState<Combo[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 

@@ -4,7 +4,7 @@ import { GenderEnum } from '~/interfaces/enum/Gender'
 import { Role } from '~/interfaces/enum/Role'
 import type User from '~/interfaces/User'
 
-const initialState: User = {
+export const initialState: User = {
   access_token: '',
   refresh_token: '',
   result: {

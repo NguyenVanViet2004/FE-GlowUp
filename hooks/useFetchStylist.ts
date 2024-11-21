@@ -1,30 +1,33 @@
-import { isNil } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { request } from '~/apis/HttpClient';
+import type Stylist from '~/interfaces/Stylist';
 
-import { request } from '~/apis/HttpClient'
-import type Stylist from '~/interfaces/Stylist'
-
-const useFetchCombo = (): any => {
-  const [styList, setStyList] = useState<Stylist[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+const useFetchStylist = (): {
+  stylist: Stylist[];
+  isLoading: boolean;
+} => {
+  const [stylist, setStylist] = useState<Stylist[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchCombos = async (): Promise<void> => {
+    const fetchStylist = async (): Promise<void> => {
       try {
-        const response = await request.get<Stylist[]>('stylist')
-        if (response?.success && !isNil(response.data)) {
-          setStyList(response.data)
+        setIsLoading(true);
+        const response = await request.get<Stylist[]>('stylist');
+        if (response?.success && response.data) {
+          setStylist(response.data);
         }
       } catch (err) {
-        console.error('Error fetching combos:', err)
+        console.error('Error fetching stylist:', err);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
-    fetchCombos().catch((err) => { console.error(err) })
-  }, [])
+    };
 
-  return { isLoading, styList }
-}
+    fetchStylist();
+  }, []);
 
-export default useFetchCombo
+  return { stylist, isLoading };
+};
+
+export default useFetchStylist;

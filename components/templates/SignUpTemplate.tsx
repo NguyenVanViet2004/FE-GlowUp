@@ -1,14 +1,13 @@
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { Alert, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, View } from 'tamagui'
+import { Alert } from 'react-native'
+import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
+import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import InputForm from '~/components/molecules/InputForm'
-import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import TextWithLink from '~/components/molecules/TextWithLink'
 import useTranslation from '~/hooks/useTranslation'
 
@@ -101,67 +100,59 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
   }
 
   return (
-    <LinearGradientBackground>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={styles.container}>
-          <View marginTop={'13%'}>
-            <ContentTitle
-              title={t('screens.signUp.createAnAccount')}
-              subtitle={t('screens.signUp.signUpPrompt')}
-            />
-          </View>
+    <GradientScrollContainer>
+      <View marginTop={'15%'}>
+        <ContentTitle
+          title={t('screens.signUp.createAnAccount')}
+          subtitle={t('screens.signUp.signUpPrompt')}
+        />
+      </View>
 
-          <View marginTop={'15%'}>
-            <InputForm
-              visibleInputWithIcons={true}
-              visibleForgotPassword={false}
-              visibleSpace={false}
-              onLoginPress={() => {
-                handleSignUp().catch((err) => { console.log(err) })
-              }}
-              onLoginGooglePress={() => {}}
-              positiveButtonTitle={t('screens.login.joinNow')}
-              negativeButtonTitle={t('screens.signUp.joinWithGoogle')}
-              onChangeNameText={(value) => {
-                setFullName(value)
-                validateFullName(value)
-              }}
-              onChangePhoneText={(value) => {
-                setPhoneNumber(value)
-                validatePhoneNumberInput(value)
-              }}
-              onChangePasswordText={(value) => {
-                setPassword(value)
-                validatePasswordInput(value)
-              }}
-              onChangeConfirmPassWordText={(value) => {
-                setConfirmPassword(value)
-                validateConfirmPasswordInput(value)
-              }}
-              nameError={nameError}
-              phoneError={phoneError}
-              passwordError={passwordError}
-              confirmPasswordError={confirmPasswordError}
-            />
-          </View>
-          <View marginTop={'18%'}>
-            <TextWithLink
-              heading={t('screens.signUp.alreadyHaveAnAccount')}
-              linkText={t('screens.login.signIn')}
-              onLinkPress={redirectToLogin}
-            />
-          </View>
-        </SafeAreaView>
-      </ScrollView>
-    </LinearGradientBackground>
+      <View marginTop={'15%'}>
+        <InputForm
+          visibleInputWithIcons={true}
+          visibleForgotPassword={false}
+          visibleSpace={false}
+          onLoginPress={() => {
+            handleSignUp().catch((err) => { console.log(err) })
+          }}
+          onLoginGooglePress={() => {
+            router.replace('/(tabs)/home')
+          }}
+          positiveButtonTitle={t('screens.login.joinNow')}
+          negativeButtonTitle={'Bỏ qua'}
+          onChangeNameText={(value) => {
+            setFullName(value)
+            validateFullName(value)
+          }}
+          onChangePhoneText={(value) => {
+            setPhoneNumber(value)
+            validatePhoneNumberInput(value)
+          }}
+          onChangePasswordText={(value) => {
+            setPassword(value)
+            validatePasswordInput(value)
+          }}
+          onChangeConfirmPassWordText={(value) => {
+            setConfirmPassword(value)
+            validateConfirmPasswordInput(value)
+          }}
+          nameError={nameError}
+          phoneError={phoneError}
+          passwordError={passwordError}
+          confirmPasswordError={confirmPasswordError}
+        />
+      </View>
+
+      <View marginTop={'25%'}>
+        <TextWithLink
+          heading={t('screens.signUp.alreadyHaveAnAccount')}
+          linkText={t('screens.login.signIn')}
+          onLinkPress={redirectToLogin}
+        />
+      </View>
+    </GradientScrollContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20
-  }
-})
 
 export default SignUpTemplate

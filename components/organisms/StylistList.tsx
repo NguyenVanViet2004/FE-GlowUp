@@ -9,7 +9,7 @@ import type Stylist from '~/interfaces/Stylist'
 
 const StylistList = (): JSX.Element => {
   const colors = getColors(useColorScheme())
-  const { styList } = useFetchStylist()
+  const { stylist } = useFetchStylist()
 
   const renderStylistItem = ({
     item
@@ -35,7 +35,7 @@ const StylistList = (): JSX.Element => {
   )
   return (
     <FlatList
-      data={styList}
+      data={stylist}
       renderItem={renderStylistItem}
       keyExtractor={(item) => item.id}
       horizontal={true}
