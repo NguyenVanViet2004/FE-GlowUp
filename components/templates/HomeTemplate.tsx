@@ -17,6 +17,7 @@ import useFetchCombo from '~/hooks/useFetchCombo'
 import useTranslation from '~/hooks/useTranslation'
 import type Banner from '~/interfaces/Banner'
 import type Combo from '~/interfaces/Combo'
+import OurSpecialist from '~/components/molecules/OurSpecialist'
 
 const MemoizedBanner = React.memo(BannerCombo)
 const MemoizedListCombo = React.memo(ListCombo)
@@ -95,6 +96,10 @@ const HomeTemplate = (): React.ReactElement => {
             star="4.7"
             view="20"
           />
+
+          <View marginTop={30}>
+          <OurSpecialist />
+          </View>
         </>)}
     </GradientScrollContainer>
 

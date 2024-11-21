@@ -51,7 +51,7 @@ const ListCombo = (props: Props): React.ReactElement => {
   return (
     <View {...props}>
       <Text
-        fontSize={18}
+        fontSize={16}
         fontFamily={fonts.JetBrainsMonoBold}
         color={colors.text}
         marginBottom={24}>
