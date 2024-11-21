@@ -85,6 +85,10 @@ function RootLayoutNav (): React.ReactElement {
             name="combo/ComboDetails"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="map/Map"
+            options={{ headerShown: false }}
+          />
         </Stack>
 
       </ThemeProvider>

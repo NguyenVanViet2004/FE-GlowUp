@@ -1,5 +1,5 @@
 import { ChevronLeft, Map } from '@tamagui/lucide-icons'
-import { router, useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React from 'react'
 import { ImageBackground, StyleSheet, useColorScheme } from 'react-native'
@@ -20,6 +20,7 @@ import useTranslation from '~/hooks/useTranslation'
 const ComboDetailTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
+  const router = useRouter()
 
   const dataCombo = useLocalSearchParams()
   const parsedItem = typeof dataCombo.item === 'string'
@@ -64,6 +65,9 @@ const ComboDetailTemplate = (): React.ReactElement => {
                 size={24}
                 fill={colors.blueSapphire}
                 color={colors.mistWhite}
+                onPress={() => {
+                  router.push('/map/Map')
+                }}
               />
             )}
 
