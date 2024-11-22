@@ -35,4 +35,8 @@ export interface Colors {
   lightGray: string
   borderInputaOTP: string
   midnightBlue: string
+  textDate: string
+  bgDate: string
+  bgInput: string
+  bgSearch: string
 }

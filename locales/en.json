@@ -191,5 +191,26 @@
         "aboutService": "About Service",
         "hoursService": "hours service",
         "select&Continue": "Select & Continue"
-    }
+    },
+    "specialist":{
+        "title" : "Booking",
+        "speciaList" : "Specialist",
+        "date" : "Date",
+        "time" : "Time",
+        "notes" : "Notes",
+        "notification" : "No day selected.",
+        "send" : "Send"
+    },
+    
+        "days": {
+          "sunday": "Sunday",
+          "monday": "Monday",
+          "tuesday": "Tuesday",
+          "wednesday": "Wednesday",
+          "thursday": "Thursday",
+          "friday": "Friday",
+          "saturday": "Saturday"
+        }
+      
+      
 }

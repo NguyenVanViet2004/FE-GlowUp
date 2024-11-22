@@ -90,7 +90,6 @@ function RootLayoutNav (): React.ReactElement {
             options={{ headerShown: false }}
           />
         </Stack>
-
       </ThemeProvider>
     </TamaguiProvider>
   )

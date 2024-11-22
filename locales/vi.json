@@ -193,5 +193,26 @@
         "aboutService": "Giới thiệu dịch vụ",
         "hoursService": "giờ",
         "select&Continue": "Chọn & Tiếp tục"
+    },
+    "specialist": {
+        "title" : "Đặt lịch",
+    "speciaList": "Chuyên gia",
+    "date": "Ngày",
+    "time": "Thời gian",
+    "notes": "Ghi chú",
+    "notification": "Chưa chọn ngày.",
+    "send": "Gửi"
+},
+    "days": {
+      "sunday": "Chủ Nhật",
+      "monday": "Thứ Hai",
+      "tuesday": "Thứ Ba",
+      "wednesday": "Thứ Tư",
+      "thursday": "Thứ Năm",
+      "friday": "Thứ Sáu",
+      "saturday": "Thứ Bảy"
     }
+  
+  
+
 }
