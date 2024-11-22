@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { useColorScheme } from 'react-native'
 import { Button, Card, Text, type ViewProps, XStack } from 'tamagui'
@@ -15,10 +16,19 @@ interface Props extends ViewProps {
   view: string
   percent: string
   quantity: string
+  comboData: any
 }
 const SpecialComboCard = (props: Props): React.ReactElement => {
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
+
+  const router = useRouter()
+  const redirectToComboDetail = (): void => {
+    router.push({
+      params: { item: JSON.stringify(props.comboData) },
+      pathname: '/combo/ComboDetails'
+    })
+  }
 
   return (
     <Card
@@ -38,7 +48,9 @@ const SpecialComboCard = (props: Props): React.ReactElement => {
         <ReviewInfo star={props.star} view={props.view} />
         <DiscountBadge percent={props.percent} quantity={props.quantity} />
       </XStack>
-      <PositiveButton title={t('screens.home.bookNow')} />
+      <PositiveButton onPress={() => {
+        redirectToComboDetail()
+      }} title={t('screens.home.bookNow')} />
       <Button
         fontWeight={'bold'}
         paddingVertical={8}

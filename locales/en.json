@@ -89,6 +89,29 @@
             "titleForgot": "Please type your email below and we will give you a OTP code",
             "forgotPassword": "Forgot your password"
         },
+
+        "details":{
+            "openToday": "[Open Today]",
+            "views": "views",
+            "paxAvailable": "(6 pax available)",
+            "bookNow": "Book Now",
+            "total": "Total",
+            "about": "About",
+            "readMore": "Read more",
+            "openingHours":"Opening Hours",
+            "mondayFriday":"Monday - Friday",
+            "saturdaySunday":"Saturday - Sunday",
+            "time1":"08:00am - 03:00pm",
+            "time2":"09:00am - 02:00pm",
+            "ourServices":"Our Services",
+            "ourSpecialist":"Our Specialist",
+            "viewAll":"View all",
+            "reviews":"Reviews",
+            "unknownUser":"Unknown User",
+            "showLess":"Show Less",
+            "viewAllServices":"View All Services",
+            "hour":"hour"
+        },
         "verify": {
             "verify" : "OTP Verification",
             "receiveCode": "Didn’t receive a code?",

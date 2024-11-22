@@ -9,6 +9,7 @@ import Loading from '~/components/atoms/Loading'
 import BannerCombo from '~/components/molecules/BannerCombo'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import ListCombo from '~/components/molecules/ListCombo'
+import OurSpecialist from '~/components/molecules/OurSpecialist'
 import SpecialComboCard from '~/components/molecules/SpecialComboCard'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
@@ -87,6 +88,7 @@ const HomeTemplate = (): React.ReactElement => {
           />
 
           <MemoizedSpecialComboCard
+            comboData={selectCombo}
             marginTop={32}
             nameCombo={selectCombo.name ?? 'Default Combo Name'}
             percent="58"
@@ -94,9 +96,13 @@ const HomeTemplate = (): React.ReactElement => {
             star="4.7"
             view="20"
           />
-        </>)}
 
+          <View marginTop={30}>
+            <OurSpecialist />
+          </View>
+        </>)}
     </GradientScrollContainer>
+
   )
 }
 
