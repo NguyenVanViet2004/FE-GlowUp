@@ -188,5 +188,10 @@
         "payOnlineNow": "Thanh toán online ngay bây giờ",
         "salonDescription": "Đảm bảo đặt phòng của bạn ngay lập tức",
         "onlineDescription": "Giải quyết thanh toán sau cuộc hẹn của bạn"
+    },
+    "serviceDetail": {
+        "aboutService": "Giới thiệu dịch vụ",
+        "hoursService": "giờ",
+        "select&Continue": "Chọn & Tiếp tục"
     }
 }

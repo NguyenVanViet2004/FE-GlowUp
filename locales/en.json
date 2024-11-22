@@ -186,5 +186,10 @@
         "payOnlineNow": "Pay now",
         "salonDescription": "Secure your booking instantly",
         "onlineDescription": "Settle payment after your appointment"
+    },
+    "serviceDetail": {
+        "aboutService": "About Service",
+        "hoursService": "hours service",
+        "select&Continue": "Select & Continue"
     }
 }
