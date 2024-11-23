@@ -23,11 +23,13 @@ const ComboDetailTemplate = (): React.ReactElement => {
   const router = useRouter()
 
   const dataCombo = useLocalSearchParams()
-  const parsedItem = typeof dataCombo.item === 'string'
-    ? JSON.parse(dataCombo.item)
-    : null
+  const parsedItem =
+    typeof dataCombo.item === 'string' ? JSON.parse(dataCombo.item) : null
 
-  const renderIconButton = (icon: React.ReactElement): JSX.Element => (
+  const renderIconButton = (
+    icon: React.ReactElement,
+    onPress: VoidFunction
+  ): JSX.Element => (
     <Button
       unstyled
       backgroundColor={colors.mistWhite}
@@ -35,11 +37,12 @@ const ComboDetailTemplate = (): React.ReactElement => {
       height={48}
       borderRadius={50}
       justifyContent="center"
-      alignItems="center"
-    >
+      onPress={onPress}
+      alignItems="center">
       {icon}
     </Button>
   )
+
   return (
     <LinearGradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -49,28 +52,21 @@ const ComboDetailTemplate = (): React.ReactElement => {
               ? { uri: parsedItem.picture }
               : require('~/assets/images/backGroundDetail.png')
           }
-          style={styles.imageBackground}
-        >
-
+          style={styles.imageBackground}>
           <AppHeader
             paddingHorizontal={20}
             leftIcon={renderIconButton(
-              <ChevronLeft
-                onPress={() => { router.back() }}
-                size={24}
-                color={colors.blueSapphire} />
+              <ChevronLeft size={24} color={colors.blueSapphire} />,
+              () => { router.back() }
             )}
             rightIcon={renderIconButton(
               <Map
                 size={24}
                 fill={colors.blueSapphire}
                 color={colors.mistWhite}
-                onPress={() => {
-                  router.push('/map/Map')
-                }}
-              />
+              />,
+              () => { router.push('/map/Map') }
             )}
-
           />
         </ImageBackground>
 
@@ -90,20 +86,16 @@ const ComboDetailTemplate = (): React.ReactElement => {
           <View marginTop={25} gap={25}>
             <LabelWithDescription Description={parsedItem.description} />
             <OpeningHours />
-            <OurServices
-              data={parsedItem}
-            />
+            <OurServices data={parsedItem} />
             <OurSpecialist />
             {/* <UserReviews /> */}
           </View>
         </View>
       </ScrollView>
       <TotalAmount
-        price={
-          Number(
-            (parsedItem.price - parsedItem.price * (10 / 100)).toFixed(2)
-          )
-        }
+        price={Number(
+          (parsedItem.price - parsedItem.price * (10 / 100)).toFixed(2)
+        )}
         deal={parsedItem.price}
       />
     </LinearGradientBackground>
