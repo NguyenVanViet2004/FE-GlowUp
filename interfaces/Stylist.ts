@@ -1,15 +1,17 @@
 import { type GenderEnum } from '~/interfaces/enum/Gender'
+import { type Role } from '~/interfaces/enum/Role'
 
 export default interface Stylist {
-  _id: string
-  fullName: string
-  experience: string
-  rating: number
-  avatarUrl: string | null
+  id: string
+  full_name: string
+  role: Role
+  phone_number: number
   phoneNumber: string
-  email: string | null
-  workSchedule: string
-  position: string
+  avatar: string | null
+  date_of_birth: string | null
+  address: string | null
+  profile: string | null
   gender: GenderEnum
-  isActive: boolean
+  createdAt: string
+  updatedAt: string
 }

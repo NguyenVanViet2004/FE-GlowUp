@@ -16,7 +16,13 @@
     },
     "screens": {
         "home": {
-            "title": "Trang chủ"
+            "title": "Trang chủ",
+            "yourBeautyIsOurPride": "Vẻ đẹp của bạn là niềm tự hào của chúng tôi",
+            "enterAddressOrCityName": "Nhập dịch vụ",
+            "services": "Dịch vụ",
+            "combo": "Gói dịch vụ",
+            "bookNow": "Đặt ngay",
+            "open": "Mở"
         },
         "booking": {
             "title": "Đặt lịch",
@@ -41,11 +47,15 @@
             "loginPrompt": "Rất vui được gặp lại bạn!, vui lòng đăng nhập để sử dụng ứng dụng.",
             "email": "Email của bạn",
             "password": "Mật khẩu của bạn",
+            "confirmPassword": "Nhập lại mật khẩu",
             "forgotPassword": "Quên mật khẩu?",
             "signIn": "Đăng nhập",
             "signInWithGoogle": "Đăng nhập bằng google",
             "signupPrompt": "Bạn chưa có tài khoản?",
-            "joinNow": "Đăng ký ngay"
+            "joinNow": "Đăng ký ngay",
+            "emtyPhone": "Không để trống số điện thoại!",
+            "emtyPassword":"Không để trống mật khẩu!",
+            "incorrectAccountOrPassword": "Tài khoản hoặc mật khẩu không đúng!"
         },
         "signUp": {
             "name": "Tên của bạn",
@@ -55,7 +65,17 @@
             "createAnAccount": "Tạo một tài khoản,",
             "signUpPrompt": "Vui lòng nhập đầy đủ thông tin bên dưới và chúng tôi có thể tạo tài khoản cho bạn",
             "alreadyHaveAnAccount": "Đã có tài khoản?",
-            "joinWithGoogle": "Tham gia với Google"
+            "joinWithGoogle": "Tham gia với Google",
+            "succes": "Thành công",
+            "accountCreatedSuccessfully" : "Tạo tài khoản thành công",
+            "accountCreatedFalse": "Thao tác thất bại",
+            "false": "Thất bại",
+            "emtyName":"Không để trống tên!",
+            "emtyPassword":"Mật khẩu quá ngắn!",
+            "passwordDoesNotMatch":"Mật khẩu không trùng khớp!",
+            "checkPhone":"Phải là số điện thoại!",
+            "registeredPhoneNumber": "Số điện thoại đã được đăng kí!"
+
         },
         "onboarding": {
             "getStarted": "Bắt đầu",
@@ -74,6 +94,46 @@
             "sendCode": "Nhập mã code",
             "titleForgot": "Vui lòng nhập email của bạn bên dưới và chúng tôi sẽ cung cấp cho bạn mã OTP",
             "forgotPassword": "Quên mật khẩu"
+        },
+
+        "details": {
+            "openToday": "[Mở cửa hôm nay]",
+            "views": "lượt xem",
+            "paxAvailable": "(6 chỗ trống)",
+            "bookNow": "Đặt ngay",
+            "total": "Tổng cộng",
+            "about": "Giới thiệu",
+            "readMore": "Đọc thêm",
+            "openingHours": "Giờ mở cửa",
+            "mondayFriday": "Thứ Hai - Thứ Sáu",
+            "saturdaySunday": "Thứ Bảy - Chủ Nhật",
+            "time1": "08:00SA - 03:00CH",
+            "time2": "09:00SA - 02:00CH",
+            "ourServices": "Dịch vụ của chúng tôi",
+            "ourSpecialist": "Chuyên gia của chúng tôi",
+            "viewAll": "Xem tất cả",
+            "reviews": "Đánh giá",
+            "unknownUser": "Người dùng không xác định",
+            "showLess": "Thu gọn",
+            "viewAllServices": "Xem tất cả dịch vụ",
+            "hour": "giờ"
+        },
+
+        "verify": {
+            "verify" : " Xác minh OTP ",
+            "receiveCode": "Bạn không nhận được mã ?",
+            "resend" : "Gửi lại",
+            "titleVerify" : "Xác minh danh tính của bạn ",
+            "subVerify" : "Vui lòng nhập OTP",
+            "subVerify2" : ". Điền xuống bên dưới. ",
+            "continue" : "Tiếp tục",
+            "incorrectOtp" : "Mã OTP không chính xác vui lòng thử lại!"
+        },
+        "resetPassword":{
+            "newPassword":"Mật khẩu mới",
+            "resetPasswordPrompt":"Bây giờ, bạn có thể tạo mật khẩu mới và xác nhận bên dưới",
+            "confirmNewPassword":"Xác nhận mật khẩu mới"
+
         }
     },
     "user": {
@@ -86,6 +146,78 @@
     },
     "common": {
         "warning": "Cảnh báo",
-        "doYouWantToLogout": "Bạn có chắc muốn đăng xuất?"
+        "doYouWantToLogout": "Bạn có chắc muốn đăng xuất?",
+        "back": "Quay lại"
+    },
+    "voucher": {
+        "title": "Voucher",
+        "apply": "Áp dụng",
+        "code": "Mã giảm giá",
+        "enterCode": "Nhập mã giảm giá",
+        "expired": "Hết hạn",
+        "redeemed": "Đã sử dụng",
+        "notRedeemed": "Chưa sử dụng",
+        "invalidCode": "Mã giảm giá không hợp lệ",
+        "applySuccess": "Áp dụng mã giảm giá thành công",
+        "applyFailed": "Lỗi khi áp dụng mã giảm giá"
+    },
+    "booking": {
+        "title": "Đặt lịch",
+        "bookingCheckout": "Thanh toán",
+        "checkout": "Thanh toán",
+        "date": "Ngày",
+        "time": "Thời gian",
+        "startTime": "Thời gian bắt đầu",
+        "speciaList": "Nhân viên",
+        "duration": "Thời gian ước tính",
+        "customerName": "Tên khách hàng",
+        "customerPhoneNumber": "Số điện thoại khách hàng",
+        "submit": "Đặt lịch",
+        "success": "Đặt lịch thành công",
+        "failed": "Đặt lịch thất bại",
+        "successMessage": "Đã đặt lịch thành công. Chúng tôi sẽ liên lạc với bạn sau.",
+        "failedMessage": "Đặt lịch thất bại. Vui lòng thử lại sau.",
+        "bookingHistory": "Lịch sử đặt lịch",
+        "noHistory": "Chưa có lịch sử đặt lịch",
+        "subTotal": "Giá gốc",
+        "discount": "Giảm giá",
+        "total": "Tổng",
+        "service": "Dịch vụ",
+        "cancelBooking": "Huỷ đặt lịch",
+        "cancelBookingSuccess": "Hủy đặt lịch thành công",
+        "cancelBookingFailed": "Hủy đặt lịch thất bại"
+    },
+    "payment": {
+        "title": "Thanh toán",
+        "payAtSalon": "Thanh toán tại salon",
+        "payOnlineNow": "Thanh toán online ngay bây giờ",
+        "salonDescription": "Đảm bảo đặt phòng của bạn ngay lập tức",
+        "onlineDescription": "Giải quyết thanh toán sau cuộc hẹn của bạn"
+    },
+    "serviceDetail": {
+        "aboutService": "Giới thiệu dịch vụ",
+        "hoursService": "giờ",
+        "select&Continue": "Chọn & Tiếp tục"
+    },
+    "specialist": {
+        "title" : "Đặt lịch",
+    "speciaList": "Chuyên gia",
+    "date": "Ngày",
+    "time": "Thời gian",
+    "notes": "Ghi chú",
+    "notification": "Chưa chọn ngày.",
+    "send": "Gửi"
+},
+    "days": {
+      "sunday": "Chủ Nhật",
+      "monday": "Thứ Hai",
+      "tuesday": "Thứ Ba",
+      "wednesday": "Thứ Tư",
+      "thursday": "Thứ Năm",
+      "friday": "Thứ Sáu",
+      "saturday": "Thứ Bảy"
     }
+  
+  
+
 }

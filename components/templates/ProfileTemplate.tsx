@@ -1,74 +1,69 @@
 import { LogOut } from '@tamagui/lucide-icons'
-import { type Router, useRouter } from 'expo-router'
-import { type TFunction } from 'i18next'
-import React from 'react'
+import { useRouter } from 'expo-router'
+import { isNil } from 'lodash'
+import React, { useLayoutEffect } from 'react'
 import { Alert, StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { Button, ScrollView, Text } from 'tamagui'
 
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import UserProfile from '~/components/molecules/UserProfile'
 import SettingList from '~/components/organisms/SettingList'
 import getColors from '~/constants/Colors'
+import { initialState as INITIAL_USER_STATE, resetUser } from '~/features/userSlice'
+import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
-import { GenderEnum } from '~/interfaces/enum/Gender'
-import { Rank } from '~/interfaces/enum/Rank'
-import { Role } from '~/interfaces/enum/Role'
-import type Membership from '~/interfaces/Membership'
 import type User from '~/interfaces/User'
-
-const useHandleLogout = (
-  t: TFunction<'translation', undefined>,
-  router: Router,
-  removeCachedData: VoidFunction
-): VoidFunction => {
-  return () => {
-    Alert.alert(t('common.warning'), t('common.doYouWantToLogout'), [
-      {
-        onPress: () => {
-          removeCachedData()
-          router.replace('/authentication/Login')
-        },
-        text: t('button.confirm')
-      },
-      {
-        style: 'cancel',
-        text: t('button.cancel')
-      }
-    ])
-  }
-}
 
 const ProfileTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
   const router = useRouter()
-  const membership: Membership = {
-    name: Rank.BRONZE,
-    point: 0
+  const dispatch = useDispatch()
+  const { removeItem } = useStorage()
+  const { getObjectItem } = useStorage()
+  const [user, setUser] = React.useState<User>()
+
+  const fetchUserLocal = async (): Promise<void> => {
+    const userData = await getObjectItem('userData') as User
+    if (!isNil(userData)) {
+      setUser(userData)
+    }
   }
-  const userExample: User = {
-    _id: '',
-    address: null,
-    avatarUrl: 'https://xsgames.co/randomusers/avatar.php?g=female',
-    dateOfBirth: null,
-    email: '',
-    fullName: 'Baby shark',
-    gender: GenderEnum.MALE,
-    membership,
-    password: '',
-    phoneNumber: '+1 (123) 456-7890',
-    point: 0,
-    role: Role.USER,
-    token: 'hehe boy :)'
+
+  const handlePressLoginOrLogOut = (): void => {
+    if (!isNil(user)) {
+      Alert.alert(t('common.warning'), t('common.doYouWantToLogout'), [
+        {
+          onPress: () => {
+            dispatch(resetUser())
+            removeItem('userData').catch(err => { console.log(err) })
+
+            router.replace('/authentication/Login')
+          },
+          text: t('button.confirm')
+        },
+        {
+          style: 'cancel',
+          text: t('button.cancel')
+        }
+      ])
+    } else {
+      router.push('/authentication/Login')
+    }
   }
+
+  useLayoutEffect(() => {
+    fetchUserLocal().catch((e) => { console.error(e) })
+  }, [])
 
   return (
     <LinearGradientBackground>
       <ScrollView fullscreen showsVerticalScrollIndicator={false}>
         <SafeAreaView style={styles.container}>
 
-          <UserProfile user={userExample} />
+          <UserProfile user={isNil(user) ? INITIAL_USER_STATE : user} />
           <SettingList colors={colors} />
 
           <Button
@@ -76,13 +71,11 @@ const ProfileTemplate = (): React.ReactElement => {
             borderWidth={1}
             borderRadius="$2"
             borderColor="red"
-            onPress={useHandleLogout(t, router, () => {
-              // Remove cached data here
-            })}
+            onPress={handlePressLoginOrLogOut}
             icon={<LogOut color="$danger" />}
             justifyContent="center">
             <Text color="$danger" fontWeight="600">
-              {t('screens.profile.logout')}
+              {isNil(user) ? 'Đăng nhập' : t('screens.profile.logout')}
             </Text>
           </Button>
         </SafeAreaView>

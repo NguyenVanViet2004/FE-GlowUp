@@ -1,4 +1,5 @@
 import { MoonStar, Sun, User2 } from '@tamagui/lucide-icons'
+import { isEmpty } from 'lodash'
 import React from 'react'
 import { useColorScheme } from 'react-native'
 import { Avatar, Button, Card, Text, View } from 'tamagui'
@@ -38,7 +39,9 @@ const UserProfile = ({ user }: props): JSX.Element => {
         borderColor="$borderColor" >
         <Avatar.Image
           accessibilityLabel="Cam"
-          src={user.avatarUrl ?? ''}
+          src={user.result.avatar ??
+            'https://xsgames.co/randomusers/avatar.php?g=female'
+          }
         />
         <Avatar.Fallback alignItems="center" justifyContent="center">
           <User2 size="$3" color={colors.gray} />
@@ -46,9 +49,11 @@ const UserProfile = ({ user }: props): JSX.Element => {
       </Avatar>
       <View flex={1} flexDirection="column">
         <Text fontSize={18} fontWeight="600" color={colors.text}>
-          {user.fullName}
+          {isEmpty(user.result.full_name) ? 'Khách' : user.result.full_name}
         </Text>
-        <Text color={colors.text}>{user.phoneNumber}</Text>
+        <Text color={colors.text}>{isEmpty(user.result.phone_number)
+          ? 'Bạn chưa đăng nhập'
+          : user.result.phone_number}</Text>
       </View>
       <Button
         icon={isDarkMode

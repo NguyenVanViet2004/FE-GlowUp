@@ -4,7 +4,10 @@ export interface Colors {
   oceanMist: string
   white: string
   blueSapphire: string
+  deepOrange: string
+  ghostWhite: string
   gray: string
+  lightYellow: string
   lightTransparentBlack: string
   midnightGlow: string
   inputBackground: string
@@ -17,4 +20,24 @@ export interface Colors {
   spaceCadet: string
   yellow: string
   deepNeutral: string
+  mistWhite: string
+  sunsetOrange: string
+  smokeStone: string
+  tealGreen: string
+  lightSunset: string
+  bookingDetailsBackgroundCard: string
+  lightSilver: string
+  radioColor: string
+  green: string
+  red: string
+  blueOTP: string
+  lightGreen: string
+  lightRed: string
+  lightGray: string
+  borderInputaOTP: string
+  midnightBlue: string
+  textDate: string
+  bgDate: string
+  bgInput: string
+  bgSearch: string
 }
