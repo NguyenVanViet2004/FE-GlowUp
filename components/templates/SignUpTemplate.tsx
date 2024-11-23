@@ -78,7 +78,7 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
 
       const res = await request.post('/auth/register', payload)
 
-      if (res.success) {
+      if (res.success === true) {
         router.replace('/authentication/Login')
         Alert.alert(
           t('screens.signUp.succes'),

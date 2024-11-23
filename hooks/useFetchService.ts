@@ -2,6 +2,7 @@ import { isNil } from 'lodash'
 import { useEffect, useState } from 'react'
 
 import { request } from '~/apis/HttpClient'
+import type Service from '~/interfaces/Service'
 
 const useFetchService = (): {
   services: Service[]
@@ -14,7 +15,7 @@ const useFetchService = (): {
     const fetchCombos = async (): Promise<void> => {
       try {
         const response = await request.get<Service[]>('service')
-        if (response?.success && !isNil(response.result)) {
+        if (response?.success === true && !isNil(response.result)) {
           setServices(response.result)
         }
       } catch (err) {

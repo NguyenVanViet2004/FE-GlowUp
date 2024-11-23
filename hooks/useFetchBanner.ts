@@ -20,7 +20,7 @@ const useFetchBanner = (): UseFetchComboReturn => {
         const response =
         await request.get<Banner[]>('banner')
         console.log(response)
-        if (response?.success && !isNil(response.result)) {
+        if (response?.success === true && !isNil(response.result)) {
           setBanner(response.result)
         }
       } catch (err: any) {
