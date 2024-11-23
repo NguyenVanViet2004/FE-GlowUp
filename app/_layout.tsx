@@ -4,9 +4,6 @@ import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
-
-import Specialist from '~/components/organisms/Specialist'
-import SpecialistTemplate from '~/components/templates/SpecialistTemplate'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import useNotifications from '~/hooks/useNotifications'
 import useTranslation, { useInitializeI18n } from '~/hooks/useTranslation'
@@ -104,6 +101,10 @@ function RootLayoutNav (): React.ReactElement {
             name="combo/StepDetails"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="checkout/SpecialistCheckout"
+            options={{ headerShown: false }}
+           />
         </Stack>
       </ThemeProvider>
     </TamaguiProvider>
