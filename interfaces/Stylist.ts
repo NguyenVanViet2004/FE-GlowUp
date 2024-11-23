@@ -10,7 +10,11 @@ export default interface Stylist {
   avatar: string | null
   date_of_birth: string | null
   address: string | null
-  profile: string | null
+  profile: {
+    stylist?: {
+      isWorking: boolean;
+    };
+  } | null
   gender: GenderEnum
   createdAt: string
   updatedAt: string
