@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
 
 import { useAppFonts } from '~/hooks/useAppFonts'
+import useNotifications from '~/hooks/useNotifications'
 import useTranslation, { useInitializeI18n } from '~/hooks/useTranslation'
 import store from '~/redux/store'
 import config from '~/tamagui.config'
@@ -48,6 +49,8 @@ export default function RootLayout (): React.ReactElement {
 function RootLayoutNav (): React.ReactElement {
   const colorScheme = useColorScheme()
   const { t } = useTranslation()
+  const { notification, expoPushToken } = useNotifications()
+  console.log(expoPushToken, notification)
 
   return (
     <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
