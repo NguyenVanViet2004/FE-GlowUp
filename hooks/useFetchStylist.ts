@@ -16,7 +16,11 @@ const useFetchStylist = (): {
       try {
         setIsLoading(true)
         const response = await request.get<Stylist[]>('stylist')
-        if (response?.success && !isNil(response.data)) {
+        if (
+          !isNil(response?.success) &&
+          response?.success &&
+          !isNil(response.data)
+        ) {
           setStylist(response.data)
         }
       } catch (err) {
@@ -26,7 +30,9 @@ const useFetchStylist = (): {
       }
     }
 
-    fetchStylist().catch(err => { console.log(err) })
+    fetchStylist().catch((err) => {
+      console.log(err)
+    })
   }, [])
 
   return { isLoading, stylist }
