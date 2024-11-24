@@ -15,7 +15,11 @@ const useFetchCombo = (): {
     const fetchCombos = async (): Promise<void> => {
       try {
         const response = await request.get<Combo[]>('combo')
-        if (response?.success && !isNil(response.result)) {
+        if (
+          !isNil(response?.success) &&
+          response?.success &&
+          !isNil(response.result)
+        ) {
           setCombos(response.result)
         }
       } catch (err) {
@@ -24,7 +28,9 @@ const useFetchCombo = (): {
         setIsLoading(false)
       }
     }
-    fetchCombos().catch((err) => { console.error(err) })
+    fetchCombos().catch((err) => {
+      console.error(err)
+    })
   }, [])
 
   return { combos, isLoading }
