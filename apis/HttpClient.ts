@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import store from '~/redux/store'
 
-export const BASE_URL = 'http://192.168.1.170:3000'
+export const BASE_URL = 'http://localhost:3000'
 
 const headers = {
   'Content-Type': 'application/json',

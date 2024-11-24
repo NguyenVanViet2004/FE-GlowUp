@@ -1,12 +1,14 @@
 import React from 'react'
-import { FlatList, useColorScheme } from 'react-native'
+import { FlatList, StyleSheet, useColorScheme } from 'react-native'
 import type { ViewProps } from 'tamagui'
+import { XStack } from 'tamagui'
 import { Text, View } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import type Combo from '~/interfaces/Combo'
+import LabelTitle from '../atoms/LabelTitle'
 
 interface Props extends ViewProps {
   title: string
@@ -50,23 +52,27 @@ const ListCombo = (props: Props): React.ReactElement => {
 
   return (
     <View {...props}>
-      <Text
-        fontSize={16}
-        fontFamily={fonts.JetBrainsMonoBold}
-        color={colors.text}
-        marginBottom={24}>
-        {props.title}
-      </Text>
+      <LabelTitle
+        title={'Gói dịch vụ'}
+        subTitle={'Xem tất cả'}
+      />
       <FlatList
         data={props.combo}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         horizontal
+        contentContainerStyle={styles.flatList}
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={() => <View width={8} />}
       />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  flatList: {
+    marginTop: 24
+  }
+})
 
 export default ListCombo
