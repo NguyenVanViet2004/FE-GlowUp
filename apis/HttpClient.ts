@@ -1,9 +1,11 @@
 import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
+import { Platform } from 'react-native'
 
 import store from '~/redux/store'
 
-export const BASE_URL = 'http://localhost:3000'
+export const BASE_URL =
+  Platform.OS === 'ios' ? 'http://localhost:3000' : 'http://192.168.1.37:3000'
 
 const headers = {
   'Content-Type': 'application/json',
@@ -42,7 +44,9 @@ class HttpClient {
         return config
       },
       (error) => {
-        Promise.reject(error).catch(e => { console.error(e) })
+        Promise.reject(error).catch((e) => {
+          console.error(e)
+        })
       }
     )
 
