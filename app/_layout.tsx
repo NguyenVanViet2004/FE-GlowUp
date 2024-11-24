@@ -83,10 +83,20 @@ function RootLayoutNav (): React.ReactElement {
           />
           <Stack.Screen
             name="combo/ComboDetails"
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+              headerTitle: 'Trở về'
+            }}
           />
           <Stack.Screen
             name="map/Map"
+            options={{
+              headerShown: true,
+              headerTitle: 'Tiệm cắt tóc GlowUp MD21'
+            }}
+          />
+          <Stack.Screen
+            name="combo/StepDetails"
             options={{ headerShown: false }}
           />
         </Stack>
