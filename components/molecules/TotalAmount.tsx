@@ -8,8 +8,8 @@ import { useAppFonts } from '~/hooks/useAppFonts'
 import useTranslation from '~/hooks/useTranslation'
 
 type Props = {
-  price: number
-  deal: number
+  price: string
+  // deal: number
 } & TextProps
 
 const TotalAmount = (props: Props): JSX.Element => {
@@ -23,10 +23,10 @@ const TotalAmount = (props: Props): JSX.Element => {
           {t('screens.details.total')}
         </Text>
         <XStack alignItems="center" gap={10}>
-          <Text fontSize={20}>${props.price}</Text>
-          <Text textDecorationLine="line-through" color={colors.text}>
-            ${props.deal}
-          </Text>
+          <Text fontSize={20}>{props.price}</Text>
+          {/* <Text textDecorationLine="line-through" color={colors.text}>
+            {props.deal}
+          </Text> */}
         </XStack>
       </YStack>
       <PositiveButton flex={1} title={t('screens.details.bookNow')} />

@@ -63,7 +63,10 @@ const RenderBookingItem = ({
           />
           <YStack gap={10}>
             <Text fontFamily={fonts.JetBrainsMonoBold}>{dataCombo.name}</Text>
-            <Text>{item.total_price}</Text>
+            <Text>{item.total_price.toLocaleString('vi-VN', {
+              currency: 'VND',
+              style: 'currency'
+            })}</Text>
             {/* <Text>{item.rate}</Text> */}
           </YStack>
         </XStack>
