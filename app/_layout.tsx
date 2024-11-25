@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
 
 import { useAppFonts } from '~/hooks/useAppFonts'
+import useNotifications from '~/hooks/useNotifications'
 import useTranslation, { useInitializeI18n } from '~/hooks/useTranslation'
 import store from '~/redux/store'
 import config from '~/tamagui.config'
@@ -48,6 +49,8 @@ export default function RootLayout (): React.ReactElement {
 function RootLayoutNav (): React.ReactElement {
   const colorScheme = useColorScheme()
   const { t } = useTranslation()
+  const { notification, expoPushToken } = useNotifications()
+  console.log(expoPushToken, notification)
 
   return (
     <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
@@ -83,10 +86,20 @@ function RootLayoutNav (): React.ReactElement {
           />
           <Stack.Screen
             name="combo/ComboDetails"
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+              headerTitle: 'Trở về'
+            }}
           />
           <Stack.Screen
             name="map/Map"
+            options={{
+              headerShown: true,
+              headerTitle: 'Tiệm cắt tóc GlowUp MD21'
+            }}
+          />
+          <Stack.Screen
+            name="combo/StepDetails"
             options={{ headerShown: false }}
           />
         </Stack>

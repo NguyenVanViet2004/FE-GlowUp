@@ -17,6 +17,7 @@ const useFetchBanner = (): UseFetchComboReturn => {
     const fetchCombos = async (): Promise<void> => {
       try {
         setIsLoading(true)
+
         const response =
         await request.get<Banner[]>('banner')
         console.log(response)
@@ -30,7 +31,9 @@ const useFetchBanner = (): UseFetchComboReturn => {
       }
     }
 
-    fetchCombos().catch((err) => { console.error('Unexpected error:', err) })
+    fetchCombos().catch((err) => {
+      console.error('Unexpected error:', err)
+    })
   }, [])
 
   return { banner, isLoading }

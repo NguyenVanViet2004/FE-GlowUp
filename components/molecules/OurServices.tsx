@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, YStack } from 'tamagui'
+import { YStack } from 'tamagui'
 
 import LabelTitle from '~/components/atoms/LabelTitle'
 import StepList from '~/components/organisms/StepList'
@@ -15,11 +15,9 @@ const OurServices = (props: Props): React.ReactElement => {
     <YStack gap={30}>
       <LabelTitle title={t('screens.details.ourServices')} />
 
-      <View>
-        <StepList
-          dataStep={props.data}
-        />
-      </View>
+      <StepList
+        dataStep={props.data}
+      />
     </YStack>
   )
 }

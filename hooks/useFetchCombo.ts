@@ -24,7 +24,9 @@ const useFetchCombo = (): {
         setIsLoading(false)
       }
     }
-    fetchCombos().catch((err) => { console.error(err) })
+    fetchCombos().catch((err) => {
+      console.error(err)
+    })
   }, [])
 
   return { combos, isLoading }
