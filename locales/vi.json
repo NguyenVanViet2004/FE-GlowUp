@@ -185,7 +185,11 @@
         "service": "Dịch vụ",
         "cancelBooking": "Huỷ đặt lịch",
         "cancelBookingSuccess": "Hủy đặt lịch thành công",
-        "cancelBookingFailed": "Hủy đặt lịch thất bại"
+        "cancelBookingFailed": "Hủy đặt lịch thất bại",
+        "timeLocation": "vi-VN",
+        "upcoming" : "Bạn chưa đặt lịch",
+        "completed": "Bạn chưa có lịch hoàn thành",
+        "cancelled": "Bạn chưa có lịch hủy"
     },
     "payment": {
         "title": "Thanh toán",
