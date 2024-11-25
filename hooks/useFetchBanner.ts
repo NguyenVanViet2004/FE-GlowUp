@@ -19,7 +19,6 @@ const useFetchBanner = (): UseFetchComboReturn => {
         setIsLoading(true)
         const response =
         await request.get<Banner[]>('banner')
-        console.log(response)
         if (response?.success === true && !isNil(response.result)) {
           setBanner(response.result)
         }
