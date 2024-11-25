@@ -8,15 +8,16 @@ import TransparentButton from '~/components/atoms/TransparentButton'
 import getColors from '~/constants/Colors'
 import { HEIGHT_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
-import type Combo from '~/interfaces/Combo'
-
-import useTranslation from './../../hooks/useTranslation'
+import formatDate from '~/hooks/useDate'
+import useTranslation from '~/hooks/useTranslation'
+import type Appointment from '~/interfaces/Appointment'
 
 interface Props {
   visibleTextCancel?: boolean
   visibleTransparentButton?: boolean
   visibleFormButton?: boolean
-  dataCombo: Combo[]
+  dataCombo: Appointment[]
+
 }
 
 const RenderBookingItem = ({
@@ -24,10 +25,13 @@ const RenderBookingItem = ({
   visibleTextCancel,
   visibleTransparentButton,
   visibleFormButton
-}: { item: Combo } & Props): React.ReactElement => {
+}: { item: Appointment } & Props): React.ReactElement => {
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
+  const dataCombo: any = item.combo
+
+  // console.log(item.createdAt);
 
   return (
     <View
@@ -39,8 +43,7 @@ const RenderBookingItem = ({
     >
       <YStack gap={10}>
         <XStack justifyContent="space-between">
-          <Text>Sep 28, 2024 - 9:30 AM</Text>
-
+          <Text>{formatDate(item.createdAt)}</Text>
           <Text
             display={
               !isNil(visibleTextCancel) && visibleTextCancel ? 'flex' : 'none'
@@ -56,12 +59,12 @@ const RenderBookingItem = ({
             width={90}
             height={90}
             borderRadius={10}
-            source={{ uri: item.imageUrl }}
+            source={{ uri: dataCombo.picture }}
           />
           <YStack gap={10}>
-            <Text fontFamily={fonts.JetBrainsMonoBold}>{item.name}</Text>
-            <Text>{item.price}</Text>
-            <Text>{item.rate}</Text>
+            <Text fontFamily={fonts.JetBrainsMonoBold}>{dataCombo.name}</Text>
+            <Text>{item.total_price}</Text>
+            {/* <Text>{item.rate}</Text> */}
           </YStack>
         </XStack>
         <XStack
@@ -100,7 +103,7 @@ const BookingList = (props: Props): React.ReactElement => {
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
       data={props.dataCombo}
-      keyExtractor={(item) => item._id.toString()}
+      keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => <RenderBookingItem item={item} {...props} />}
     />
   )
