@@ -29,7 +29,9 @@ const useFetchBanner = (): UseFetchComboReturn => {
       }
     }
 
-    fetchCombos().catch((err) => { console.error('Unexpected error:', err) })
+    fetchCombos().catch((err) => {
+      console.error('Unexpected error:', err)
+    })
   }, [])
 
   return { banner, isLoading }

@@ -24,7 +24,9 @@ const useFetchService = (): {
         setIsLoading(false)
       }
     }
-    fetchCombos().catch((err) => { console.error(err) })
+    fetchCombos().catch((err) => {
+      console.error(err)
+    })
   }, [])
 
   return { isLoading, services }

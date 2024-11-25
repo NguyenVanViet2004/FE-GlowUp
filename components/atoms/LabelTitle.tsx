@@ -18,8 +18,7 @@ const LabelTitle = (props: Props): JSX.Element => {
       <Text
         fontFamily={fonts.JetBrainsMonoBold}
         color={colors.text}
-        fontSize={16}
-      >
+        fontSize={16}>
         {props.title}
       </Text>
       <Text onPress={props.onPress} fontSize={14} color={colors.blueSapphire}>

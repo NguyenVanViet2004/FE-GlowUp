@@ -26,7 +26,9 @@ const useFetchStylist = (): {
       }
     }
 
-    fetchStylist().catch(err => { console.log(err) })
+    fetchStylist().catch((err) => {
+      console.log(err)
+    })
   }, [])
 
   return { isLoading, stylist }
