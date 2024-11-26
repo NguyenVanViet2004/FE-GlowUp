@@ -11,12 +11,10 @@ const colors: Record<'light' | 'dark', Colors> = {
     blue: '#235AFF',
     blueOTP: '#898A8D',
     blueSapphire: '#156778',
-
     bookingDetailsBackgroundCard: '#E1F5FA',
     borderInputaOTP: '#21A7C3',
     deepOrange: '#F98600',
     ghostWhite: '#f2f2f2',
-
     gray: '#979797',
     green: '#00EE00',
     inputBackground: '#1C2655',
@@ -86,6 +84,7 @@ const colors: Record<'light' | 'dark', Colors> = {
     tealGreen: '#156778',
     text: '#000',
     textDate: '#000',
+
     white: '#FFFFFF',
     yellow: '#ffff00'
   }
