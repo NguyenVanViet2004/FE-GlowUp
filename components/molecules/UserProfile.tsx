@@ -1,4 +1,5 @@
 import { MoonStar, Sun, User2 } from '@tamagui/lucide-icons'
+import { useRouter } from 'expo-router'
 import { isEmpty } from 'lodash'
 import React from 'react'
 import { useColorScheme } from 'react-native'
@@ -11,12 +12,16 @@ import type User from '~/interfaces/User'
 
 interface props {
   user: User
+
 }
 
 const UserProfile = ({ user }: props): JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark'
   const colors: Colors = getColors(useColorScheme())
-
+  const router = useRouter()
+  const redirectToProfileSetting = (): void => {
+    router.push('/user/ProfileSetting')
+  }
   return (
     <Card
       gap="$4"
@@ -31,7 +36,9 @@ const UserProfile = ({ user }: props): JSX.Element => {
       shadowOffset={{ height: 2, width: 0 }}
       shadowOpacity={0.3}
       shadowRadius={4}
-      justifyContent="flex-start">
+      justifyContent="flex-start"
+      onPress={() => { redirectToProfileSetting() }}
+    >
       <Avatar
         circular
         size="$4"

@@ -102,6 +102,10 @@ function RootLayoutNav (): React.ReactElement {
             name="combo/StepDetails"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name = "user/ProfileSetting"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </ThemeProvider>
     </TamaguiProvider>
