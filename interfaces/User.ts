@@ -5,7 +5,7 @@ export default interface User {
   access_token: string
   refresh_token: string
   result: {
-    profile: string | null
+    profile?: string | null 
     id: string
     gender: GenderEnum
     role: Role
@@ -17,5 +17,4 @@ export default interface User {
     createdAt: string
     updatedAt: string
   }
-
 }
