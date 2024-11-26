@@ -16,6 +16,7 @@ interface Props {
   visibleTextCancel?: boolean
   visibleTransparentButton?: boolean
   visibleFormButton?: boolean
+  cancellPress?: (id: string) => void
   dataCombo: Appointment[]
 
 }
@@ -24,14 +25,13 @@ const RenderBookingItem = ({
   item,
   visibleTextCancel,
   visibleTransparentButton,
-  visibleFormButton
+  visibleFormButton,
+  cancellPress
 }: { item: Appointment } & Props): React.ReactElement => {
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme())
   const { t } = useTranslation()
   const dataCombo: any = item.combo
-
-  // console.log(item.createdAt);
 
   return (
     <View
@@ -77,6 +77,7 @@ const RenderBookingItem = ({
           }
         >
           <TransparentButton
+            onPress={() => cancellPress?.(item.id)}
             paddingHorizontal={5}
             height={HEIGHT_BUTTON}
             flex={1}

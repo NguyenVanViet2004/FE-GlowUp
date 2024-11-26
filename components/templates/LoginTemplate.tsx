@@ -7,16 +7,17 @@ import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
+import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import InputForm from '~/components/molecules/InputForm'
 import TextWithLink from '~/components/molecules/TextWithLink'
 import { setUser } from '~/features/userSlice'
+// import useNotifications from '~/hooks/useNotifications'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import type User from '~/interfaces/User'
 
-import GradientScrollContainer from '../molecules/container/GradientScrollContainer'
-
 const LoginTemplate: React.FC = (): JSX.Element => {
+  // const { expoPushToken } = useNotifications()
   const { setObjectItem } = useStorage<string | object>()
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -50,6 +51,7 @@ const LoginTemplate: React.FC = (): JSX.Element => {
       const payload = {
         password,
         phone_number: phoneNumber
+        // notify_token: expoPushToken
       }
 
       const response = await request.post<User>('/auth/login', payload)
