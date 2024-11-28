@@ -54,6 +54,8 @@ const BookingUpcoming = (): React.ReactElement => {
         text: 'Đồng ý'
       }
     ])
+
+    console.log('abc')
   }
 
   if (isLoading || isCanceling) {
@@ -65,7 +67,9 @@ const BookingUpcoming = (): React.ReactElement => {
       {pendingAppointments.length > 0
         ? (
           <BookingList
-            cancellPress={() => handleCancelBooking}
+            cancellPress={id => {
+              handleCancelBooking(id).catch(err => { console.log(err) })
+            }}
             dataCombo={pendingAppointments}
             visibleTextCancel={false}
             visibleFormButton={true}
