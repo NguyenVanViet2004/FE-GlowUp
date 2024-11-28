@@ -95,6 +95,9 @@ const LoginTemplate: React.FC = (): JSX.Element => {
             handleLogin().catch((err) => { console.log(err) })
           }}
           onLoginGooglePress={() => { router.replace('/(tabs)/home') }}
+          onForgotPasswordPress={
+            () => { router.push('/authentication/ForgotPassword') }
+          }
           positiveButtonTitle={t('screens.login.signIn')}
           negativeButtonTitle={'Bỏ qua'}
           onChangePhoneText={(value) => {

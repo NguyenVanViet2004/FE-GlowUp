@@ -22,6 +22,7 @@ type Props = {
   onChangePasswordText?: (text: string) => void
   onLoginPress?: () => void
   onLoginGooglePress?: () => void
+  onForgotPasswordPress?: () => void
   positiveButtonTitle: string
   negativeButtonTitle: string
   nameError?: string
@@ -103,6 +104,7 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
       {
         !isNil(props.visibleForgotPassword) && props.visibleForgotPassword
           ? <TextTitle
+            onPress={props.onForgotPasswordPress}
             marginTop={20}
             text={t('screens.login.forgotPassword')}
             textAlign="right"/>

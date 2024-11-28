@@ -124,8 +124,8 @@
             "receiveCode": "Bạn không nhận được mã ?",
             "resend" : "Gửi lại",
             "titleVerify" : "Xác minh danh tính của bạn ",
-            "subVerify" : "Vui lòng nhập OTP",
-            "subVerify2" : ". Điền xuống bên dưới. ",
+            "subVerify" : "Mã OTP đã được gửi tới số điện thoại ",
+            "subVerify2" : "Vui lòng điền xuống bên dưới. ",
             "continue" : "Tiếp tục",
             "incorrectOtp" : "Mã OTP không chính xác vui lòng thử lại!"
         },
