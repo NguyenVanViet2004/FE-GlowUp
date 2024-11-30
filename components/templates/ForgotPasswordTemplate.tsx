@@ -1,6 +1,5 @@
 import { ChevronLeft, Phone } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
-import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { Alert, StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -9,6 +8,7 @@ import { View } from 'tamagui'
 import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
 import InputWithIcons from '~/components/atoms/InputWithIcons'
+import Loading from '~/components/atoms/Loading'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import AppHeader from '~/components/molecules/common/AppHeader'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
@@ -30,6 +30,7 @@ const ForgotTemplate = (): React.ReactElement => {
 
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [phoneError, setPhoneError] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const validatePhoneNumber = (value: string): void => {
     setPhoneError(
@@ -42,9 +43,11 @@ const ForgotTemplate = (): React.ReactElement => {
       validatePhoneNumber(phoneNumber)
 
       if (
-        isNil(phoneError) ||
+        phoneError !== '' ||
         phoneNumber === ''
       ) { return }
+
+      setIsLoading(true)
 
       const payload = {
         phone_number: phoneNumber
@@ -60,6 +63,8 @@ const ForgotTemplate = (): React.ReactElement => {
         t('screens.signUp.false'),
         t('Gửi OTP Thất bại')
       )
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -92,6 +97,23 @@ const ForgotTemplate = (): React.ReactElement => {
             />
           </View>
         </View>
+
+        {isLoading && (
+          <View
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            backgroundColor={colors.lightTransparentBlack}
+            justifyContent= "center"
+            alignItems= {'center'}
+            zIndex= {1}
+          >
+            <Loading/>
+          </View>
+        )}
+
         <View >
           <PositiveButton
             title={t('screens.forgot.sendCode')}

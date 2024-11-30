@@ -1,6 +1,5 @@
 import { ChevronLeft, Verified } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { isNil } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Alert, StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -9,6 +8,7 @@ import { View } from 'tamagui'
 import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
 import InputWithIcons from '~/components/atoms/InputWithIcons'
+import Loading from '~/components/atoms/Loading'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import { TextTitle } from '~/components/atoms/TextTitle'
 import AppHeader from '~/components/molecules/common/AppHeader'
@@ -27,6 +27,7 @@ const VerifyOTPTemplate = (): React.ReactElement => {
   const [otpError, setOtpError] = useState<string>('')
   const [timer, setTimer] = useState<number>(60) // Thời gian đếm ngược 60 giây
   const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const validateVerifyOTP = (value: string): void => {
     setOtpError(value !== '' ? '' : t('Vui lòng nhập mã OTP'))
@@ -53,9 +54,11 @@ const VerifyOTPTemplate = (): React.ReactElement => {
     try {
       validateVerifyOTP(verifyOTP)
       if (
-        isNil(otpError) ||
+        otpError !== '' ||
         verifyOTP === ''
       ) { return }
+
+      setIsLoading(true)
 
       const payload = {
         otp_code: verifyOTP,
@@ -64,7 +67,10 @@ const VerifyOTPTemplate = (): React.ReactElement => {
 
       const response = await request.post('/otp/verify', payload)
       if (response.message === 'OTP code is correct') {
-        router.replace('/authentication/ResetPassword')
+        router.replace({
+          params: { phoneNumber: JSON.stringify(phoneNumber) },
+          pathname: '/authentication/ResetPassword'
+        })
       } else {
         setOtpError('OTP không hợp lệ')
       }
@@ -73,6 +79,8 @@ const VerifyOTPTemplate = (): React.ReactElement => {
         t('screens.signUp.false'),
         t('Đã xảy ra lỗi')
       )
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -137,6 +145,23 @@ const VerifyOTPTemplate = (): React.ReactElement => {
             />
           </View>
         </View>
+
+        {isLoading && (
+          <View
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            backgroundColor={colors.lightTransparentBlack}
+            justifyContent= "center"
+            alignItems= {'center'}
+            zIndex= {1}
+          >
+            <Loading/>
+          </View>
+        )}
+
         <View >
           <PositiveButton
             title={t('screens.verify.continue')}

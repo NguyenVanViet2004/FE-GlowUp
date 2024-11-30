@@ -1,15 +1,17 @@
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert, useColorScheme } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
+import Loading from '~/components/atoms/Loading'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import InputForm from '~/components/molecules/InputForm'
 import TextWithLink from '~/components/molecules/TextWithLink'
+import getColors from '~/constants/Colors'
 import { setUser } from '~/features/userSlice'
 import useNotifications from '~/hooks/useNotifications'
 import useStorage from '~/hooks/useStorage'
@@ -22,9 +24,10 @@ const LoginTemplate: React.FC = (): JSX.Element => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const router = useRouter()
+  const colors = getColors(useColorScheme())
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [phoneError, setPhoneError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
 
@@ -48,6 +51,8 @@ const LoginTemplate: React.FC = (): JSX.Element => {
         password === ''
       ) { return }
 
+      setIsLoading(true)
+
       const payload = {
         notify_token: expoPushToken,
         password,
@@ -58,7 +63,6 @@ const LoginTemplate: React.FC = (): JSX.Element => {
       if (response.result !== null) {
         await setObjectItem('userData', response)
         dispatch(setUser(response))
-        console.log(response)
 
         router.replace('/(tabs)/home')
       } else {
@@ -70,6 +74,8 @@ const LoginTemplate: React.FC = (): JSX.Element => {
         t('screens.signUp.false'),
         t('screens.signUp.accountCreatedFalse')
       )
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -112,6 +118,22 @@ const LoginTemplate: React.FC = (): JSX.Element => {
           phoneError={phoneError}
         />
       </View>
+
+      {isLoading && (
+        <View
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          backgroundColor={colors.lightTransparentBlack}
+          justifyContent= "center"
+          alignItems= {'center'}
+          zIndex= {1}
+        >
+          <Loading/>
+        </View>
+      )}
 
       <View marginTop={'25%'}>
         <TextWithLink
