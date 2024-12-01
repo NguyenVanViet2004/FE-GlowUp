@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SpecialistTemplate from '~/components/templates/SpecialistTemplate';
+import SpecialistTemplate from '~/components/templates/SpecialistTemplate'
 
 const SpecialistCheckout = (): React.ReactElement => <SpecialistTemplate />
 
