@@ -1,27 +1,35 @@
-import React from 'react';
-import { useColorScheme } from 'react-native';
-import { Text, type TextProps, XStack, YStack } from 'tamagui';
-import { useRouter } from 'expo-router';
-import { PositiveButton } from '~/components/atoms/PositiveButton';
-import getColors from '~/constants/Colors';
-import { useAppFonts } from '~/hooks/useAppFonts';
-import useTranslation from '~/hooks/useTranslation';
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import React from 'react'
+import { useColorScheme } from 'react-native'
+import { Text, type TextProps, XStack, YStack } from 'tamagui'
+
+import { PositiveButton } from '~/components/atoms/PositiveButton'
+import getColors from '~/constants/Colors'
+import { useAppFonts } from '~/hooks/useAppFonts'
+import useTranslation from '~/hooks/useTranslation'
 
 type Props = {
   price: string
   // deal: number
-  specialistdata?: any;
-} & TextProps;
+  specialistdata?: any
+  id?: string
+} & TextProps
 
 const TotalAmount = (props: Props): JSX.Element => {
-  const colors = getColors(useColorScheme());
-  const { fonts } = useAppFonts();
-  const { t } = useTranslation();
-  const router = useRouter();
+  const colors = getColors(useColorScheme())
+  const { fonts } = useAppFonts()
+  const { t } = useTranslation()
+  const router = useRouter()
 
+  const dataCombo = useLocalSearchParams()
+  const parsedItem =
+    typeof dataCombo.item === 'string' ? JSON.parse(dataCombo.item) : null
   const redirectToSpecialist = (): void => {
-    router.push('/checkout/SpecialistCheckout');
-  };
+    router.push({
+      params: { item: JSON.stringify(parsedItem) },
+      pathname: '/checkout/SpecialistCheckout'
+    })
+  }
 
   return (
     <XStack paddingVertical={16} paddingHorizontal={20} alignItems="center">
@@ -42,7 +50,7 @@ const TotalAmount = (props: Props): JSX.Element => {
         onPress={redirectToSpecialist}
       />
     </XStack>
-  );
-};
+  )
+}
 
-export default TotalAmount;
+export default TotalAmount

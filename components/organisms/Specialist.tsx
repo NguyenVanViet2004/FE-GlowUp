@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather'
-import React, { useEffect, useState } from 'react'
+import { isNil } from 'lodash'
+import React, { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { FlatList, StyleSheet, TouchableOpacity, useColorScheme } from 'react-native'
 import { Avatar, Text, View } from 'tamagui'
 
@@ -9,19 +10,24 @@ import { useAppFonts } from '~/hooks/useAppFonts'
 import useTranslation from '~/hooks/useTranslation'
 import type Stylist from '~/interfaces/Stylist'
 
-const Specialist: React.FC = () => {
-  const colorScheme = useColorScheme();
-  const colors = getColors(colorScheme);
-  const { fonts } = useAppFonts();
-  const { t } = useTranslation();
-  const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
-  const [users, setUsers] = useState<Stylist[]>([]);
+interface ISpecialist {
+  toSetSelectedUser?: Dispatch<SetStateAction<Stylist | null>>
+}
+
+const Specialist: React.FC<ISpecialist> = (props: ISpecialist) => {
+  const colorScheme = useColorScheme()
+  const colors = getColors(colorScheme)
+  const { fonts } = useAppFonts()
+  const { t } = useTranslation()
+  const [selectedUserIndex, setSelectedUserIndex] =
+   useState<number | null>(null)
+  const [users, setUsers] = useState<Stylist[]>([])
 
   /* eslint-disable */
   useEffect(() => {
     const fetchStylists = async (): Promise<void> => {
       try {
-        const response = await request.get<Stylist[]>('/stylist/');
+        const response = await request.get<Stylist[]>('/stylist/')
         if (
           response?.success &&
           Array.isArray(response.data) &&
@@ -34,40 +40,46 @@ const Specialist: React.FC = () => {
               ...user.profile ?? {},
               stylist: user.profile?.stylist ?? { isWorking: false }, // Đảm bảo stylist luôn tồn tại
             },
-          }));
-          setUsers(formattedData);
+          }))
+          setUsers(formattedData)
         } else {
           console.error(
             'Failed to fetch stylist data:',
             response?.message || 'Invalid response structure'
-          );
+          )
         }
       } catch (error) {
-        console.error('Error fetching stylist data:', error);
+        console.error('Error fetching stylist data:', error)
       }
-    };
+    }
 
-    void fetchStylists();
-  }, []);
+    void fetchStylists()
+  }, [])
 
   const handleAvatarPress = (index: number): void => {
-    setSelectedUserIndex(index === selectedUserIndex ? null : index);
-  };
+    const idx = index === selectedUserIndex ? null : index
+    if (!isNil(props.toSetSelectedUser)) {
+      !isNil(idx)
+        ? props.toSetSelectedUser(users[idx])
+        : props.toSetSelectedUser(null)
+    }
+    setSelectedUserIndex(idx)
+  }
 
   const renderUser = ({
     item,
     index,
   }: {
-    item: Stylist;
-    index: number;
+    item: Stylist
+    index: number
   }): JSX.Element => {
-    const isSelectable = item.profile?.stylist?.isWorking === true; // Kiểm tra isWorking
+    const isSelectable = item.profile?.stylist?.isWorking === true // Kiểm tra isWorking
 
     return (
       <TouchableOpacity
         onPress={() => {
           if (isSelectable) {
-            handleAvatarPress(index);
+            handleAvatarPress(index)
           }
         }}
         style={[
@@ -99,8 +111,8 @@ const Specialist: React.FC = () => {
         </Avatar>
         <Text>{item.full_name || t('specialist.unknown')}</Text>
       </TouchableOpacity>
-    );
-  };
+    )
+  }
 
   return (
     <View padding={14}>
@@ -116,8 +128,8 @@ const Specialist: React.FC = () => {
         showsHorizontalScrollIndicator={false}
       />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   avatarContainer: {
@@ -125,7 +137,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   avatarDisabled: {
-    opacity: 0.3, // Giảm độ trong suốt để biểu thị không thể chọn
+    opacity: 0.3, 
   },
   avatarSelected: {
     opacity: 0.5,
@@ -140,7 +152,6 @@ const styles = StyleSheet.create({
     marginTop: 14,
     paddingHorizontal: 10,
   },
-});
+})
 
-export default Specialist;
-
+export default Specialist
