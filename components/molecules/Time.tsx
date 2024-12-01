@@ -1,6 +1,6 @@
-
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { isNil } from 'lodash'
+import { type Dispatch, type SetStateAction, useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
 import { useColorScheme } from 'react-native'
 import { Button, Stack, Text } from 'tamagui'
@@ -8,7 +8,12 @@ import { Button, Stack, Text } from 'tamagui'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import useTranslation from '~/hooks/useTranslation'
-const TimePicker: React.FC = () => {
+
+interface ITimePicker {
+  toSetSelectedTime?: Dispatch<SetStateAction<string | null>>
+}
+
+const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedHour, setSelectedHour] = useState<string | null>(null)
@@ -38,6 +43,9 @@ const TimePicker: React.FC = () => {
 
   const handleTimeSelection = (time: string): void => {
     setSelectedTime(time)
+    if (!isNil(props.toSetSelectedTime) && !isNil(time)) {
+      props.toSetSelectedTime(time)
+    }
     const [hour, minute] = time.split(':')
     setSelectedHour(hour)
     setSelectedMinute(minute)
