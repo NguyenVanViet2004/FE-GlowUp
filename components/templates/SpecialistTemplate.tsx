@@ -53,7 +53,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
         <Specialist />
         <DateComponent />
         <TimePicker/>
-        <NotesComponent
+        {/* <NotesComponent
           title={t('specialist.notes')}
           placeholder="Write your thoughts here..."
           onSave={(value) => {
@@ -61,7 +61,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
             // Thực hiện lưu trữ hoặc gọi API
           }}
 
-        />
+        /> */}
       </GradientScrollContainer>
 
       <PositiveButton

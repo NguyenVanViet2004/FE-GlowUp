@@ -86,6 +86,7 @@ const colors: Record<'light' | 'dark', Colors> = {
     tealGreen: '#156778',
     text: '#000',
     textDate: '#000',
+
     white: '#FFFFFF',
     yellow: '#ffff00'
   }
