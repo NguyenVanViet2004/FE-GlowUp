@@ -12,8 +12,8 @@ export default interface Stylist {
   address: string | null
   profile: {
     stylist?: {
-      isWorking: boolean;
-    };
+      isWorking: boolean
+    }
   } | null
   gender: GenderEnum
   createdAt: string
