@@ -105,7 +105,6 @@ function RootLayoutNav (): React.ReactElement {
               name="authentication/SignUp"
               options={{ headerShown: false }}
             />
-
             <Stack.Screen
               name="checkout/BookingCheckout"
               options={{ headerShown: false }}
@@ -142,6 +141,10 @@ function RootLayoutNav (): React.ReactElement {
             />
             <Stack.Screen
               name="checkout/SpecialistCheckout"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="payment/SelectPayment"
               options={{ headerShown: false }}
             />
             <Stack.Screen
