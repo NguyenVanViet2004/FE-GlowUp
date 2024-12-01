@@ -1,6 +1,6 @@
-import { TamaguiProvider, Stack, Text, TextArea } from "tamagui";
+import { Stack, TamaguiProvider, Text, TextArea } from 'tamagui'
 
-export default function NotesComponent() {
+export default function NotesComponent (): JSX.Element {
   return (
     <TamaguiProvider>
       <Stack padding={10} borderRadius={5}>
@@ -16,5 +16,5 @@ export default function NotesComponent() {
         />
       </Stack>
     </TamaguiProvider>
-  );
+  )
 }
