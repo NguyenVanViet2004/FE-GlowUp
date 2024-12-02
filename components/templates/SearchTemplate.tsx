@@ -234,6 +234,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
                 ai="center"
                 jc="space-between"
                 py="$3"
+                my="$2"
                 borderWidth={0.2}
                 borderColor={colors.gray}
                 borderRadius={10}
