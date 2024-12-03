@@ -60,10 +60,10 @@ const UserProfile = ({ user }: props): JSX.Element => {
           colorScheme === 'dark'
             ? (<Sun size={26} fill={colors.yellow} color={colors.yellow} />)
             : (<MoonStar
-                size={26}
-                fill={colors.spaceCadet}
-                color={colors.spaceCadet}
-              />)
+              size={26}
+              fill={colors.spaceCadet}
+              color={colors.spaceCadet}
+            />)
         }
         circular
         backgroundColor="$colorTransparent"
