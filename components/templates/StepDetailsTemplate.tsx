@@ -2,12 +2,12 @@ import { Clock } from '@tamagui/lucide-icons'
 import { type TFunction } from 'i18next'
 import { isEmpty, isNil } from 'lodash'
 import React from 'react'
-import { StatusBar, useColorScheme } from 'react-native'
-import { Button, Image, Separator, Sheet, Text, View, XStack } from 'tamagui'
+import { StatusBar } from 'react-native'
+import { Image, Separator, Sheet, Text, View, XStack } from 'tamagui'
 
-import SheetCustom from '~/components/atoms/SheetCustom'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import type Step from '~/interfaces/Step'
 
 interface props {
@@ -24,25 +24,25 @@ const StepDetailsTemplate = ({
   t
 }: props): React.ReactElement => {
   const { fonts } = useAppFonts()
-  const colorScheme = useColorScheme()
+  const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
 
   return (
     <>
-    <Sheet
+      <Sheet
         forceRemoveScrollEnabled={isOpen}
         modal={true}
         open={isOpen}
         onOpenChange={setIsOpen}
         // snapPoints={snapPoints}
-        snapPointsMode='fit'
+        snapPointsMode="fit"
         dismissOnSnapToBottom
         // position={position}
         // onPositionChange={setPosition}
         zIndex={100_000}
-        animation='medium'>
+        animation="medium">
         <Sheet.Overlay
-          animation='lazy'
+          animation="lazy"
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
         />
