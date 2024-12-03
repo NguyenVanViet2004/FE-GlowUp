@@ -27,17 +27,23 @@ export const useColorScheme = (): props => {
   }
 
   React.useLayoutEffect(() => {
-    ;(async () => {
-      const savedColorScheme = await getItem('colorScheme')
-      if (
-        !isNil(savedColorScheme) &&
-        (savedColorScheme === 'light' || savedColorScheme === 'dark')
-      ) {
-        dispatch(setColorScheme(savedColorScheme))
+    const fetchColorScheme = async (): Promise<void> => {
+      try {
+        const savedColorScheme = await getItem('colorScheme')
+        if (
+          !isNil(savedColorScheme) &&
+          (savedColorScheme === 'light' || savedColorScheme === 'dark')
+        ) {
+          dispatch(setColorScheme(savedColorScheme))
+        }
+      } catch (e) {
+        console.error(e)
       }
-    })().catch(e => { console.error(e) }),
-    []
-  })
+    }
+
+    fetchColorScheme()
+  }, [])
+
   return {
     colorScheme,
     setTheme
