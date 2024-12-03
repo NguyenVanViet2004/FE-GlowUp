@@ -41,7 +41,7 @@ export const useColorScheme = (): props => {
       }
     }
 
-    fetchColorScheme().catch(e => console.error(e))
+    fetchColorScheme().catch(e => { console.error(e) })
   }, [])
 
   return {

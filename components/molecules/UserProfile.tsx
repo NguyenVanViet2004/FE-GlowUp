@@ -58,16 +58,12 @@ const UserProfile = ({ user }: props): JSX.Element => {
       <Button
         icon={
           colorScheme === 'dark'
-            ? (
-              <Sun size={26} fill={colors.yellow} color={colors.yellow} />
-              )
-            : (
-              <MoonStar
+            ? (<Sun size={26} fill={colors.yellow} color={colors.yellow} />)
+            : (<MoonStar
                 size={26}
                 fill={colors.spaceCadet}
                 color={colors.spaceCadet}
-              />
-            )
+              />)
         }
         circular
         backgroundColor="$colorTransparent"
