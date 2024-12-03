@@ -1,10 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
-import { isNil } from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { Linking } from 'react-native'
+import React, { useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Text, View } from 'tamagui'
+import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
@@ -18,27 +16,25 @@ const SelectPaymentTemplate = (): React.ReactElement => {
     router.back()
   }
 
-  const [selectedPaymentMethod,
-    setSelectedPaymentMethod] = useState<string | null>(null)
-  const [paymentUrl, setPaymentUrl] = useState<any | null>(null)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+  useState<string | null>(null)
 
   const handleMethodChange = (method: string | null): void => {
     setSelectedPaymentMethod(method)
   }
 
-  useEffect(() => {
-    console.log('LINK: ', paymentUrl)
-  }, [])
   const handleSubmitPress = async (): Promise<void> => {
     try {
       const response = await request.post('payment/create_payment_url', {
         bankCode: selectedPaymentMethod,
-        bookingId: '67447db1fc88629cb45d423a',
-        orderDescription: 'NaptienchothuebaoSotien100000VND'
+        bookingId: '674dbb821c74684ba5d3d1d6'
       })
       const paymentUrl = response?.paymentUrl
       if (paymentUrl !== null) {
-        setPaymentUrl(paymentUrl)
+        router.push({
+          params: { url: paymentUrl },
+          pathname: '/payment/WebView'
+        })
       } else {
         console.error('Payment URL is not available')
       }
@@ -47,21 +43,18 @@ const SelectPaymentTemplate = (): React.ReactElement => {
     }
   }
 
-  const handleOpenPaymentUrl = (): void => {
-    if (!isNil(paymentUrl)) {
-      Linking.openURL(paymentUrl as string).catch((e) => { console.log(e) })
-    }
-  }
-
   return (
     <View flex={1} paddingBottom={70}>
       <Header
         title="Select payment method"
-        backIcon={<Ionicons
-          name="chevron-back"
-          size={24}
-          color="black"
-          onPress={back} />}
+        backIcon={
+          <Ionicons
+            name="chevron-back"
+            size={24}
+            color="black"
+            onPress={back}
+          />
+        }
       />
       <PaymentMethodList onMethodChange={handleMethodChange} />
       <PositiveButton
@@ -73,20 +66,6 @@ const SelectPaymentTemplate = (): React.ReactElement => {
         bottom={insets.bottom === 0 ? 20 : insets.bottom}
         onPress={handleSubmitPress}
       />
-
-      {paymentUrl !== null && (
-        <View marginTop={20} paddingHorizontal={20}>
-          <Text
-            marginBottom={20}
-            textAlign="center"
-            fontSize={16}
-            textDecorationLine="underline"
-            onPress={handleOpenPaymentUrl}
-          >
-            Click here to pay
-          </Text>
-        </View>
-      )}
     </View>
   )
 }
