@@ -3,11 +3,11 @@ import { Separator, Text, View, XStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import type Combo from '~/interfaces/Combo'
 
 import Summary from './Summary'
-import { useColorScheme } from '~/hooks/useColorScheme'
 
 interface props {
   combo: Combo
@@ -24,7 +24,10 @@ const ServiceInfoSection: React.FC<props> = ({ combo }) => {
 
       {combo.steps.map((step, index) => (
         <XStack marginTop={20} key={`${step._id}-${index}`}>
-          <Text color={colors.text} flex={1} fontFamily={fonts.fonts.JetBrainsMonoBold}>
+          <Text
+            color={colors.text}
+            flex={1}
+            fontFamily={fonts.fonts.JetBrainsMonoBold}>
             {step.name}
           </Text>
           <Text

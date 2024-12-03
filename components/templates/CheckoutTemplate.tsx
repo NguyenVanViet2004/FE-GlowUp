@@ -21,7 +21,10 @@ const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
   const colors = getColors(useColorScheme().colorScheme)
   const router = useExpoRouter()
-  const leftIcon = <ChevronLeft color={colors.text} size={25} onPress={() => router.goBack()}/>
+  const leftIcon =
+    <ChevronLeft
+      color={colors.text}
+      size={25} onPress={() => router.goBack()}/>
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
 

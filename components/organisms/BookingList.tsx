@@ -65,11 +65,20 @@ const RenderBookingItem = ({
             source={{ uri: dataCombo.picture }}
           />
           <YStack gap={10}>
-            <Text color={colors.text} fontFamily={fonts.JetBrainsMonoBold}>{dataCombo.name}</Text>
-            <Text color={colors.text}>{item.total_price.toLocaleString('vi-VN', {
-              currency: 'VND',
-              style: 'currency'
-            })}</Text>
+            <Text
+              color={colors.text}
+              fontFamily={fonts.JetBrainsMonoBold}>
+              {dataCombo.name}
+            </Text>
+            <Text
+              color={colors.text}
+            >{
+                item.total_price
+                  .toLocaleString(
+                    'vi-VN', { currency: 'VND', style: 'currency' }
+                  )
+              }
+            </Text>
             {/* <Text>{item.rate}</Text> */}
           </YStack>
         </XStack>

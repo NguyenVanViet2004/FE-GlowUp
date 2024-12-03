@@ -27,7 +27,7 @@ const BookingCompleted = (): React.ReactElement => {
     return <Loading />
   }
 
-  const viewBooking = (id: string) => {
+  const viewBooking = (id: string): void => {
     router.push('/checkout/BookingCheckout')
   }
   return (
@@ -39,9 +39,8 @@ const BookingCompleted = (): React.ReactElement => {
               dataCombo={CompletedAppointments}
               visibleTextCancel={false}
               visibleFormButton={true}
-              visibleTransparentButton={false} 
-              viewBookingPress={id => viewBooking(id)}
-              />)
+              visibleTransparentButton={false}
+              viewBookingPress={id => { viewBooking(id) }}/>)
           : (
             <Text color={colors.text}>{t('booking.completed')}</Text>)
       }

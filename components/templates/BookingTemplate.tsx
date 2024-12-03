@@ -10,7 +10,6 @@ import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
-
 const BookingTemplate = (): React.ReactElement => {
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme().colorScheme)

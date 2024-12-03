@@ -113,7 +113,7 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
     <LinearGradientBackground>
       <SafeAreaView style={styles.container}>
         <View>
-        <AppHeader
+          <AppHeader
             onPress={() => { router.back() }}
             headerTitle={t('common.back')}
             fontFamily={fonts.JetBrainsMonoRegular}

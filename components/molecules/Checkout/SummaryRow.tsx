@@ -1,5 +1,6 @@
 import React from 'react'
 import { Text, XStack } from 'tamagui'
+
 import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
 
@@ -15,11 +16,14 @@ const SummaryRow: React.FC<SummaryRowProps> = ({
   value,
   fonts,
   color
-}) =>{
+}) => {
   const colors = getColors(useColorScheme().colorScheme)
 
-  return(<XStack>
-    <Text color={colors.text} flex={1} fontFamily={fonts.fonts.JetBrainsMonoBold}>
+  return (<XStack>
+    <Text
+      color={colors.text}
+      flex={1}
+      fontFamily={fonts.fonts.JetBrainsMonoBold}>
       {label}
     </Text>
     <Text color={color} fontFamily={fonts.fonts.JetBrainsMonoBold}>
@@ -27,8 +31,5 @@ const SummaryRow: React.FC<SummaryRowProps> = ({
     </Text>
   </XStack>)
 }
-
-  
-  
 
 export default SummaryRow

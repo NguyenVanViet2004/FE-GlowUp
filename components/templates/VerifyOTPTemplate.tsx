@@ -105,7 +105,7 @@ const VerifyOTPTemplate = (): React.ReactElement => {
     <LinearGradientBackground>
       <SafeAreaView style={styles.container}>
         <View flex={1}>
-        <AppHeader
+          <AppHeader
             onPress={() => { router.back() }}
             headerTitle={t('common.back')}
             fontFamily={fonts.JetBrainsMonoRegular}
