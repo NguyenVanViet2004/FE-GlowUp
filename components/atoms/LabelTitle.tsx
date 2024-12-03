@@ -15,7 +15,7 @@ const LabelTitle = (props: Props): JSX.Element => {
   const colors = getColors(colorScheme)
   const { fonts } = useAppFonts()
   return (
-    <XStack justifyContent="space-between">
+    <XStack justifyContent="space-between" testID="label-title">
       <Text
         fontFamily={fonts.JetBrainsMonoBold}
         color={colors.text}

@@ -16,6 +16,7 @@ const Panagitor = (
       position="absolute"
       bottom={100}
       width={'100%'}
+      testID="panagitor"
       justifyContent="center">
       {
         data.map((_: any, i: number) => {

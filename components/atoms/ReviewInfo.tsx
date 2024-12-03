@@ -13,7 +13,7 @@ const ReviewInfo = (props: Props): React.ReactElement => {
   const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
   return (
-    <XStack alignItems="center" gap={5}>
+    <XStack alignItems="center" gap={5} testID="review-info">
       <StarFull color={colors.deepOrange} size={16} />
       <Text fontSize={12} color={colors.text} fontWeight={'bold'}>
         {props.star}

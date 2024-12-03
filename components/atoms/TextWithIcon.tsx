@@ -1,5 +1,5 @@
-import React from 'react'
-import { Text, type TextProps, XStack } from 'tamagui'
+import React from "react"
+import { Text, type TextProps, XStack } from "tamagui"
 
 type Props = {
   icon?: React.ReactElement
@@ -10,7 +10,7 @@ type Props = {
 
 const TextWithIcon = (props: Props): JSX.Element => {
   return (
-    <XStack gap={8}>
+    <XStack gap={8} testID='text-with-icon'>
       {props.icon}
       <Text {...props} fontSize={14}>
         {props.title}

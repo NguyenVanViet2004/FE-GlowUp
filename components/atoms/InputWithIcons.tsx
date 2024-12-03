@@ -1,11 +1,11 @@
 import { isNil, isUndefined } from 'lodash'
 import React, { useState } from 'react'
-import { useColorScheme } from 'react-native'
 import { Input, type InputProps, Text, XStack, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { HEIGHT_BUTTON, RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type Props = {
   iconRight?: JSX.Element
@@ -14,7 +14,7 @@ type Props = {
 } & InputProps
 
 const InputWithIcons: React.FC<Props> = (props: Props) => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { fonts } = useAppFonts()
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const inputContainerStyle = {
@@ -25,13 +25,11 @@ const InputWithIcons: React.FC<Props> = (props: Props) => {
 
   return (
     <YStack>
-
       <XStack
         alignItems="center"
         borderRadius={RADIUS_BUTTON}
         paddingHorizontal={24}
-        style={inputContainerStyle}
-      >
+        style={inputContainerStyle}>
         {!isNil(props.iconRight) && props.iconRight}
 
         <Input
@@ -44,24 +42,22 @@ const InputWithIcons: React.FC<Props> = (props: Props) => {
           color={colors.oceanTeal}
           placeholderTextColor={colors.placeholderColor}
           flex={1}
-          onFocus={() => { setIsFocused(true) }}
-          onBlur={() => { setIsFocused(false) }}
+          onFocus={() => {
+            setIsFocused(true)
+          }}
+          onBlur={() => {
+            setIsFocused(false)
+          }}
         />
 
         {!isNil(props.iconLeft) && props.iconLeft}
       </XStack>
       {!isUndefined(props.errorMessage) && props.errorMessage !== '' && (
-        <Text
-          color={'red'}
-          fontSize={12}
-          left={20}
-          top={3}
-        >
+        <Text color={'red'} fontSize={12} left={20} top={3}>
           {props.errorMessage}
         </Text>
       )}
     </YStack>
-
   )
 }
 
