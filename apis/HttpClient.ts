@@ -20,6 +20,7 @@ export interface Response<T = any> {
   path?: string
   success?: boolean
   stylist?: []
+  paymentUrl?: string
 }
 
 export type MyResponse<T = any> = Promise<Response<T>>
