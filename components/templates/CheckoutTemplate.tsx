@@ -17,7 +17,6 @@ import ServiceInfoSection from '~/components/molecules/Checkout/ServiceInfoSecti
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
-import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
 import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateToLongForm'
