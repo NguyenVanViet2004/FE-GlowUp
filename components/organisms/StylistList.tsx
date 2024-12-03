@@ -1,16 +1,18 @@
-import dayjs from "dayjs"
-import { isNil } from "lodash"
-import React from "react"
-import { FlatList, useColorScheme } from "react-native"
-import { Image, Sheet, Text, View, XStack, YStack } from "tamagui"
+import dayjs from 'dayjs'
+import { isNil } from 'lodash'
+import React from 'react'
+import { FlatList } from 'react-native'
+import { Image, Sheet, Text, View, XStack, YStack } from 'tamagui'
 
-import getColors from "~/constants/Colors"
-import useFetchStylist from "~/hooks/useFetchStylist"
-import { GenderEnum } from "~/interfaces/enum/Gender"
-import type Stylist from "~/interfaces/Stylist"
+import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
+import useFetchStylist from '~/hooks/useFetchStylist'
+import { GenderEnum } from '~/interfaces/enum/Gender'
+import type Stylist from '~/interfaces/Stylist'
 
 const StylistList = (): JSX.Element => {
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
   const { stylist } = useFetchStylist()
   const [isOpenBottomSheet, setIsOpenBottomSheet] = React.useState(false)
   const [selectedStylist, setSelectedStylist] = React.useState<Stylist | null>(
@@ -18,12 +20,12 @@ const StylistList = (): JSX.Element => {
   )
 
   const renderStylistItem = ({
-    item,
+    item
   }: {
     item: Stylist
   }): React.ReactElement => (
     <YStack
-      alignItems='center'
+      alignItems="center"
       marginBottom={20}
       paddingRight={14}
       onPress={() => {
@@ -32,9 +34,9 @@ const StylistList = (): JSX.Element => {
       }}>
       <Image
         source={
-          !isNil(item.avatar) && item.avatar !== ""
+          !isNil(item.avatar) && item.avatar !== ''
             ? { uri: item.avatar }
-            : require("~/assets/images/avataDefault.jpg")
+            : require('~/assets/images/avataDefault.jpg')
         }
         width={72}
         height={72}
@@ -63,34 +65,34 @@ const StylistList = (): JSX.Element => {
         open={isOpenBottomSheet}
         onOpenChange={setIsOpenBottomSheet}
         // snapPoints={snapPoints}
-        snapPointsMode='fit'
+        snapPointsMode="fit"
         dismissOnSnapToBottom
         // position={position}
         // onPositionChange={setPosition}
         zIndex={100_000}
-        animation='medium'>
+        animation="medium">
         <Sheet.Overlay
-          animation='lazy'
+          animation="lazy"
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
         />
         <Sheet.Handle />
-        {selectedStylist && (
+        {!isNil(selectedStylist) && (
           <View
             padding={16}
             backgroundColor={colors.inputBackground}
             borderRadius={12}>
             {/* Header Section */}
             <XStack
-              justifyContent='space-between'
-              alignItems='center'
+              justifyContent="space-between"
+              alignItems="center"
               marginBottom={16}>
               <Image
                 source={
                   !isNil(selectedStylist.avatar) &&
-                  selectedStylist.avatar !== ""
+                  selectedStylist.avatar !== ''
                     ? { uri: selectedStylist.avatar }
-                    : require("~/assets/images/avataDefault.jpg")
+                    : require('~/assets/images/avataDefault.jpg')
                 }
                 width={100}
                 height={100}
@@ -99,7 +101,7 @@ const StylistList = (): JSX.Element => {
               <View flex={1} marginLeft={10}>
                 <Text
                   fontSize={20}
-                  fontWeight='bold'
+                  fontWeight="bold"
                   color={colors.text}
                   numberOfLines={1}>
                   {selectedStylist.full_name}
@@ -117,8 +119,10 @@ const StylistList = (): JSX.Element => {
                     fontSize={14}
                     color={colors.text}
                     marginTop={5}>
-                    <Text fontWeight='bold'>Giới tính: </Text>
-                    {selectedStylist.gender === GenderEnum.MALE ? "Nam" : "Nữ"}
+                    <Text color={colors.text} fontWeight="bold">
+                      Giới tính:{' '}
+                    </Text>
+                    {selectedStylist.gender === GenderEnum.MALE ? 'Nam' : 'Nữ'}
                   </Text>
                 </XStack>
               </View>
@@ -126,14 +130,16 @@ const StylistList = (): JSX.Element => {
 
             {/* Detail Section */}
             <View marginBottom={16}>
-              <Text fontSize={16} fontWeight='500' color={colors.text}>
-                <Text fontWeight='bold'>Số điện thoại: </Text>
+              <Text fontSize={16} fontWeight="500" color={colors.text}>
+                <Text color={colors.text} fontWeight="bold">
+                  Số điện thoại:{' '}
+                </Text>
                 {selectedStylist.phone_number}
               </Text>
             </View>
 
             <View marginBottom={16}>
-              <Text>
+              <Text color={colors.text}>
                 Trạng thái:
                 <Text
                   fontSize={16}
@@ -145,24 +151,28 @@ const StylistList = (): JSX.Element => {
                   }>
                   {isNil(selectedStylist.profile?.stylist?.isWorking) ||
                   selectedStylist.profile?.stylist?.isWorking
-                    ? " Đang bận"
-                    : " Đang rảnh"}
+                    ? ' Đang bận'
+                    : ' Đang rảnh'}
                 </Text>
               </Text>
             </View>
 
             <View marginBottom={16}>
-              <Text fontSize={16} fontWeight='500' color={colors.text}>
-                <Text fontWeight='bold'>Ngày sinh: </Text>
+              <Text fontSize={16} fontWeight="500" color={colors.text}>
+                <Text color={colors.text} fontWeight="bold">
+                  Ngày sinh:{' '}
+                </Text>
                 {isNil(selectedStylist.date_of_birth)
                   ? null
-                  : dayjs(selectedStylist.date_of_birth).format("DD/MM/YYYY")}
+                  : dayjs(selectedStylist.date_of_birth).format('DD/MM/YYYY')}
               </Text>
             </View>
 
             <View marginBottom={16}>
-              <Text fontSize={16} fontWeight='500' color={colors.text}>
-                <Text fontWeight='bold'>Địa chỉ: </Text>
+              <Text fontSize={16} fontWeight="500" color={colors.text}>
+                <Text color={colors.text} fontWeight="bold">
+                  Địa chỉ:{' '}
+                </Text>
                 {selectedStylist.address}
               </Text>
             </View>
