@@ -2,7 +2,7 @@ import { Search, X } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import { debounce, isEmpty } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
-import { StyleSheet, useColorScheme } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,10 +15,12 @@ import GradientScrollContainer from '~/components/molecules/container/GradientSc
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import type Combo from '~/interfaces/Combo'
 
 const SearchTempale: React.FC = (): JSX.Element => {
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
   const { fonts } = useAppFonts()
   const router = useRouter()
 
@@ -131,6 +133,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
         br="$4"
         padding={10}
         marginHorizontal={10}
+        mt={20}
         mb="$4"
         borderRadius={RADIUS_BUTTON}>
         <Search size={20} color={colors.blueSapphire} />
@@ -234,6 +237,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
                 ai="center"
                 jc="space-between"
                 py="$3"
+                my="$2"
                 borderWidth={0.2}
                 borderColor={colors.gray}
                 borderRadius={10}

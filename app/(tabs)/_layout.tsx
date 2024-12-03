@@ -2,17 +2,18 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { CalendarDays, Home, Search } from '@tamagui/lucide-icons'
 import { Tabs } from 'expo-router'
 import React from 'react'
-import { Platform, useColorScheme } from 'react-native'
+import { Platform } from 'react-native'
 
 import Colors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 const BottomTab = (): React.JSX.Element => {
   const { t } = useTranslation()
   const { fonts } = useAppFonts()
-  const colorScheme = useColorScheme()
+  const { colorScheme } = useColorScheme()
 
   return (
     <Tabs screenOptions={{
@@ -24,6 +25,7 @@ const BottomTab = (): React.JSX.Element => {
       },
       tabBarStyle: {
         borderRadius: RADIUS_BUTTON,
+        borderTopWidth: 0,
         bottom: 30,
         left: 20,
         position: 'absolute',

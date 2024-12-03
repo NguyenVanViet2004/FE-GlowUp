@@ -2,7 +2,7 @@ import { ChevronLeft, Map } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React from 'react'
-import { ImageBackground, StyleSheet, useColorScheme } from 'react-native'
+import { ImageBackground, StyleSheet } from 'react-native'
 import { Button, ScrollView, Separator, View } from 'tamagui'
 
 import AppHeader from '~/components/molecules/common/AppHeader'
@@ -15,10 +15,11 @@ import ServiceCardTitle from '~/components/molecules/ServiceCardTitle'
 import TotalAmount from '~/components/molecules/TotalAmount'
 // import UserReviews from '~/components/molecules/UserReviews'
 import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 const ComboDetailTemplate = (): React.ReactElement => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
   const router = useRouter()
 

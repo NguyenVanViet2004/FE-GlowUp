@@ -1,11 +1,11 @@
 import { MoonStar, Sun, User2 } from '@tamagui/lucide-icons'
 import { isEmpty } from 'lodash'
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Avatar, Button, Card, Text, View } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import { type Colors } from '~/interfaces/Colors'
 import type User from '~/interfaces/User'
 
@@ -14,8 +14,8 @@ interface props {
 }
 
 const UserProfile = ({ user }: props): JSX.Element => {
-  const isDarkMode = useColorScheme() === 'dark'
-  const colors: Colors = getColors(useColorScheme())
+  const { colorScheme, setTheme } = useColorScheme()
+  const colors: Colors = getColors(colorScheme)
 
   return (
     <Card
@@ -32,14 +32,11 @@ const UserProfile = ({ user }: props): JSX.Element => {
       shadowOpacity={0.3}
       shadowRadius={4}
       justifyContent="flex-start">
-      <Avatar
-        circular
-        size="$4"
-        borderWidth={1}
-        borderColor="$borderColor" >
+      <Avatar circular size="$4" borderWidth={1} borderColor="$borderColor">
         <Avatar.Image
           accessibilityLabel="Cam"
-          src={user.result.avatar ??
+          src={
+            user.result.avatar ??
             'https://xsgames.co/randomusers/avatar.php?g=female'
           }
         />
@@ -51,17 +48,30 @@ const UserProfile = ({ user }: props): JSX.Element => {
         <Text fontSize={18} fontWeight="600" color={colors.text}>
           {isEmpty(user.result.full_name) ? 'Khách' : user.result.full_name}
         </Text>
-        <Text color={colors.text}>{isEmpty(user.result.phone_number)
-          ? 'Bạn chưa đăng nhập'
-          : user.result.phone_number}</Text>
+        <Text color={colors.text}>
+          {isEmpty(user.result.phone_number)
+            ? 'Bạn chưa đăng nhập'
+            : user.result.phone_number}
+        </Text>
       </View>
+      {/* Toggle light/dark mode */}
       <Button
-        icon={isDarkMode
-          ? <Sun size={26} fill={colors.yellow} color={colors.yellow} />
-          : <MoonStar size={26}
-            fill={colors.spaceCadet} color={colors.spaceCadet} />}
+        icon={
+          colorScheme === 'dark'
+            ? (<Sun size={26} fill={colors.yellow} color={colors.yellow} />)
+            : (<MoonStar
+              size={26}
+              fill={colors.spaceCadet}
+              color={colors.spaceCadet}
+            />)
+        }
         circular
         backgroundColor="$colorTransparent"
+        onPress={() => {
+          setTheme(colorScheme === 'light' ? 'dark' : 'light').catch((e) => {
+            console.log(e)
+          })
+        }}
         borderWidth={0}
         size={40}
       />

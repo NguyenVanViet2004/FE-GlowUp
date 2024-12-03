@@ -1,20 +1,19 @@
 import React, { type PropsWithChildren } from 'react'
-import { useColorScheme } from 'react-native'
 import { LinearGradient } from 'tamagui/linear-gradient'
 
 import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type GradientBackgroundProps = PropsWithChildren<Record<string, unknown>>
 
-const LinearGradientBackground: React.FC<GradientBackgroundProps> = (
-  { children }
-) => {
-  const colors = getColors(useColorScheme())
+const LinearGradientBackground: React.FC<GradientBackgroundProps> = ({
+  children
+}) => {
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
 
   return (
-    <LinearGradient
-      colors={[colors.midnightGlow, colors.skyLight]}
-      flex={1}>
+    <LinearGradient colors={[colors.midnightGlow, colors.skyLight]} flex={1}>
       {children}
     </LinearGradient>
   )

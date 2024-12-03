@@ -2,7 +2,7 @@ import { LogOut } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect } from 'react'
-import { Alert, StyleSheet, useColorScheme } from 'react-native'
+import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { Button, ScrollView, Text } from 'tamagui'
@@ -11,13 +11,18 @@ import LinearGradientBackground from '~/components/molecules/LinearGradientBackg
 import UserProfile from '~/components/molecules/UserProfile'
 import SettingList from '~/components/organisms/SettingList'
 import getColors from '~/constants/Colors'
-import { initialState as INITIAL_USER_STATE, resetUser } from '~/features/userSlice'
+import {
+  initialState as INITIAL_USER_STATE,
+  resetUser
+} from '~/features/userSlice'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import type User from '~/interfaces/User'
 
 const ProfileTemplate = (): React.ReactElement => {
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
   const { t } = useTranslation()
   const router = useRouter()
   const dispatch = useDispatch()
@@ -26,7 +31,7 @@ const ProfileTemplate = (): React.ReactElement => {
   const [user, setUser] = React.useState<User>()
 
   const fetchUserLocal = async (): Promise<void> => {
-    const userData = await getObjectItem('userData') as User
+    const userData = (await getObjectItem('userData')) as User
     if (!isNil(userData)) {
       setUser(userData)
     }
@@ -38,7 +43,9 @@ const ProfileTemplate = (): React.ReactElement => {
         {
           onPress: () => {
             dispatch(resetUser())
-            removeItem('userData').catch(err => { console.log(err) })
+            removeItem('userData').catch((err) => {
+              console.log(err)
+            })
 
             router.replace('/authentication/Login')
           },
@@ -55,14 +62,15 @@ const ProfileTemplate = (): React.ReactElement => {
   }
 
   useLayoutEffect(() => {
-    fetchUserLocal().catch((e) => { console.error(e) })
+    fetchUserLocal().catch((e) => {
+      console.error(e)
+    })
   }, [])
 
   return (
     <LinearGradientBackground>
       <ScrollView fullscreen showsVerticalScrollIndicator={false}>
         <SafeAreaView style={styles.container}>
-
           <UserProfile user={isNil(user) ? INITIAL_USER_STATE : user} />
           <SettingList colors={colors} />
 
@@ -72,9 +80,9 @@ const ProfileTemplate = (): React.ReactElement => {
             borderRadius="$2"
             borderColor="red"
             onPress={handlePressLoginOrLogOut}
-            icon={<LogOut color="$danger" />}
+            icon={<LogOut color={colors.text} />}
             justifyContent="center">
-            <Text color="$danger" fontWeight="600">
+            <Text color={colors.text} fontWeight="600">
               {isNil(user) ? 'Đăng nhập' : t('screens.profile.logout')}
             </Text>
           </Button>

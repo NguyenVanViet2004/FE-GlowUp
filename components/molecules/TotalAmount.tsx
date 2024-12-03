@@ -1,11 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Text, type TextProps, XStack, YStack } from 'tamagui'
 
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 } & TextProps
 
 const TotalAmount = (props: Props): JSX.Element => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { fonts } = useAppFonts()
   const { t } = useTranslation()
   const router = useRouter()

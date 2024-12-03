@@ -1,5 +1,4 @@
 import { useRouter } from 'expo-router'
-import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { Alert, useColorScheme } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -45,8 +44,8 @@ const LoginTemplate: React.FC = (): JSX.Element => {
       validatePassword(password)
 
       if (
-        isNil(phoneError) ||
-        isNil(passwordError) ||
+        phoneError !== '' ||
+        passwordError !== '' ||
         phoneNumber === '' ||
         password === ''
       ) { return }

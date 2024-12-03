@@ -63,10 +63,10 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
     validateConfirmPasswordInput(confirmPassword)
 
     if (
-      isNil(nameError) ||
-      isNil(phoneError) ||
-      isNil(passwordError) ||
-      isNil(confirmPasswordError) ||
+      nameError !== '' ||
+      phoneError !== '' ||
+      passwordError !== '' ||
+      confirmPasswordError !== '' ||
       fullName === '' ||
       phoneNumber === '' ||
       password === '' ||

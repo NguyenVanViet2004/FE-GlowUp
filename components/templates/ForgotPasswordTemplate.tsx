@@ -24,7 +24,6 @@ const validatePhone = (phone: string): boolean => {
 const ForgotTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
   const { fonts } = useAppFonts()
-
   const colors = getColors(useColorScheme())
   const router = useRouter()
 

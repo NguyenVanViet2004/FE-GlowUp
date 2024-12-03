@@ -1,16 +1,17 @@
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Text, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 interface Props {
   title: string
   subtitle?: string
 }
 
 const ContentTitle: React.FC<Props> = ({ title, subtitle }) => {
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
   const { fonts } = useAppFonts()
   return (
     <YStack >
