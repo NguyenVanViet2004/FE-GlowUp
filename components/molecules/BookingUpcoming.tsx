@@ -6,6 +6,8 @@ import { Text, View } from 'tamagui'
 import { request } from '~/apis/HttpClient'
 import Loading from '~/components/atoms/Loading'
 import BookingList from '~/components/organisms/BookingList'
+import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchAppointment from '~/hooks/useFetchAppointment'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
@@ -13,6 +15,7 @@ import { type RootState } from '~/redux/store'
 
 const BookingUpcoming = (): React.ReactElement => {
   const { t } = useTranslation()
+  const colors = getColors(useColorScheme().colorScheme)
   const { appointments, isLoading, refetch } = useFetchAppointment()
   const [isCanceling, setIsCanceling] = useState(false)
 
@@ -54,8 +57,6 @@ const BookingUpcoming = (): React.ReactElement => {
         text: 'Đồng ý'
       }
     ])
-
-    console.log('abc')
   }
 
   if (isLoading || isCanceling) {
@@ -76,7 +77,7 @@ const BookingUpcoming = (): React.ReactElement => {
             visibleTransparentButton={true}
           />)
         : (
-          <Text>{t('booking.upcoming')}</Text>)}
+          <Text color={colors.text}>{t('booking.upcoming')}</Text>)}
     </View>
   )
 }

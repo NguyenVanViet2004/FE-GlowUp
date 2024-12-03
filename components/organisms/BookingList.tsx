@@ -1,6 +1,6 @@
 import { isNil } from 'lodash'
 import React from 'react'
-import { FlatList, StyleSheet, useColorScheme } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 import { Image, Text, View, XStack, YStack } from 'tamagui'
 
 import { PositiveButton } from '~/components/atoms/PositiveButton'
@@ -8,6 +8,7 @@ import TransparentButton from '~/components/atoms/TransparentButton'
 import getColors from '~/constants/Colors'
 import { HEIGHT_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import formatDate from '~/hooks/useDate'
 import useTranslation from '~/hooks/useTranslation'
 import type Appointment from '~/interfaces/Appointment'
@@ -18,6 +19,7 @@ interface Props {
   visibleFormButton?: boolean
   cancellPress?: (id: string) => void
   dataCombo: Appointment[]
+  viewBookingPress?: (id: string) => void
 
 }
 
@@ -26,10 +28,11 @@ const RenderBookingItem = ({
   visibleTextCancel,
   visibleTransparentButton,
   visibleFormButton,
-  cancellPress
+  cancellPress,
+  viewBookingPress
 }: { item: Appointment } & Props): React.ReactElement => {
   const { fonts } = useAppFonts()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
   const dataCombo: any = item.combo
 
@@ -43,7 +46,7 @@ const RenderBookingItem = ({
     >
       <YStack gap={10}>
         <XStack justifyContent="space-between">
-          <Text>{formatDate(item.createdAt)}</Text>
+          <Text color={colors.text}>{formatDate(item.createdAt)}</Text>
           <Text
             display={
               !isNil(visibleTextCancel) && visibleTextCancel ? 'flex' : 'none'
@@ -62,8 +65,8 @@ const RenderBookingItem = ({
             source={{ uri: dataCombo.picture }}
           />
           <YStack gap={10}>
-            <Text fontFamily={fonts.JetBrainsMonoBold}>{dataCombo.name}</Text>
-            <Text>{item.total_price.toLocaleString('vi-VN', {
+            <Text color={colors.text} fontFamily={fonts.JetBrainsMonoBold}>{dataCombo.name}</Text>
+            <Text color={colors.text}>{item.total_price.toLocaleString('vi-VN', {
               currency: 'VND',
               style: 'currency'
             })}</Text>
@@ -91,6 +94,7 @@ const RenderBookingItem = ({
           />
 
           <PositiveButton
+            onPress={() => viewBookingPress?.(item.id)}
             paddingHorizontal={5}
             flex={1}
             title={t('screens.booking.viewReceipt')}

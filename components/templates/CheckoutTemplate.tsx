@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Card } from 'tamagui'
 
@@ -12,6 +11,7 @@ import ServiceInfoSection from '~/components/molecules/Checkout/ServiceInfoSecti
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import type Combo from '~/interfaces/Combo'
 import type Step from '~/interfaces/Step'
@@ -19,9 +19,9 @@ import type Voucher from '~/interfaces/voucher'
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const router = useExpoRouter()
-  const leftIcon = <ChevronLeft size={25} onPress={() => router.goBack()}/>
+  const leftIcon = <ChevronLeft color={colors.text} size={25} onPress={() => router.goBack()}/>
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
 

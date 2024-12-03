@@ -1,6 +1,8 @@
 import React from 'react'
 import { type LayoutChangeEvent } from 'react-native'
 import { type StackProps, Text, type TextProps, YStack } from 'tamagui'
+import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type LabelValueColumnProps = {
   label: string
@@ -18,10 +20,11 @@ const LabelValueColumn: React.FC<LabelValueColumnProps> = ({
   onLayout,
   ...stackProps
 }) => {
+  const colors = getColors(useColorScheme().colorScheme)
   return (
     <YStack gap={10} {...stackProps} onLayout={onLayout}>
-      <Text {...labelProps}>{label}</Text>
-      <Text {...valueProps}>{value}</Text>
+      <Text color={colors.text}  {...labelProps}>{label}</Text>
+      <Text color={colors.text} {...valueProps}>{value}</Text>
     </YStack>
   )
 }

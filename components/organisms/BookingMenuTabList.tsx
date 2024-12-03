@@ -1,16 +1,17 @@
 import React, { useMemo, useState } from 'react'
-import { FlatList, TouchableOpacity, useColorScheme } from 'react-native'
+import { FlatList, TouchableOpacity } from 'react-native'
 import { Separator, Text, View, YStack } from 'tamagui'
 
 import BookingCancelled from '~/components/molecules/BookingCancelled'
 import BookingCompleted from '~/components/molecules/BookingCompleted'
 import BookingUpcoming from '~/components/molecules/BookingUpcoming'
 import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import type MenuTab from '~/interfaces/MenuTab'
 
 const BookingMenuTabList = (): React.ReactElement => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
 
   const menuTabs = useMemo<MenuTab[]>(() => [

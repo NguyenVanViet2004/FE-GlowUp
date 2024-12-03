@@ -1,7 +1,7 @@
 import { ChevronLeft, Verified } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { Alert, StyleSheet, useColorScheme } from 'react-native'
+import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View } from 'tamagui'
 
@@ -15,12 +15,13 @@ import AppHeader from '~/components/molecules/common/AppHeader'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 const VerifyOTPTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
   const { fonts } = useAppFonts()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const router = useRouter()
 
   const [verifyOTP, setVerifyOTP] = useState<string>('')
@@ -104,11 +105,12 @@ const VerifyOTPTemplate = (): React.ReactElement => {
     <LinearGradientBackground>
       <SafeAreaView style={styles.container}>
         <View flex={1}>
-          <AppHeader
+        <AppHeader
+            onPress={() => { router.back() }}
             headerTitle={t('common.back')}
             fontFamily={fonts.JetBrainsMonoRegular}
             leftIcon={
-              <ChevronLeft size={24} onPress={() => { router.back() }}/>}
+              <ChevronLeft color={colors.text} size={25}/>}
           />
           <View marginTop={'13%'}>
             <ContentTitle

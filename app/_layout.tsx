@@ -71,7 +71,9 @@ function RootLayoutNav (): React.ReactElement {
           />
 
           <Stack.Screen
-            name="checkout/BookingCheckout"/>
+            name="checkout/BookingCheckout"
+            options={{ headerShown: false }}
+            />
           <Stack.Screen
             name="authentication/VerifyOTP"
             options={{ headerShown: false }}

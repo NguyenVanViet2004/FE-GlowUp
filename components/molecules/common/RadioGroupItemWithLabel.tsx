@@ -1,6 +1,5 @@
 import { isNil } from 'lodash'
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import {
   Label,
   RadioGroup,
@@ -12,6 +11,7 @@ import {
 } from 'tamagui'
 
 import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type props = {
   size?: SizeTokens
@@ -28,12 +28,12 @@ const RadioGroupItemWithLabel: React.FC<props> = ({
   ...props
 }) => {
   const id = `radiogroup-${value}`
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
 
   return (
     <XStack alignItems="center">
       <YStack flex={1}>
-        <Label size={size} htmlFor={id}>
+        <Label color={colors.text} size={size} htmlFor={id}>
           {label}
         </Label>
         {!isNil(descriptions) && (

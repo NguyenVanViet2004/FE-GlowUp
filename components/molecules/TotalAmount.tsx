@@ -38,7 +38,7 @@ const TotalAmount = (props: Props): JSX.Element => {
           {t('screens.details.total')}
         </Text>
         <XStack alignItems="center" gap={10}>
-          <Text fontSize={20}>{props.price}</Text>
+          <Text color={colors.text} fontSize={20}>{props.price}</Text>
           {/* <Text textDecorationLine="line-through" color={colors.text}>
             {props.deal}
           </Text> */}

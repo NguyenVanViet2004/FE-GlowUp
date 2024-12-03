@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, useColorScheme } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, View } from 'tamagui'
 
@@ -7,11 +7,13 @@ import LinearGradientBackground from '~/components/molecules/LinearGradientBackg
 import BookingMenuTabList from '~/components/organisms/BookingMenuTabList'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
+
 
 const BookingTemplate = (): React.ReactElement => {
   const { fonts } = useAppFonts()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
 
   return (

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Separator, Text, View, XStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
@@ -8,23 +7,24 @@ import useTranslation from '~/hooks/useTranslation'
 import type Combo from '~/interfaces/Combo'
 
 import Summary from './Summary'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 interface props {
   combo: Combo
 }
 
 const ServiceInfoSection: React.FC<props> = ({ combo }) => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const fonts = useAppFonts()
   const { t } = useTranslation()
 
   return (
     <View width="100%" marginTop={40}>
-      <Text textAlign="center">{t('booking.service')}</Text>
+      <Text color={colors.text} textAlign="center">{t('booking.service')}</Text>
 
       {combo.steps.map((step, index) => (
         <XStack marginTop={20} key={`${step._id}-${index}`}>
-          <Text flex={1} fontFamily={fonts.fonts.JetBrainsMonoBold}>
+          <Text color={colors.text} flex={1} fontFamily={fonts.fonts.JetBrainsMonoBold}>
             {step.name}
           </Text>
           <Text
