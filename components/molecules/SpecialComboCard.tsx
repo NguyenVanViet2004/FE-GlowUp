@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router'
 import { isEmpty } from 'lodash'
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import {
   Button,
   Card,
@@ -17,6 +16,7 @@ import { PositiveButton } from '~/components/atoms/PositiveButton'
 import ReviewInfo from '~/components/atoms/ReviewInfo'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import type Combo from '~/interfaces/Combo'
 
@@ -29,7 +29,8 @@ interface Props extends ViewProps {
   comboData: Combo
 }
 const SpecialComboCard = (props: Props): React.ReactElement => {
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
   const { t } = useTranslation()
 
   const router = useRouter()

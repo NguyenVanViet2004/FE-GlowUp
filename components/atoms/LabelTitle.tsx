@@ -1,9 +1,9 @@
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Text, type TextProps, XStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type Props = {
   title: string
@@ -11,7 +11,8 @@ type Props = {
 } & TextProps
 
 const LabelTitle = (props: Props): JSX.Element => {
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
   const { fonts } = useAppFonts()
   return (
     <XStack justifyContent="space-between">

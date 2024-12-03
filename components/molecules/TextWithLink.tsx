@@ -1,9 +1,9 @@
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Text, type TextProps, XStack } from 'tamagui'
 
 import { TextTitle } from '~/components/atoms/TextTitle'
 import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type Props = {
   heading: string
@@ -14,7 +14,8 @@ type Props = {
 const TextWithLink: React.FC<Props> = (
   { heading, linkText, onLinkPress }
 ) => {
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
 
   return (
     <XStack justifyContent="center" alignItems="flex-end" gap={8} >

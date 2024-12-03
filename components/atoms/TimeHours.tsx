@@ -1,10 +1,10 @@
 import { Circle } from '@tamagui/lucide-icons'
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Text, type TextProps, XStack, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type Props = {
   days: string
@@ -13,7 +13,7 @@ type Props = {
 
 const TimeHours = (props: Props): JSX.Element => {
   const { fonts } = useAppFonts()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   return (
     <XStack alignItems="center" gap={10}>
       <Circle
@@ -26,7 +26,10 @@ const TimeHours = (props: Props): JSX.Element => {
         <Text fontSize={14} color={'gray'}>
           {props.days}
         </Text>
-        <Text fontSize={14} fontFamily={fonts.JetBrainsMonoBold}>
+        <Text
+          fontSize={14}
+          color={colors.text}
+          fontFamily={fonts.JetBrainsMonoBold}>
           {props.times}
         </Text>
       </YStack>

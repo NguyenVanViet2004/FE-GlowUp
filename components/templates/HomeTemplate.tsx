@@ -1,7 +1,6 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { isNil } from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { useColorScheme } from 'react-native'
 import { View } from 'tamagui'
 
 import ContentTitle from '~/components/atoms/ContentTitle'
@@ -13,6 +12,7 @@ import OurSpecialist from '~/components/molecules/OurSpecialist'
 import SpecialComboCard from '~/components/molecules/SpecialComboCard'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchBanner from '~/hooks/useFetchBanner'
 import useFetchCombo from '~/hooks/useFetchCombo'
 import useTranslation from '~/hooks/useTranslation'
@@ -25,8 +25,9 @@ const MemoizedSpecialComboCard = React.memo(SpecialComboCard)
 
 const HomeTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
-  const colors = getColors(useColorScheme())
-  const isDarkMode = useColorScheme() === 'dark'
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
+  const isDarkMode = colorScheme === 'dark'
 
   const [selectCombo, setSelectCombo] = useState<Combo | null>(null)
   const { combos, isLoading } = useFetchCombo()

@@ -1,11 +1,12 @@
 import React from 'react'
-import { FlatList, StyleSheet, useColorScheme } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 import type { ViewProps } from 'tamagui'
 import { Text, View } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import type Combo from '~/interfaces/Combo'
 
 import LabelTitle from '../atoms/LabelTitle'
@@ -19,8 +20,9 @@ interface Props extends ViewProps {
 
 const ListCombo = (props: Props): React.ReactElement => {
   const { fonts } = useAppFonts()
-  const colors = getColors(useColorScheme())
-  const isDarkMode = useColorScheme() === 'dark'
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
+  const isDarkMode = colorScheme === 'dark'
 
   const renderItem = ({ item }: { item: Combo }): React.ReactElement => {
     const isSelected = item.id === props.comboIdSelected

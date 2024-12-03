@@ -1,6 +1,6 @@
 import { isNil } from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { FlatList, useColorScheme } from 'react-native'
+import { FlatList } from 'react-native'
 import { Image, Text, View, XStack, YStack } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
@@ -8,6 +8,7 @@ import TransparentButton from '~/components/atoms/TransparentButton'
 import StepDetailsTemplate from '~/components/templates/StepDetailsTemplate'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import type Step from '~/interfaces/Step'
 
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const StepList = (props: Props): JSX.Element => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { fonts } = useAppFonts()
   const { t } = useTranslation()
   const [showAllSteps, setShowAllSteps] = useState<boolean>(false)

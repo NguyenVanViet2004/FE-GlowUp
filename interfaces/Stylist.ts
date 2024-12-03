@@ -13,6 +13,8 @@ export default interface Stylist {
   profile: {
     stylist?: {
       isWorking: boolean
+      experience: string
+      reviews: number
     }
   } | null
   gender: GenderEnum

@@ -2,12 +2,12 @@ import { Clock } from '@tamagui/lucide-icons'
 import { type TFunction } from 'i18next'
 import { isEmpty, isNil } from 'lodash'
 import React from 'react'
-import { StatusBar, useColorScheme } from 'react-native'
-import { Button, Image, Separator, Text, View, XStack } from 'tamagui'
+import { StatusBar } from 'react-native'
+import { Image, Separator, Sheet, Text, View, XStack } from 'tamagui'
 
-import SheetCustom from '~/components/atoms/SheetCustom'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import type Step from '~/interfaces/Step'
 
 interface props {
@@ -24,19 +24,30 @@ const StepDetailsTemplate = ({
   t
 }: props): React.ReactElement => {
   const { fonts } = useAppFonts()
-  const colorScheme = useColorScheme()
+  const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
 
   return (
     <>
-      <SheetCustom
+      <Sheet
+        forceRemoveScrollEnabled={isOpen}
         modal={true}
         open={isOpen}
-        snapPoint={[90, 40]}
-        onDismiss={() => {
-          setIsOpen(false)
-        }}>
-        <View>
+        onOpenChange={setIsOpen}
+        // snapPoints={snapPoints}
+        snapPointsMode="fit"
+        dismissOnSnapToBottom
+        // position={position}
+        // onPositionChange={setPosition}
+        zIndex={100_000}
+        animation="medium">
+        <Sheet.Overlay
+          animation="lazy"
+          enterStyle={{ opacity: 0 }}
+          exitStyle={{ opacity: 0 }}
+        />
+        <Sheet.Handle />
+        <View marginBottom={100}>
           <Image
             src={
               !isNil(step.picture) && !isEmpty(step.picture)
@@ -62,11 +73,19 @@ const StepDetailsTemplate = ({
               color={colors.text}>
               {step.name}
             </Text>
-            <XStack gap={8} alignItems="center" marginTop={10}>
-              <Clock color={colors.text} size={17} />
-              <Text fontFamily={fonts.JetBrains} color={colors.text}>
-                {step.total_time} {t('serviceDetail.hoursService')}
-              </Text>
+            <XStack>
+              <XStack flex={1} gap={8} alignItems="center" marginTop={10}>
+                <Clock color={colors.text} size={17} />
+                <Text fontFamily={fonts.JetBrains} color={colors.text}>
+                  {step.time} {t('serviceDetail.hoursService')}
+                </Text>
+              </XStack>
+              <XStack gap={8} alignItems="center" marginTop={10}>
+                <Clock color={colors.text} size={17} />
+                <Text fontFamily={fonts.JetBrains} color={colors.text}>
+                  {step.price} {t('serviceDetail.hoursService')}
+                </Text>
+              </XStack>
             </XStack>
             <Separator my="$4" borderColor={colors.gray} />
             <Text
@@ -82,12 +101,9 @@ const StepDetailsTemplate = ({
               fontFamily={fonts.JetBrainsMonoBold}>
               {step.description}
             </Text>
-            <Button disabled marginTop={27} backgroundColor={colors.gray}>
-              {t('serviceDetail.select&Continue')}
-            </Button>
           </View>
         </View>
-      </SheetCustom>
+      </Sheet>
       <StatusBar hidden={true} />
     </>
   )

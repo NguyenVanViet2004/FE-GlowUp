@@ -1,6 +1,6 @@
 import { Mail, Phone } from '@tamagui/lucide-icons'
 import React, { useState } from 'react'
-import { StyleSheet, useColorScheme } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View } from 'tamagui'
 
@@ -10,11 +10,12 @@ import { PositiveButton } from '~/components/atoms/PositiveButton'
 import { TextTitle } from '~/components/atoms/TextTitle'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 const ForgotTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
 
   const [isPhoneEmail, setIsPhoneEmail] = useState<boolean>(true)
 

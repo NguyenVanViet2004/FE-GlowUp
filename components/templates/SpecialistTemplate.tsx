@@ -14,17 +14,25 @@ import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import DateComponent from '~/components/molecules/Date'
+import TimePicker from '~/components/molecules/Time'
 import Specialist from '~/components/organisms/Specialist'
+import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import type Stylist from '~/interfaces/Stylist'
 import type User from '~/interfaces/User'
 
-import TimePicker from '~/components/molecules/Time'
-
 const SpecialistTemplate: React.FC = (): JSX.Element => {
   const router = useExpoRouter()
-  const leftIcon = <ChevronLeft size={25} onPress={() => router.goBack()}/>
+  const colors = getColors(useColorScheme().colorScheme)
+  const leftIcon = (
+    <ChevronLeft
+      size={25}
+      color={colors.text}
+      onPress={() => router.goBack()}
+    />
+  )
   const rightIcon = <ChevronRight size={25} opacity={0}/>
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
@@ -63,8 +71,8 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
     const payload = {
       combo_id: obj?.id,
       customer_id: user?.result?.id,
-      end_time: startTime.add(obj?.total_time, 'm').toISOString(),
-      start_time: startTime.toISOString(),
+      end_time: new Date(startTime.toDate().getTime() + obj?.total_time * 60000),
+      start_time: startTime.toDate(),
       stylist_id: selectedStylist?.id
     }
 
@@ -87,15 +95,6 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
         <Specialist toSetSelectedUser={setSelectedStylist}/>
         <DateComponent toSetSelectedDay={setSelectedDay}/>
         <TimePicker toSetSelectedTime={setSelectedTime}/>
-        {/* <NotesComponent
-          title={t('specialist.notes')}
-          placeholder="Write your thoughts here..."
-          onSave={(value) => {
-            console.log('Saved Notes:', value)
-            // Thực hiện lưu trữ hoặc gọi API
-          }}
-
-        /> */}
       </GradientScrollContainer>
 
       <PositiveButton

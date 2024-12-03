@@ -2,11 +2,11 @@
 // import { Clock, Star } from '@tamagui/lucide-icons'
 // import TextWithIcon from 'components/atoms/TextWithIcon'
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Text, type TextProps, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 // import useTranslation from '~/hooks/useTranslation'
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 } & TextProps
 
 const ServiceCardTitle = (props: Props): JSX.Element => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { fonts } = useAppFonts()
   // const { t } = useTranslation()
   return (
