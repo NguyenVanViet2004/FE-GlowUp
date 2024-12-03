@@ -2,11 +2,11 @@ import dayjs from 'dayjs'
 import { isNil } from 'lodash'
 import { type Dispatch, type SetStateAction, useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
-import { useColorScheme } from 'react-native'
 import { Button, Stack, Text } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 interface ITimePicker {
@@ -21,11 +21,12 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const [selectedMinute, setSelectedMinute] = useState<string | null>(null)
   const { fonts } = useAppFonts()
   const { t } = useTranslation()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   // Hàm tạo danh sách giờ từ 07:30 AM đến 10:30 PM với phút là 00 và 30
   const generateTimes = (): string[] => {
     const times: string[] = []
-    for (let hour = 7; hour < 23; hour++) { // Từ 7h đến 22h
+    for (let hour = 7; hour < 23; hour++) {
+      // Từ 7h đến 22h
       if (hour === 7) {
         times.push(dayjs().hour(7).minute(30).format('hh:mm A')) // Bắt đầu từ 07:30
       } else if (hour === 22) {
@@ -54,31 +55,36 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const renderItem: ListRenderItem<string> = ({ item: time }) => (
     <Button
       size="$4"
-      backgroundColor={selectedTime === time
-        ? colors.bookingDetailsBackgroundCard
-        : colors.lightGray}
-      borderColor={selectedTime === time
-        ? colors.blueSapphire
-        : colors.placeholderColor}
+      backgroundColor={
+        selectedTime === time
+          ? colors.bookingDetailsBackgroundCard
+          : colors.lightGray
+      }
+      borderColor={
+        selectedTime === time ? colors.blueSapphire : colors.placeholderColor
+      }
       borderRadius={50}
-      onPress={() => { handleTimeSelection(time) }}
+      onPress={() => {
+        handleTimeSelection(time)
+      }}
       paddingHorizontal="$4"
       marginHorizontal="$2"
-      color={colors.blueSapphire}
-    >
+      color={colors.blueSapphire}>
       {time}
     </Button>
   )
 
   return (
     <Stack space="$4" padding={16}>
-      <Text fontFamily={fonts.JetBrainsMonoBold} >{t('specialist.time')}</Text>
+      <Text fontFamily={fonts.JetBrainsMonoBold} color={colors.text}>
+        {t('specialist.time')}
+      </Text>
       <FlatList
         data={times}
         keyExtractor={(item) => item}
         horizontal
         renderItem={renderItem}
-        showsHorizontalScrollIndicator= {false}
+        showsHorizontalScrollIndicator={false}
       />
     </Stack>
   )

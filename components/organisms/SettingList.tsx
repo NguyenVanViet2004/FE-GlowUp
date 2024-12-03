@@ -30,7 +30,7 @@ const SettingList = ({ colors }: props): React.JSX.Element[] =>
           pressTheme
           key={index}
           onPress={item.onPress}
-          iconAfter={ChevronRight}
+          iconAfter={<ChevronRight color={colors.text} />}
           borderBottomColor="$gray6Light"
           icon={<item.icon size={20} color={colors.text} />}
           title={

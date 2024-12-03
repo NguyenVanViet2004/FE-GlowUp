@@ -1,11 +1,17 @@
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { isNil } from 'lodash'
-import React, { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, useColorScheme } from 'react-native'
+import React, {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useState
+} from 'react'
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { Button, Text, XStack, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 interface IDateComponent {
@@ -16,12 +22,13 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
   const currentDate = new Date()
   const [month, setMonth] = useState<number>(currentDate.getMonth() + 1)
   const [year, setYear] = useState<number>(currentDate.getFullYear())
-  const [days, setDays] =
-  useState<Array<{ day: string, dayOfWeek: string }>>([])
+  const [days, setDays] = useState<Array<{ day: string, dayOfWeek: string }>>(
+    []
+  )
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const { fonts } = useAppFonts()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { t, i18n } = useTranslation()
   const language = i18n.language
 
@@ -35,8 +42,10 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
     t('days.saturday')
   ]
 
-  const getAllDaysInMonth =
-  (month: number, year: number): Array<{ day: string, dayOfWeek: string }> => {
+  const getAllDaysInMonth = (
+    month: number,
+    year: number
+  ): Array<{ day: string, dayOfWeek: string }> => {
     if (month >= 1 && month <= 12 && year > 0) {
       const lastDay = new Date(year, month, 0).getDate()
       const daysArray = []
@@ -45,7 +54,8 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
         const dateObj = new Date(year, month - 1, day)
         const dayOfWeek = dayNames[dateObj.getDay()]
         const formattedDay = `${year}-${month.toString().padStart(2, '0')}-${day
-          .toString().padStart(2, '0')}`
+          .toString()
+          .padStart(2, '0')}`
         daysArray.push({ day: formattedDay, dayOfWeek })
       }
       return daysArray
@@ -53,15 +63,17 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
     return []
   }
 
-  const fetchDataForDays =
-  async (month: number, year: number): Promise<void> => {
+  const fetchDataForDays = async (
+    month: number,
+    year: number
+  ): Promise<void> => {
     setLoading(true)
     const daysList = getAllDaysInMonth(month, year)
 
     try {
-      const fetchedData =
-      await new
-      Promise<Array<{ day: string, dayOfWeek: string }>>((resolve) => {
+      const fetchedData = await new Promise<
+      Array<{ day: string, dayOfWeek: string }>
+      >((resolve) => {
         setTimeout(() => {
           resolve(daysList)
         }, 1000)
@@ -113,7 +125,7 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
 
   const formatSelectedDay = (day: string | null): string => {
     if (day === null || day === '') {
-      return 'No day selected.'
+      return 'Vui lòng chọn ngày cắt tóc!'
     }
 
     const [year, month, dayNumber] = day.split('-')
@@ -125,34 +137,38 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
 
   return (
     <YStack padding={16}>
-      <Text>date</Text>
-      <XStack
-        justifyContent="space-between"
-        alignItems="center"
-        marginTop="5%">
+      <Text color={colors.text}>Ngày</Text>
+      <XStack justifyContent="space-between" alignItems="center" marginTop="5%">
         <TouchableOpacity
-          onPress={() => { handleMonthChange('prev') }}
+          onPress={() => {
+            handleMonthChange('prev')
+          }}
           style={styles.leftAlign}>
-          <AntDesign name="left" size={18} color="black" />
+          <AntDesign name="left" size={18} color={colors.text} />
         </TouchableOpacity>
 
         <Text
           paddingHorizontal={16}
           fontSize={18}
+          color={colors.text}
           fontFamily={fonts.JetBrainsMonoBold}>
-          {new Intl.DateTimeFormat(language, { month: 'long', year: 'numeric' })
-            .format(new Date(year, month - 1))}
+          {new Intl.DateTimeFormat(language, {
+            month: 'long',
+            year: 'numeric'
+          }).format(new Date(year, month - 1))}
         </Text>
 
         <TouchableOpacity
-          onPress={() => { handleMonthChange('next') }}
+          onPress={() => {
+            handleMonthChange('next')
+          }}
           style={styles.rightAlign}>
-          <AntDesign name="right" size={18} color="black" />
+          <AntDesign name="right" size={18} color={colors.text} />
         </TouchableOpacity>
       </XStack>
 
       {loading
-        ? (<Text>Loading...</Text>)
+        ? (<Text color={colors.text}>Đang tải dữ liệu...</Text>)
         : (<FlatList
           data={days}
           keyExtractor={(item, index) => index.toString()}
@@ -162,7 +178,9 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
             const isSelected = selectedDay === item.day
             return (
               <Button
-                onPress={() => { handleDayPress(item.day) }}
+                onPress={() => {
+                  handleDayPress(item.day)
+                }}
                 margin={5}
                 padding={10}
                 borderRadius={50}
@@ -170,30 +188,28 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
                 width={55}
                 height={77}
                 alignItems="center"
-                justifyContent="center"
-              >
+                justifyContent="center">
                 <YStack>
                   <Text
                     fontSize={10}
                     textAlign="center"
-                    color={isSelected ? '#FFFFFF' : colors.textDate}
-                  >
+                    color={isSelected ? '#FFFFFF' : colors.textDate}>
                     {item.dayOfWeek.slice(0, 8)}
                   </Text>
                   <Text
                     textAlign="center"
                     fontFamily={fonts.JetBrainsMonoBold}
                     marginTop={5}
-                    color={isSelected ? '#FFFFFF' : colors.textDate}
-                  >
+                    color={isSelected ? '#FFFFFF' : colors.textDate}>
                     {dayNumber}
                   </Text>
                 </YStack>
-              </Button>)
+              </Button>
+            )
           }}
         />)}
 
-      <Text>{formatSelectedDay(selectedDay)}</Text>
+      <Text color={colors.text}>{formatSelectedDay(selectedDay)}</Text>
     </YStack>
   )
 }
