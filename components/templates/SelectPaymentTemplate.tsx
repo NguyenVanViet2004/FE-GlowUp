@@ -8,6 +8,7 @@ import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import Header from '~/components/molecules/Header'
 import PaymentMethodList from '~/components/organisms/SelectPaymentList'
+import useTranslation from '~/hooks/useTranslation'
 
 const SelectPaymentTemplate = (): React.ReactElement => {
   const router = useRouter()
@@ -15,6 +16,7 @@ const SelectPaymentTemplate = (): React.ReactElement => {
   const back = (): void => {
     router.back()
   }
+  const { t } = useTranslation()
 
   const { bookingInfo } = useLocalSearchParams()
   const parseBooking = JSON.parse(bookingInfo)
@@ -50,7 +52,7 @@ const SelectPaymentTemplate = (): React.ReactElement => {
   return (
     <View flex={1} paddingBottom={70}>
       <Header
-        title="Select payment method"
+        title={t('selectPaymentMethod.selectPaymentMethod')}
         backIcon={
           <Ionicons
             name="chevron-back"
@@ -62,7 +64,7 @@ const SelectPaymentTemplate = (): React.ReactElement => {
       />
       <PaymentMethodList onMethodChange={handleMethodChange} />
       <PositiveButton
-        title="Pay Now"
+        title={t('selectPaymentMethod.payNow')}
         marginHorizontal={20}
         position="absolute"
         left={0}
