@@ -189,7 +189,10 @@
         "timeLocation": "vi-VN",
         "upcoming" : "Bạn chưa đặt lịch",
         "completed": "Bạn chưa có lịch hoàn thành",
-        "cancelled": "Bạn chưa có lịch hủy"
+        "cancelled": "Bạn chưa có lịch hủy",
+        "cancelBookingFailed": "Hủy đặt lịch thất bại",
+        "confirmationTitle": "Xác nhận đặt lịch",
+        "goBack": "Quay lại"
     },
     "payment": {
         "title": "Thanh toán",

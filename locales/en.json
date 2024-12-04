@@ -187,7 +187,10 @@
         "timeLocation": "en-US",
         "upcoming" : "You have not booked an appointment yet.",
         "completed": "You do not have a completion date yet.",
-        "cancelled": "You have no cancellation schedule yet."
+        "cancelled": "You have no cancellation schedule yet.",
+        "cancelBookingFailed": "Cancel booking failed",
+        "confirmationTitle": "Booking Confirmation",
+        "goBack": "Go back"
     },
     "payment": {
         "title": "Payment",
