@@ -1,9 +1,9 @@
 import React from 'react'
+import { useColorScheme } from 'react-native'
 import { Separator, Text, View, XStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
-import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 import Summary from './Summary'
