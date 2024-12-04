@@ -17,9 +17,16 @@ const ServiceInfoSection: React.FC<props> = ({ booking }) => {
   const fonts = useAppFonts()
   const { t } = useTranslation()
 
+  const services = combo?.combo?.services ?? []
+
+  const totalPrice =
+    services.reduce((sum, service) => sum + Number(service.price ?? 0), 0)
+
   return (
     <View width="100%" marginTop={40}>
-      <Text color={colors.text} textAlign="center">{t('booking.service')}</Text>
+      <Text textAlign="center" fontFamily={fonts.fonts.JetBrainsMonoBold}>
+        {t('booking.service')}
+      </Text>
 
       {booking.combo.services.map((step, index) => (
         <XStack marginTop={20} key={`${step.id}-${index}`}>
@@ -32,14 +39,15 @@ const ServiceInfoSection: React.FC<props> = ({ booking }) => {
           <Text
             color={colors.blueSapphire}
             fontFamily={fonts.fonts.JetBrainsMonoBold}>
-            ${step.price}
+            ${service.price}
           </Text>
         </XStack>
       ))}
       <Separator
         borderColor={colors.lightSilver}
         width="100%"
-        marginVertical={20} />
+        marginVertical={20}
+      />
 
       <Summary colors={colors} booking={booking} fonts={fonts} t={t}/>
     </View>
