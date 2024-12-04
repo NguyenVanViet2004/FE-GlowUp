@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 import React from 'react'
 import { StyleSheet, useColorScheme } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text, XStack, YStack } from 'tamagui'
+import { Text, XStack, YStack, Image } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import useTranslation from '~/hooks/useTranslation'
@@ -17,7 +17,7 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
 
   const { bookingInfo } = useLocalSearchParams()
   const parseBooking = JSON.parse(bookingInfo)
-
+  console.log(parseBooking)
   const bookingData = {
     bookingTime: new Date(parseBooking.start_time).toLocaleString(),
     customerName: parseBooking.customer.full_name ?? 'N/A',
@@ -34,7 +34,16 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
   return (
     <SafeAreaView style={styles.container}>
       <Header title={t('booking.confirmationTitle')} />
-
+      {parseBooking.picture !== null && (
+        <Image
+          src={parseBooking.picture}
+          width="100%"
+          height={200}
+          borderRadius={10}
+          resizeMode="cover"
+          mb={20}
+        />
+      )}
       <YStack f={1} justifyContent="center" width="100%" px={20}>
         <YStack mb={20}>
           <XStack mb={5}>
