@@ -20,10 +20,11 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
 
   const bookingData = {
     bookingTime: new Date(parseBooking.start_time).toLocaleString(),
-    customerName: parseBooking.customer.full_name || 'N/A',
-    services: parseBooking.combo.services?.map(service => service.name).join(', ') || 'N/A',
-    stylist: parseBooking.stylist?.full_name || 'N/A',
-    totalPrice: parseBooking.total_price || 0
+    customerName: parseBooking.customer.full_name ?? 'N/A',
+    services: parseBooking.combo.services
+      ?.map(service => service.name).join(', ') ?? 'N/A',
+    stylist: parseBooking.stylist?.full_name ?? 'N/A',
+    totalPrice: parseBooking.total_price ?? 0
   }
 
   const handleGoBack = (): void => {
