@@ -16,11 +16,7 @@ const useFetchStylist = (): {
       try {
         setIsLoading(true)
         const response = await request.get<Stylist[]>('stylist')
-        if (
-          !isNil(response?.success) &&
-          response?.success &&
-          !isNil(response.data)
-        ) {
+        if (response?.success === true && !isNil(response.data)) {
           setStylist(response.data)
         }
       } catch (err) {

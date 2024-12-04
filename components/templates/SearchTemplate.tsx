@@ -198,7 +198,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
           fontSize={16}
           mb="$4"
           color={colors.text}>
-          Popular Search
+          Phổ biến
         </Text>
         <XStack flexWrap="wrap" gap="$2">
           {popularTags.map((tag) => (
@@ -241,6 +241,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
                 borderWidth={0.2}
                 borderColor={colors.gray}
                 borderRadius={10}
+                mt={10}
                 backgroundColor={colors.mistWhite}
                 onPress={() => {
                   redirectToComboDetail(item as Combo)
@@ -257,8 +258,11 @@ const SearchTempale: React.FC = (): JSX.Element => {
                   borderRadius={10}
                 />
                 <YStack flex={1} px="$4">
-                  <Text fontFamily={fonts.JetBrainsMonoBold}>{item.name}</Text>
-                  <Text>${item.price}</Text>
+                  <Text
+                    color={colors.blueSapphire}
+                    fontFamily={fonts.JetBrainsMonoBold}
+                  >{item.name}</Text>
+                  <Text color={colors.blueSapphire}>${item.price}</Text>
                 </YStack>
               </XStack>
             ))}

@@ -15,11 +15,7 @@ const useFetchService = (): {
     const fetchCombos = async (): Promise<void> => {
       try {
         const response = await request.get<Service[]>('service')
-        if (
-          !isNil(response?.success) &&
-          response?.success &&
-          !isNil(response.result)
-        ) {
+        if (response?.success === true && !isNil(response.result)) {
           setServices(response.result)
         }
       } catch (err) {

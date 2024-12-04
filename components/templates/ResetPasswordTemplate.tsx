@@ -1,26 +1,34 @@
 import { ChevronLeft, Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
-import { useRouter } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { StyleSheet, useColorScheme } from 'react-native'
+import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View } from 'tamagui'
 
+import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
 import InputWithIcons from '~/components/atoms/InputWithIcons'
+import Loading from '~/components/atoms/Loading'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import AppHeader from '~/components/molecules/common/AppHeader'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 const ResetPasswordTemplate: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const [passwordError, setPasswordError] = useState<string>('')
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const router = useRouter()
   const { fonts } = useAppFonts()
 
@@ -45,20 +53,60 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
     )
   }
 
-  const handleConfirmNewPassword = (): void => {
-    if (password === '' || confirmPassword === '') {
-      alert('Không thể để trống dữ liệu')
-      return
+  const validatePasswordInput = (value: string): void => {
+    if (isNil(value) || value.trim() === '') {
+      setPasswordError(t('Không để trống mật khẩu'))
+    } else if (value.length < 6) {
+      setPasswordError(t('screens.signUp.emtyPassword'))
+    } else {
+      setPasswordError('')
     }
-    if (password !== confirmPassword) {
-      alert('Mật khẩu không trùng khớp')
-      return
+  }
+
+  const validateConfirmPasswordInput = (value: string): void => {
+    setConfirmPasswordError(
+      value === password ? '' : t('screens.signUp.passwordDoesNotMatch')
+    )
+  }
+
+  const data = useLocalSearchParams()
+  const phoneNumber = typeof data.phoneNumber === 'string'
+    ? JSON.parse(data.phoneNumber)
+    : null
+
+  const handleConfirmNewPassword = async (): Promise<void> => {
+    try {
+      validatePasswordInput(password)
+      validateConfirmPasswordInput(confirmPassword)
+
+      if (
+        passwordError !== '' ||
+        confirmPasswordError !== '' ||
+        password === '' ||
+        confirmPassword === ''
+      ) { return }
+
+      setIsLoading(true)
+
+      const payload = {
+        new_password: password,
+        phone_number: phoneNumber
+      }
+
+      const response = await request.post('/auth/forgot-password', payload)
+      if (response.success === true) {
+        router.replace('/authentication/Login')
+      } else {
+        setPassword('Mật khẩu không hợp lệ')
+      }
+    } catch (err) {
+      Alert.alert(
+        t('screens.signUp.false'),
+        t('Đã xảy ra lỗi')
+      )
+    } finally {
+      setIsLoading(false)
     }
-    if (password.length < 8) {
-      alert('Mật khẩu phải có ít nhất 8 ký tự')
-      return
-    }
-    router.replace('/authentication/Login')
   }
 
   return (
@@ -66,10 +114,11 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
       <SafeAreaView style={styles.container}>
         <View>
           <AppHeader
+            onPress={() => { router.back() }}
             headerTitle={t('common.back')}
             fontFamily={fonts.JetBrainsMonoRegular}
             leftIcon={
-              <ChevronLeft size={24} onPress={() => { router.back() }}/>}
+              <ChevronLeft color={colors.text} size={25}/>}
           />
         </View>
         <View marginTop={'13%'}>
@@ -85,7 +134,11 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
             placeholder={t('screens.resetPassword.newPassword')}
             iconLeft={renderPasswordIcon()}
             secureTextEntry={!showPassword}
-            onChangeText={setPassword}
+            onChangeText={(value) => {
+              setPassword(value)
+              validatePasswordInput(value)
+            }}
+            errorMessage={passwordError}
           />
 
           <InputWithIcons
@@ -93,13 +146,35 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
             placeholder={t('screens.resetPassword.confirmNewPassword')}
             iconLeft={renderPasswordIconComfirm()}
             secureTextEntry={!showPasswordConfirm}
-            onChangeText={setConfirmPassword}
+            onChangeText={(value) => {
+              setConfirmPassword(value)
+              validateConfirmPasswordInput(value)
+            }}
+            errorMessage={confirmPasswordError}
           />
         </View>
 
+        {isLoading && (
+          <View
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            backgroundColor={colors.lightTransparentBlack}
+            justifyContent= "center"
+            alignItems= {'center'}
+            zIndex= {1}
+          >
+            <Loading/>
+          </View>
+        )}
+
         <View flex={1} justifyContent="flex-end">
           <PositiveButton
-            onPress={handleConfirmNewPassword}
+            onPress={() => {
+              handleConfirmNewPassword().catch(err => { console.log(err) })
+            }}
             title={t('screens.resetPassword.confirmNewPassword')}
           />
         </View>

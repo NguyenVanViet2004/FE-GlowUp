@@ -25,7 +25,12 @@
             "open": "Mở"
         },
         "booking": {
-            "title": "Đặt lịch"
+            "title": "Đặt lịch",
+            "upcoming": "Đã đặt",
+            "completed": "Hoàn thành",
+            "cancelled": "Đã hủy",
+            "cancelBooking": "Hủy đặt",
+            "viewReceipt": "Xem phiếu"
         },
         "search": {
             "title": "Tìm lịch"
@@ -119,8 +124,8 @@
             "receiveCode": "Bạn không nhận được mã ?",
             "resend" : "Gửi lại",
             "titleVerify" : "Xác minh danh tính của bạn ",
-            "subVerify" : "Vui lòng nhập OTP",
-            "subVerify2" : ". Điền xuống bên dưới. ",
+            "subVerify" : "Mã OTP đã được gửi tới số điện thoại ",
+            "subVerify2" : "Vui lòng điền xuống bên dưới. ",
             "continue" : "Tiếp tục",
             "incorrectOtp" : "Mã OTP không chính xác vui lòng thử lại!"
         },
@@ -180,7 +185,11 @@
         "service": "Dịch vụ",
         "cancelBooking": "Huỷ đặt lịch",
         "cancelBookingSuccess": "Hủy đặt lịch thành công",
-        "cancelBookingFailed": "Hủy đặt lịch thất bại"
+        "cancelBookingFailed": "Hủy đặt lịch thất bại",
+        "timeLocation": "vi-VN",
+        "upcoming" : "Bạn chưa đặt lịch",
+        "completed": "Bạn chưa có lịch hoàn thành",
+        "cancelled": "Bạn chưa có lịch hủy"
     },
     "payment": {
         "title": "Thanh toán",

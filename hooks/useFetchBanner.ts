@@ -17,12 +17,9 @@ const useFetchBanner = (): UseFetchComboReturn => {
     const fetchCombos = async (): Promise<void> => {
       try {
         setIsLoading(true)
-        const response = await request.get<Banner[]>('banner')
-        if (
-          !isNil(response.success) &&
-          response?.success &&
-          !isNil(response.result)
-        ) {
+        const response =
+        await request.get<Banner[]>('banner')
+        if (response?.success === true && !isNil(response.result)) {
           setBanner(response.result)
         }
       } catch (err: any) {

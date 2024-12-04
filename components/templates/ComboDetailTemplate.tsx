@@ -94,10 +94,18 @@ const ComboDetailTemplate = (): React.ReactElement => {
         </View>
       </ScrollView>
       <TotalAmount
-        price={Number(
-          (parsedItem.price - parsedItem.price * (10 / 100)).toFixed(2)
-        )}
-        deal={parsedItem.price}
+      //   price={Number(
+      //     (parsedItem.price - parsedItem.price * (10 / 100)).toFixed(2)
+      //   ).toLocaleString("vi-VN", {
+      //     style: "currency",
+      //     currency: "VND",
+      //   })
+      // }
+
+        price={Number(parsedItem.price).toLocaleString('vi-VN', {
+          currency: 'VND',
+          style: 'currency'
+        })}
       />
     </LinearGradientBackground>
   )

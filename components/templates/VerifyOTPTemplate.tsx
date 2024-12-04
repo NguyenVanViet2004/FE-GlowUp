@@ -1,184 +1,178 @@
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
-import React, { useEffect, useRef, useState } from 'react'
-import {
-  Animated,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  type TextInput,
-  useColorScheme
-} from 'react-native'
-import { Input, ScrollView, Text, View, YStack } from 'tamagui'
+import { ChevronLeft, Verified } from '@tamagui/lucide-icons'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { Alert, StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { View } from 'tamagui'
 
+import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
-import Header from '~/components/molecules/Header'
+import InputWithIcons from '~/components/atoms/InputWithIcons'
+import Loading from '~/components/atoms/Loading'
+import { PositiveButton } from '~/components/atoms/PositiveButton'
+import { TextTitle } from '~/components/atoms/TextTitle'
+import AppHeader from '~/components/molecules/common/AppHeader'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
-import TextWithLink from '~/components/molecules/TextWithLink'
 import getColors from '~/constants/Colors'
+import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
-const VerifyOTPTemplate: React.FC = (): JSX.Element => {
-  const [code, setCode] = useState<string[]>(['', '', '', ''])
-  const [message, setMessage] = useState<string>('')
-  const [shakeAnimation] = useState(new Animated.Value(0))
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
-  const colors = getColors(useColorScheme())
-  const inputRefs = useRef<Array<TextInput | null>>([])
+
+const VerifyOTPTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
-  const [phoneNumber] = useState<string>('0123456789')
+  const { fonts } = useAppFonts()
+  const colors = getColors(useColorScheme().colorScheme)
+  const router = useRouter()
+
+  const [verifyOTP, setVerifyOTP] = useState<string>('')
+  const [otpError, setOtpError] = useState<string>('')
+  const [timer, setTimer] = useState<number>(60) // Thời gian đếm ngược 60 giây
+  const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const validateVerifyOTP = (value: string): void => {
+    setOtpError(value !== '' ? '' : t('Vui lòng nhập mã OTP'))
+  }
+
+  const data = useLocalSearchParams()
+  const phoneNumber = typeof data.phoneNumber === 'string'
+    ? JSON.parse(data.phoneNumber)
+    : null
+
   useEffect(() => {
-    if (code.every((digit) => digit.length === 1)) {
-      handleVerify()
-    }
-  }, [code])
-  const handleInputChange = (value: string, index: number): void => {
-    const newCode = [...code]
-    newCode[index] = value
-    setCode(newCode)
+    if (timer > 0) {
+      const countdown = setInterval(() => {
+        setTimer((prev) => prev - 1)
+      }, 1000)
 
-    if (value === '' && index > 0) {
-      inputRefs.current[index - 1]?.focus()
-    } else if (value.length === 1 && index < code.length - 1) {
-      inputRefs.current[index + 1]?.focus()
-    }
-
-    if (newCode.every((digit) => digit.length === 1)) {
-      handleVerify()
-    }
-  }
-
-  const handleVerify = (): void => {
-    const enteredCode = code.join('')
-    if (enteredCode === '1234') {
-      setIsCorrect(true)
-      setMessage('')
+      return () => { clearInterval(countdown) }
     } else {
-      setIsCorrect(false)
-      setMessage(t('screens.verify.incorrectOtp'))
-      startShakeAnimation()
+      setIsResendDisabled(false)
     }
+  }, [timer])
 
-    inputRefs.current.forEach((input) => input?.blur())
-  }
+  const handleVerifyOTP = async (): Promise<void> => {
+    try {
+      validateVerifyOTP(verifyOTP)
+      if (
+        otpError !== '' ||
+        verifyOTP === ''
+      ) { return }
 
-  const startShakeAnimation = (): void => {
-    Animated.sequence([
-      Animated.timing(shakeAnimation, {
-        duration: 100,
-        toValue: 1,
-        useNativeDriver: true
-      }),
-      Animated.timing(shakeAnimation, {
-        duration: 100,
-        toValue: -1,
-        useNativeDriver: true
-      }),
-      Animated.timing(shakeAnimation, {
-        duration: 100,
-        toValue: 0,
-        useNativeDriver: true
-      })
-    ]).start()
-  }
+      setIsLoading(true)
 
-  const shakeStyle = {
-    transform: [
-      {
-        translateX: shakeAnimation.interpolate({
-          inputRange: [-1, 1],
-          outputRange: [-10, 10]
-        })
+      const payload = {
+        otp_code: verifyOTP,
+        phone_number: phoneNumber
       }
-    ]
+
+      const response = await request.post('/otp/verify', payload)
+      if (response.message === 'OTP code is correct') {
+        router.replace({
+          params: { phoneNumber: JSON.stringify(phoneNumber) },
+          pathname: '/authentication/ResetPassword'
+        })
+      } else {
+        setOtpError('OTP không hợp lệ')
+      }
+    } catch (err) {
+      Alert.alert(
+        t('screens.signUp.false'),
+        t('Đã xảy ra lỗi')
+      )
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleResendOTP = async (): Promise<void> => {
+    try {
+      const payload = {
+        phone_number: phoneNumber
+      }
+      await request.post('/otp', payload)
+      setTimer(60) // Reset bộ đếm
+      setIsResendDisabled(true)
+    } catch (err) {
+      Alert.alert(
+        t('screens.signUp.false'),
+        t('Gửi OTP Thất bại')
+      )
+    }
   }
 
   return (
     <LinearGradientBackground>
-      <KeyboardAvoidingView
-        style={styles.keyBoard}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
-      >
-        <View style={styles.container}>
-          <ScrollView
-            contentContainerStyle={styles.scrollContentContainer}
-            keyboardShouldPersistTaps="handled"
-          >
-            <YStack space="$4" padding="$5" marginTop={'3%'} flex={1}>
-              <View left="$-3.5">
-                <Header
-                  title={t('screens.verify.verify')}
-                  backIcon={
-                    <FontAwesome5 name="chevron-left"
-                      size={20}
-                      color={colors.text} />
-                  } />
-              </View>
-              <View marginTop={'5%'} justifyContent="center" >
-                <ContentTitle
-                  title={t('screens.verify.titleVerify')}
-                  subtitle={`${t('screens.verify.subVerify')} 
-                  ${phoneNumber} 
-                  ${t('screens.verify.subVerify2')}` }
-                />
-              </View>
+      <SafeAreaView style={styles.container}>
+        <View flex={1}>
+          <AppHeader
+            onPress={() => { router.back() }}
+            headerTitle={t('common.back')}
+            fontFamily={fonts.JetBrainsMonoRegular}
+            leftIcon={
+              <ChevronLeft color={colors.text} size={25}/>}
+          />
+          <View marginTop={'13%'}>
+            <ContentTitle
+              title={t('screens.verify.titleVerify')}
+              subtitle={`${t('screens.verify.subVerify')} ${phoneNumber}`}
+            />
+          </View>
 
-              <Animated.View style={shakeStyle}>
-                <YStack
-                  space="$3"
-                  flexDirection="row"
-                  justifyContent="center"
-                  marginTop={'10%'}
-                >
-                  {code.map((digit, index) => (
-                    <Input
-                      key={index}
-                      ref={(el) => (inputRefs.current[index] = el)}
-                      width={48}
-                      height={56}
-                      textAlign="center"
-                      maxLength={1}
-                      keyboardType="numeric"
-                      value={digit}
-                      onChangeText={(value) => {
-                        handleInputChange(value, index)
-                      }}
-                      color={colors.text}
-                      focusStyle={{
-                        borderColor: colors.blueOTP
-                      }}
-                      borderColor={
-                        isCorrect === true
-                          ? colors.green
-                          : isCorrect === false
-                            ? colors.red
-                            : colors.borderInputaOTP
-                      }
-                      backgroundColor={
-                        isCorrect === null
-                          ? colors.lightGray
-                          : isCorrect
-                            ? colors.lightGray
-                            : colors.lightRed
-                      }
-                    />
-                  ))}
-                </YStack>
-              </Animated.View>
-
-              {message.length > 0 && (
-                <Text alignItems="center" left="$3" color="red">
-                  {message}
-                </Text>
-              )}
-
-              <TextWithLink
-                heading={t('screens.verify.receiveCode')}
-                linkText={t('screens.verify.resend')}
-              />
-            </YStack>
-          </ScrollView>
+          <View marginTop={'25%'}>
+            <InputWithIcons
+              maxLength={6}
+              onChangeText={(value) => {
+                setVerifyOTP(value)
+                validateVerifyOTP(value)
+              }}
+              iconRight={<Verified size={16} color={colors.oceanTeal} />}
+              placeholder={t('OTP')}
+              errorMessage={otpError}
+            />
+            <TextTitle
+              pressStyle={{ color: colors.gray }}
+              onPress={() => {
+                if (!isResendDisabled) {
+                  handleResendOTP().catch(err => { console.log(err) })
+                }
+              }}
+              marginTop={20}
+              textAlign="right"
+              text={
+                isResendDisabled
+                  ? `${t('screens.verify.resend')} (${timer}s)`
+                  : t('screens.verify.resend')
+              }
+            />
+          </View>
         </View>
-      </KeyboardAvoidingView>
+
+        {isLoading && (
+          <View
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            backgroundColor={colors.lightTransparentBlack}
+            justifyContent= "center"
+            alignItems= {'center'}
+            zIndex= {1}
+          >
+            <Loading/>
+          </View>
+        )}
+
+        <View >
+          <PositiveButton
+            title={t('screens.verify.continue')}
+            onPress={() => {
+              handleVerifyOTP().catch(err => { console.log(err) })
+            }}
+          />
+        </View>
+      </SafeAreaView>
     </LinearGradientBackground>
   )
 }
@@ -187,15 +181,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20
-  },
-  keyBoard: {
-    alignContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center'
-  },
-  scrollContentContainer: {
-    flex: 1
   }
 })
 

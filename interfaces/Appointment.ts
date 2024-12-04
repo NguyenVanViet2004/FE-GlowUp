@@ -1,14 +1,16 @@
 import { type Status } from '~/interfaces/enum/Status'
 
 export default interface Appointment {
-  _id: string
-  userId: string
-  comboId: string
-  stylistId: string
+  id: string
+  start_time: Date
+  end_time: Date
   status: Status
-  appointmentDate: Date
-  appointmentTime: Date
-  paymentId: string
-  createdAt: Date
-  note: string
+  createdAt: Date | null
+  updatedAt: Date | null
+  deleted: boolean
+  customer: string
+  stylist: string
+  combo: string
+  total_time: number
+  total_price: number
 }

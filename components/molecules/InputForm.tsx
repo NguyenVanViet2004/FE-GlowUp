@@ -22,6 +22,7 @@ type Props = {
   onChangePasswordText?: (text: string) => void
   onLoginPress?: () => void
   onLoginGooglePress?: () => void
+  onForgotPasswordPress?: () => void
   positiveButtonTitle: string
   negativeButtonTitle: string
   nameError?: string
@@ -99,20 +100,21 @@ const InputForm: React.FC<Props> = (props: Props): JSX.Element => {
         </View>
       </YStack>
 
-      {!isNil(props.visibleForgotPassword) && props.visibleForgotPassword
-        ? (
-          <TextTitle
+      {
+        !isNil(props.visibleForgotPassword) && props.visibleForgotPassword
+          ? <TextTitle
+            onPress={props.onForgotPasswordPress}
             marginTop={20}
             text={t('screens.login.forgotPassword')}
             textAlign="right"
-          />)
-        : (<Text fontSize={14}
-          color={colors.text}
-          textAlign="left"
-          marginTop={20}>
-          {t('screens.signUp.TermsOfUse1')}
-          <TextTitle text={t('screens.signUp.TermsOfUse2')} />
-        </Text>)}
+          />
+          : (<Text fontSize={14}
+            color={colors.text}
+            textAlign="left"
+            marginTop={20}>
+            {t('screens.signUp.TermsOfUse1')}
+            <TextTitle text={t('screens.signUp.TermsOfUse2')} />
+          </Text>)}
 
       <View
         marginTop={'25%'}

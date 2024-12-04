@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { RadioGroup, Text, View } from 'tamagui'
 
 import RadioGroupItemWithLabel from '~/components/molecules/common/RadioGroupItemWithLabel'
+import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import { PaymentMethod } from '~/interfaces/enum/Payment'
 
@@ -9,6 +11,8 @@ const PaymentMethodSection = (): {
   renderPaymentMethods: () => JSX.Element
   selectedMethodID: string
 } => {
+  const colors = getColors(useColorScheme().colorScheme)
+
   const [selectedMethodID, setSelectedMethodID] = useState<string>(
     PaymentMethod.CASH
   )
@@ -29,7 +33,7 @@ const PaymentMethodSection = (): {
   const renderPaymentMethods = (): React.JSX.Element => {
     return (
       <View width="100%">
-        <Text textAlign="center">{t('payment.title')}</Text>
+        <Text color={colors.text} textAlign="center">{t('payment.title')}</Text>
         <RadioGroup
           value={selectedMethodID}
           onValueChange={setSelectedMethodID}>

@@ -1,11 +1,11 @@
 import { isNil, isUndefined } from 'lodash'
 import React, { useState } from 'react'
-import { useColorScheme } from 'react-native'
 import { Input, type InputProps, Text, XStack, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { HEIGHT_BUTTON, RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type Props = {
   iconRight?: JSX.Element
@@ -14,7 +14,7 @@ type Props = {
 } & InputProps
 
 const InputWithIcons: React.FC<Props> = (props: Props) => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { fonts } = useAppFonts()
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const inputContainerStyle = {

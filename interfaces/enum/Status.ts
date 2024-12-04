@@ -1,7 +1,7 @@
 export enum Status {
-  PENDING = 'pending',
-  COMPLETED = 'completed',
-  CANCELLED = 'cancelled',
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELED',
   FAILED = 'failed',
   EXPIRED = 'expired',
   REJECTED = 'rejected',

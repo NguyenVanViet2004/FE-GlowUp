@@ -1,14 +1,16 @@
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert, useColorScheme } from 'react-native'
 import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import ContentTitle from '~/components/atoms/ContentTitle'
+import Loading from '~/components/atoms/Loading'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import InputForm from '~/components/molecules/InputForm'
 import TextWithLink from '~/components/molecules/TextWithLink'
+import getColors from '~/constants/Colors'
 import useTranslation from '~/hooks/useTranslation'
 
 const validatePhoneNumber = (phone: string): boolean => {
@@ -19,6 +21,7 @@ const validatePhoneNumber = (phone: string): boolean => {
 const SignUpTemplate: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
   const router = useRouter()
+  const colors = getColors(useColorScheme())
   const [fullName, setFullName] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -28,6 +31,7 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
   const [phoneError, setPhoneError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // Hàm validate từng trường
   const validateFullName = (value: string): void => {
@@ -59,15 +63,17 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
     validateConfirmPasswordInput(confirmPassword)
 
     if (
-      isNil(nameError) ||
-      isNil(phoneError) ||
-      isNil(passwordError) ||
-      isNil(confirmPasswordError) ||
+      nameError !== '' ||
+      phoneError !== '' ||
+      passwordError !== '' ||
+      confirmPasswordError !== '' ||
       fullName === '' ||
       phoneNumber === '' ||
       password === '' ||
       confirmPassword === ''
     ) { return }
+
+    setIsLoading(true)
 
     try {
       const payload = {
@@ -77,7 +83,6 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
       }
 
       const res = await request.post('/auth/register', payload)
-
       if (!isNil(res.success) && res.success) {
         router.replace('/authentication/Login')
         Alert.alert(
@@ -92,6 +97,8 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
         t('screens.signUp.false'),
         t('screens.signUp.accountCreatedFalse')
       )
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -143,6 +150,22 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
           confirmPasswordError={confirmPasswordError}
         />
       </View>
+
+      {isLoading && (
+        <View
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          backgroundColor={colors.lightTransparentBlack}
+          justifyContent= "center"
+          alignItems= {'center'}
+          zIndex= {1}
+        >
+          <Loading/>
+        </View>
+      )}
 
       <View marginTop={'25%'}>
         <TextWithLink

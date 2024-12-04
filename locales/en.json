@@ -25,7 +25,12 @@
             "open": "Open"
         },
         "booking": {
-            "title": "Bookings"
+            "title": "Bookings",
+            "upcoming": "Upcoming",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "cancelBooking": "Cancel Booking",
+            "viewReceipt": "View Receipt"
         },
         "search": {
             "title": "Search"
@@ -178,7 +183,11 @@
         "payment": "Payment",
         "cancelBooking": "Cancel Booking",
         "cancelBookingSuccess": "Cancel booking success",
-        "cancelBookingFailed": "Cancel booking failed"
+        "cancelBookingFailed": "Cancel booking failed",
+        "timeLocation": "en-US",
+        "upcoming" : "You have not booked an appointment yet.",
+        "completed": "You do not have a completion date yet.",
+        "cancelled": "You have no cancellation schedule yet."
     },
     "payment": {
         "title": "Payment",
