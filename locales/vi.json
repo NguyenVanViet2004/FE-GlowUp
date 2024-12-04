@@ -206,6 +206,10 @@
         "hoursService": "giờ",
         "select&Continue": "Chọn & Tiếp tục"
     },
+    "selectPaymentMethod": {
+        "selectPaymentMethod": "Chọn phương thức thanh toán",
+        "payNow": "Thanh toán ngay"
+    },
     "specialist": {
         "title" : "Đặt lịch",
     "speciaList": "Chuyên gia",

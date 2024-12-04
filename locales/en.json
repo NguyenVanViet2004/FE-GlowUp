@@ -204,6 +204,10 @@
         "hoursService": "hours service",
         "select&Continue": "Select & Continue"
     },
+    "selectPaymentMethod": {
+        "selectPaymentMethod": "Select Payment Method",
+        "payNow": "Pay Now"
+    },
     "specialist":{
         "title" : "Booking",
         "speciaList" : "Specialist",
