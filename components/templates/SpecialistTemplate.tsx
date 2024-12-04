@@ -96,6 +96,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       const response = await request.post<any>('/booking', payload)
       if (response.success === true) {
         const bookingInfo = {
+          id: response.result.id,
           combo: response.result.combo,
           customer: response.result.customer,
           end_time: response.result.end_time,

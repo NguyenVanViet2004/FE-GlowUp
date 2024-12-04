@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useRouter } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { View } from 'tamagui'
@@ -16,6 +16,9 @@ const SelectPaymentTemplate = (): React.ReactElement => {
     router.back()
   }
 
+  const { bookingInfo } = useLocalSearchParams()
+  const parseBooking = JSON.parse(bookingInfo)
+
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
   useState<string | null>(null)
 
@@ -27,9 +30,10 @@ const SelectPaymentTemplate = (): React.ReactElement => {
     try {
       const response = await request.post('payment/create_payment_url', {
         bankCode: selectedPaymentMethod,
-        bookingId: '674dbb821c74684ba5d3d1d6'
+        bookingId: parseBooking.id
       })
       const paymentUrl = response?.paymentUrl
+      console.log(response)
       if (paymentUrl !== null) {
         router.push({
           params: { url: paymentUrl },
