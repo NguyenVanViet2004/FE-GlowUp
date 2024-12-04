@@ -190,7 +190,8 @@
         "cancelled": "You have no cancellation schedule yet.",
         "cancelBookingFailed": "Cancel booking failed",
         "confirmationTitle": "Booking Confirmation",
-        "goBack": "Go back"
+        "goBack": "Go back",
+        "orderInformation": "Order information"
     },
     "payment": {
         "title": "Payment",

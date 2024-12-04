@@ -192,7 +192,8 @@
         "cancelled": "Bạn chưa có lịch hủy",
         "cancelBookingFailed": "Hủy đặt lịch thất bại",
         "confirmationTitle": "Xác nhận đặt lịch",
-        "goBack": "Quay lại"
+        "goBack": "Quay lại",
+        "orderInformation": "Thông tin phiếu đặt"
     },
     "payment": {
         "title": "Thanh toán",
