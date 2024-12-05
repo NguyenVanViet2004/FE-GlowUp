@@ -1,11 +1,16 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider
+} from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
 import React, { useEffect } from 'react'
-import { useColorScheme } from 'react-native'
+import { StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
 
 import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useNotifications from '~/hooks/useNotifications'
 import useTranslation, { useInitializeI18n } from '~/hooks/useTranslation'
 import store from '~/redux/store'
@@ -47,69 +52,88 @@ export default function RootLayout (): React.ReactElement {
 }
 
 function RootLayoutNav (): React.ReactElement {
-  const colorScheme = useColorScheme()
+  const colorScheme = useColorScheme().colorScheme
   const { t } = useTranslation()
   const { notification, expoPushToken } = useNotifications()
   console.log(expoPushToken, notification)
 
   return (
-    <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }}/>
-          <Stack.Screen
-            name="(tabs)"
-            options={{ headerShown: false, title: t('appTitle') }}
-          />
-          <Stack.Screen
-            name="authentication/Login"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="authentication/SignUp"
-            options={{ headerShown: false }}
-          />
+    <>
+      <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
+        <ThemeProvider
+          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="(tabs)"
+              options={{ headerShown: false, title: t('appTitle') }}
+            />
+            <Stack.Screen
+              name="authentication/Login"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="authentication/SignUp"
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen
-            name="checkout/BookingCheckout"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="authentication/VerifyOTP"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="authentication/ForgotPassword"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="authentication/ResetPassword"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="combo/ComboDetails"
-            options={{
-              headerShown: false,
-              headerTitle: 'Trở về'
-            }}
-          />
-          <Stack.Screen
-            name="map/Map"
-            options={{
-              headerShown: true,
-              headerTitle: 'Tiệm cắt tóc GlowUp MD21'
-            }}
-          />
-          <Stack.Screen
-            name="combo/StepDetails"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="checkout/SpecialistCheckout"
-            options={{ headerShown: false }}
-          />
-        </Stack>
-      </ThemeProvider>
-    </TamaguiProvider>
+            <Stack.Screen
+              name="checkout/BookingCheckout"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="authentication/VerifyOTP"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="authentication/ForgotPassword"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="authentication/ResetPassword"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="combo/ComboDetails"
+              options={{
+                headerShown: false,
+                headerTitle: 'Trở về'
+              }}
+            />
+            <Stack.Screen
+              name="map/Map"
+              options={{
+                headerShown: true,
+                headerTitle: 'Tiệm cắt tóc GlowUp MD21'
+              }}
+            />
+            <Stack.Screen
+              name="combo/StepDetails"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="checkout/SpecialistCheckout"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="combo/viewAll/ShowAllCombo"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="combo/viewAll/ShowAllStylist"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="about/AboutUs"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+        </ThemeProvider>
+      </TamaguiProvider>
+
+      <StatusBar
+        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+      />
+    </>
   )
 }
