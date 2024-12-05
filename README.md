@@ -92,3 +92,50 @@ Because the expo-router navigates based on the file under the app directory, the
   <br />
   <p><i>✨ Created with teamwork and passion! ✨</i></p>
 </div>
+
+## Document FE-GlowUp
+
+#### link document
+(https://docs.google.com/document/d/1p1TOoakcYQS6pg_W6mvfreHy9AOm1Uux/edit)
+(https://app.diagrams.net/#G1d7OCPEhDpD9q5IX1Rv_AQNJvey6pxlxs#%7B%22pageId%22%3A%22SnAUCC3ot9vWHVNbTWrV%22%7D)
+
+Below is a guide for creating a user manual for an application. This structure ensures clarity and usability for your readers. The description is tailored for a general application and can be customized for a specific app like a barber appointment scheduler:
+
+#### User Manual for GlowUp
+1. Introduction
+Briefly describe the purpose of the application and its key features.
+State the intended audience and any prerequisites (e.g., required devices or operating systems).
+2. Getting Started
+System Requirements: Outline the minimum system and compatibility requirements.
+Installation: Provide a step-by-step guide to downloading and installing the application.
+Account Setup: Explain how to create, log in, and manage an account.
+3. Application Overview
+Include screenshots or diagrams to illustrate the main interface and navigation.
+Describe the key sections or menus in the application.
+4. How to Use [Application Name]
+ * Break this into detailed steps for each feature:
+
+    Booking an Appointment
+
+    Step-by-step instructions to select a barber, choose a service, pick a time slot, and confirm the booking.
+    Include information on modifying or canceling an appointment.
+    Managing Your Profile
+
+    How to update personal details, add payment methods, or change preferences.
+    Notifications and Reminders
+
+    How to enable or disable notifications for upcoming appointments or promotional offers.
+    Other Features
+
+Explain additional features like reviews, loyalty points, or support options.
+5. Troubleshooting
+Address common issues (e.g., login errors, failed payments).
+Provide quick fixes and direct users to customer support if needed.
+6. FAQ
+Compile frequently asked questions to help users solve minor queries quickly.
+7. Contact Support
+Include details on how to reach customer service (email, phone, in-app chat).
+8. Safety and Privacy
+Briefly describe how the app ensures user data security and adheres to privacy regulations.
+9. Updates and Maintenance
+Explain how the app is updated and what to expect from periodic updates.
