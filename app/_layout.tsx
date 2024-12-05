@@ -108,6 +108,16 @@ function RootLayoutNav (): React.ReactElement {
             name="checkout/SpecialistCheckout"
             options={{ headerShown: false }}
           />
+
+          <Stack.Screen
+            name="notification/Notification"
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="authentication/ChangePassword"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </ThemeProvider>
     </TamaguiProvider>
