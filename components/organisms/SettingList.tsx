@@ -29,6 +29,7 @@ const SettingList = ({ colors }: props): React.JSX.Element[] =>
           size="$4.5"
           pressTheme
           key={index}
+          disabled={item.isDisabled}
           onPress={item.onPress}
           iconAfter={<ChevronRight color={colors.text} />}
           borderBottomColor="$gray6Light"

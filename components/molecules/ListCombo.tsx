@@ -1,3 +1,4 @@
+import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import React from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 import type { ViewProps } from 'tamagui'
@@ -23,6 +24,7 @@ const ListCombo = (props: Props): React.ReactElement => {
   const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
   const isDarkMode = colorScheme === 'dark'
+  const router = useExpoRouter()
 
   const renderItem = ({ item }: { item: Combo }): React.ReactElement => {
     const isSelected = item.id === props.comboIdSelected
@@ -57,6 +59,7 @@ const ListCombo = (props: Props): React.ReactElement => {
       <LabelTitle
         title={'Gói dịch vụ'}
         subTitle={'Xem tất cả'}
+        onPress={() => router.push('combo/viewAll/ShowAllCombo')}
       />
       <FlatList
         data={props.combo}

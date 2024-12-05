@@ -1,4 +1,4 @@
-import { isNil } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 import React from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 import { Image, Text, View, XStack, YStack } from 'tamagui'
@@ -20,7 +20,6 @@ interface Props {
   cancellPress?: (id: string) => void
   dataCombo: Appointment[]
   viewBookingPress?: (id: string) => void
-
 }
 
 const RenderBookingItem = ({
@@ -42,8 +41,7 @@ const RenderBookingItem = ({
       padding={10}
       borderRadius={10}
       marginBottom={10}
-      justifyContent="center"
-    >
+      justifyContent="center">
       <YStack gap={10}>
         <XStack justifyContent="space-between">
           <Text color={colors.text}>{formatDate(item.createdAt)}</Text>
@@ -52,8 +50,7 @@ const RenderBookingItem = ({
               !isNil(visibleTextCancel) && visibleTextCancel ? 'flex' : 'none'
             }
             fontSize={12}
-            color={'red'}
-          >
+            color={'red'}>
             {t('screens.booking.cancelled')}
           </Text>
         </XStack>
@@ -62,22 +59,24 @@ const RenderBookingItem = ({
             width={90}
             height={90}
             borderRadius={10}
-            source={{ uri: dataCombo.picture }}
+            source={
+              !isEmpty(dataCombo.picture)
+                ? { uri: dataCombo.picture }
+                : require('../../assets/images/backGroundDetail.png')
+            }
           />
           <YStack gap={10}>
-            <Text
-              color={colors.text}
-              fontFamily={fonts.JetBrainsMonoBold}>
-              {dataCombo.name}
+            <Text color={colors.text} fontFamily={fonts.JetBrainsMonoBold}>
+              Dịch vụ: {dataCombo.name}
             </Text>
-            <Text
-              color={colors.text}
-            >{
-                item.total_price
-                  .toLocaleString(
-                    'vi-VN', { currency: 'VND', style: 'currency' }
-                  )
-              }
+            <Text color={colors.text}>
+              Thành tiền: {item.total_price.toLocaleString('vi-VN', {
+                currency: 'VND',
+                style: 'currency'
+              })}
+            </Text>
+            <Text color={colors.text} fontFamily={fonts.JetBrains}>
+              Nhân viên: {item.stylist.full_name}
             </Text>
             {/* <Text>{item.rate}</Text> */}
           </YStack>
@@ -86,8 +85,7 @@ const RenderBookingItem = ({
           gap={10}
           display={
             !isNil(visibleFormButton) && visibleFormButton ? 'flex' : 'none'
-          }
-        >
+          }>
           <TransparentButton
             onPress={() => cancellPress?.(item.id)}
             paddingHorizontal={5}
