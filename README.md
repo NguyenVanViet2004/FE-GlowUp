@@ -93,7 +93,7 @@ Because the expo-router navigates based on the file under the app directory, the
   <p><i>✨ Created with teamwork and passion! ✨</i></p>
 </div>
 
-## Document FE-GlowUp
+## Document GlowUp
 
 #### link document
 (https://docs.google.com/document/d/1p1TOoakcYQS6pg_W6mvfreHy9AOm1Uux/edit)
@@ -112,20 +112,16 @@ Account Setup: Explain how to create, log in, and manage an account.
 3. Application Overview
 Include screenshots or diagrams to illustrate the main interface and navigation.
 Describe the key sections or menus in the application.
-4. How to Use [Application Name]
+4. How to Use GlowUp
  * Break this into detailed steps for each feature:
-
-    Booking an Appointment
-
-    Step-by-step instructions to select a barber, choose a service, pick a time slot, and confirm the booking.
-    Include information on modifying or canceling an appointment.
-    Managing Your Profile
-
-    How to update personal details, add payment methods, or change preferences.
-    Notifications and Reminders
-
-    How to enable or disable notifications for upcoming appointments or promotional offers.
-    Other Features
+   - Booking an Appointment
+   - Step-by-step instructions to select a barber, choose a service, pick a time slot, and confirm the booking.
+   - Include information on modifying or canceling an appointment.
+   - Managing Your Profile
+   - How to update personal details, add payment methods, or change preferences.
+   - Notifications and Reminders
+   - How to enable or disable notifications for upcoming appointments or promotional offers.
+   - Other Features
 
 Explain additional features like reviews, loyalty points, or support options.
 5. Troubleshooting
