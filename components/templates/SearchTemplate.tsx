@@ -242,7 +242,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
                 borderColor={colors.gray}
                 borderRadius={10}
                 mt={10}
-                backgroundColor={colors.mistWhite}
+                backgroundColor={colors.lightMist}
                 onPress={() => {
                   redirectToComboDetail(item as Combo)
                 }}>

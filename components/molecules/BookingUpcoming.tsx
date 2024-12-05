@@ -20,7 +20,6 @@ const BookingUpcoming = (): React.ReactElement => {
   const [isCanceling, setIsCanceling] = useState(false)
 
   const user = useSelector((state: RootState) => state.user.result)
-  console.log(user)
 
   const pendingAppointments = appointments.filter(
     (item) => item.status === Status.PENDING && item.customer.id === user.id
