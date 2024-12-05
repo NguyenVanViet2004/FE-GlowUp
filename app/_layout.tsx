@@ -8,8 +8,8 @@ import React, { useEffect } from 'react'
 import { Modal, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
-import getColors from '~/constants/Colors'
 
+import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useNotifications from '~/hooks/useNotifications'
@@ -62,14 +62,14 @@ function RootLayoutNav (): React.ReactElement {
   const [isModalVisible, setIsModalVisible] = React.useState(false)
   const [message, setMessage] = React.useState('')
   const [titleNotify, setTitleNotify] = React.useState('')
-  
+
   console.log(JSON.stringify(notification, null, 2))
   console.log(JSON.stringify(expoPushToken, null, 2))
 
   useEffect(() => {
     if (notification) {
-      setMessage(notification.request.content.body ?? "")
-      setTitleNotify(notification.request.content.title?? "")
+      setMessage(notification.request.content.body ?? '')
+      setTitleNotify(notification.request.content.title ?? '')
       setIsModalVisible(true)
     }
   }, [notification])
@@ -158,9 +158,9 @@ function RootLayoutNav (): React.ReactElement {
         animationType="fade"
         onRequestClose={handleCloseModal}>
         <View style={styles.modalBackground}>
-          <View style={[styles.modalContainer, {backgroundColor: colors.lightMist}]}>
-            <Text style={[styles.modalTitle, {color: colors.text}]}>{titleNotify}</Text>
-            <Text style={[styles.modalMessage, {color: colors.text}]}>{message}</Text>
+          <View style={[styles.modalContainer, { backgroundColor: colors.lightMist }]}>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>{titleNotify}</Text>
+            <Text style={[styles.modalMessage, { color: colors.text }]}>{message}</Text>
             <TouchableOpacity onPress={handleCloseModal} style={styles.closeButton}>
               <Text style={styles.closeButtonText}>Đóng</Text>
             </TouchableOpacity>
@@ -176,35 +176,35 @@ function RootLayoutNav (): React.ReactElement {
 }
 
 const styles = StyleSheet.create({
+  closeButton: {
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    padding: 10
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16
+  },
   modalBackground: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    flex: 1,
+    justifyContent: 'center'
   },
   modalContainer: {
-    padding: 20,
-    borderRadius: 10,
-    width: '80%',
     alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    borderRadius: 10,
+    padding: 20,
+    width: '80%'
   },
   modalMessage: {
     fontSize: 16,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
-  closeButton: {
-    padding: 10,
-    backgroundColor: '#007bff',
-    borderRadius: 5,
-  },
-  closeButtonText: {
-    color: 'white',
-    fontSize: 16,
-  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10
+  }
 })
