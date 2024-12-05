@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 import store from '~/redux/store'
 
 export const BASE_URL =
-  Platform.OS === 'ios' ? 'http://localhost:3000' : 'http://192.168.1.229:3000'
+  Platform.OS === 'ios' ? 'http://localhost:3000' : 'http:/example.ipv4:3000'
 
 const headers = {
   'Content-Type': 'application/json',

@@ -5,9 +5,10 @@ import {
 } from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
 import React, { useEffect } from 'react'
-import { StatusBar } from 'react-native'
+import { Modal, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
+import getColors from '~/constants/Colors'
 
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
@@ -55,7 +56,27 @@ function RootLayoutNav (): React.ReactElement {
   const colorScheme = useColorScheme().colorScheme
   const { t } = useTranslation()
   const { notification, expoPushToken } = useNotifications()
-  console.log(expoPushToken, notification)
+  const colors = getColors(colorScheme)
+
+  // State to control the modal visibility
+  const [isModalVisible, setIsModalVisible] = React.useState(false)
+  const [message, setMessage] = React.useState('')
+  const [titleNotify, setTitleNotify] = React.useState('')
+  
+  console.log(JSON.stringify(notification, null, 2))
+  console.log(JSON.stringify(expoPushToken, null, 2))
+
+  useEffect(() => {
+    if (notification) {
+      setMessage(notification.request.content.body ?? "")
+      setTitleNotify(notification.request.content.title?? "")
+      setIsModalVisible(true)
+    }
+  }, [notification])
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false)
+  }
 
   return (
     <>
@@ -131,9 +152,59 @@ function RootLayoutNav (): React.ReactElement {
         </ThemeProvider>
       </TamaguiProvider>
 
+      <Modal
+        visible={isModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleCloseModal}>
+        <View style={styles.modalBackground}>
+          <View style={[styles.modalContainer, {backgroundColor: colors.lightMist}]}>
+            <Text style={[styles.modalTitle, {color: colors.text}]}>{titleNotify}</Text>
+            <Text style={[styles.modalMessage, {color: colors.text}]}>{message}</Text>
+            <TouchableOpacity onPress={handleCloseModal} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>Đóng</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <StatusBar
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
       />
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalMessage: {
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  closeButton: {
+    padding: 10,
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+})
