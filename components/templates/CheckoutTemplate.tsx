@@ -1,8 +1,10 @@
 import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
+import { useLocalSearchParams } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
+import { isNil } from 'lodash'
 import React from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Card } from 'tamagui'
+import { Card, Text, XStack } from 'tamagui'
 
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import BookingInfoSection from '~/components/molecules/Checkout/BookingInfoSection'
@@ -13,9 +15,8 @@ import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
-import type Combo from '~/interfaces/Combo'
-import type Step from '~/interfaces/Step'
-import type Voucher from '~/interfaces/voucher'
+import { Status } from '~/interfaces/enum/Status'
+import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateToLongForm'
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
@@ -24,15 +25,27 @@ const CheckoutTemplate = (): React.ReactElement => {
   const leftIcon =
     <ChevronLeft
       color={colors.text}
-      size={25} onPress={() => router.goBack()}/>
+      size={25} onPress={() => router.goBack()} />
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
+
+  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection()
+  const insets = useSafeAreaInsets()
+
+  const data = useLocalSearchParams()
+  const boking = typeof data.bookingData === 'string'
+    ? JSON.parse(data.bookingData)
+    : null
+
+  const bookingExample = !isNil(boking[0])
+    ? boking[0]
+    : []
 
   const bookingData = [
     {
       flex: 2,
       label: t('booking.date'),
-      value: 'March, 10th 2021',
+      value: formatDateToLongForm(boking[0].start_time as string),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -41,7 +54,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.startTime'),
-      value: '10:00 AM',
+      value: extractTimeWithPeriod(boking[0].start_time as string),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -50,7 +63,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: 2,
       label: t('booking.speciaList'),
-      value: 'Random',
+      value: boking[0].stylist.full_name,
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -59,76 +72,53 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.duration'),
-      value: '5 hours',
+      value: boking[0].total_time + ' giờ',
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
       }
     }
   ]
-  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection()
-  const insets = useSafeAreaInsets()
-
-  const steps: Step[] = [
-    {
-      _id: '1',
-      description:
-        'Discuss your desired look and style with our expert stylist.',
-      duration: '15 minutes',
-      imageUrl: 'https://example.com/images/consultation.jpg',
-      name: 'Consultation',
-      price: 10
-    },
-    {
-      _id: '2',
-      description: 'A relaxing wash with a hydrating shampoo and conditioner.',
-      duration: '10 minutes',
-      imageUrl: 'https://example.com/images/hair_washing.jpg',
-      name: 'Hair Washing',
-      price: 10
-    },
-    {
-      _id: '3',
-      description:
-        'Precision cutting tailored to your face shape and style preferences.',
-      duration: '10 minutes',
-      imageUrl: 'https://example.com/images/hair_cutting.jpg',
-      name: 'Hair Cutting',
-      price: 10
-    },
-    {
-      _id: '4',
-      description:
-        'Finishing touches with styling products to achieve your desired look.',
-      duration: '10 minutes',
-      imageUrl: 'https://example.com/images/styling.jpg',
-      name: 'Styling',
-      price: 10
-    }
-  ]
-
-  const voucher: Voucher = {
-    _id: '',
-    expirationDate: new Date(),
-    isActive: false,
-    name: 'hehe boy',
-    percent: 30
-  }
-
-  const comboExample: Combo = {
-    _id: 'combo1',
-    description:
-      `Transform your look with our Ultimate Hair Makeover 
-      package, including consultation, wash, cut, and styling.`,
-    imageUrl: 'https://example.com/images/salon_combo.jpg',
-    name: 'Ultimate Hair Makeover',
-    price: 35,
-    steps,
-    voucher
-  }
 
   const handleSubmitPress = (): void => {
     console.log(selectedMethodID)
+  }
+
+  const isPendingBooking = (boking: unknown): boking is Array<
+  { payment_status: Status.PENDING }> => {
+    return (
+      Array.isArray(boking) &&
+      boking.length > 0 &&
+      boking[0]?.payment_status === Status.PENDING
+    )
+  }
+
+  const renderButtonCheckout = (): JSX.Element | null => {
+    if (boking !== null && boking !== undefined && isPendingBooking(boking)) {
+      return (
+        <PositiveButton
+          title={t('booking.checkout')}
+          marginHorizontal={20}
+          position="absolute"
+          left={0}
+          right={0}
+          bottom={insets.bottom === 0 ? 20 : insets.bottom}
+          onPress={handleSubmitPress}
+        />
+      )
+    }
+    return null
+  }
+
+  const renderStautsPayment = (): JSX.Element => {
+    return <XStack>
+      <Text
+        color={colors.text}
+        fontFamily={fonts.fonts.JetBrainsMonoBold} fontSize={14}>Trạng Thái: </Text>
+      <Text
+        color={colors.text}
+        fontSize={14}>đã thanh toán</Text>
+    </XStack>
   }
 
   return (
@@ -136,7 +126,11 @@ const CheckoutTemplate = (): React.ReactElement => {
       <GradientScrollContainer
         paddingHorizontal={0}
         edges={['left', 'right', 'bottom']}
-        headerTitle={t('booking.bookingCheckout')}
+        headerTitle={
+          boking[0].payment_status === Status.PAID
+            ? 'Phiếu đặt'
+            : t('booking.bookingCheckout')
+        }
         isHeaderCenter={true}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
@@ -147,23 +141,18 @@ const CheckoutTemplate = (): React.ReactElement => {
           paddingVertical={30}
           paddingHorizontal="8%"
           marginHorizontal={20}
-          alignItems="center"
           backgroundColor={colors.bookingDetailsBackgroundCard} >
           <BookingInfoSection data={bookingData} />
-          {renderPaymentMethods()}
-          <ServiceInfoSection combo={comboExample} />
+          {
+            boking[0].payment_status === Status.PAID
+              ? renderStautsPayment()
+              : renderPaymentMethods()
+          }
+          <ServiceInfoSection booking={bookingExample} />
         </Card>
       </GradientScrollContainer>
 
-      <PositiveButton
-        title={t('booking.checkout')}
-        marginHorizontal={20}
-        position="absolute"
-        left={0}
-        right={0}
-        bottom={insets.bottom === 0 ? 20 : insets.bottom}
-        onPress={handleSubmitPress}
-      />
+      {renderButtonCheckout()}
     </>
   )
 }

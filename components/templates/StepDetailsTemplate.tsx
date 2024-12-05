@@ -27,6 +27,11 @@ const StepDetailsTemplate = ({
   const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
 
+  const overlayStyles = {
+    enterStyle: { opacity: 0 },
+    exitStyle: { opacity: 0 }
+  }
+
   return (
     <>
       <Sheet
@@ -43,8 +48,8 @@ const StepDetailsTemplate = ({
         animation="medium">
         <Sheet.Overlay
           animation="lazy"
-          enterStyle={{ opacity: 0 }}
-          exitStyle={{ opacity: 0 }}
+          enterStyle={overlayStyles.enterStyle}
+          exitStyle={overlayStyles.exitStyle}
         />
         <Sheet.Handle />
         <View marginBottom={100}>

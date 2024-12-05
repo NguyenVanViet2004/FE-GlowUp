@@ -1,12 +1,12 @@
 import { AlertCircle, BellRing, Globe, Heart, Lock, User2 } from '@tamagui/lucide-icons'
-import { useExpoRouter } from 'expo-router/build/global-state/router-store'
+import { useRouter } from 'expo-router'
 
 import useTranslation from '~/hooks/useTranslation'
 import type SettingsList from '~/interfaces/SettingsList'
 
 export const SettingListData = (): SettingsList[] => {
   const { t } = useTranslation()
-  const router = useExpoRouter()
+  const router = useRouter()
 
   return [
     {
@@ -14,7 +14,7 @@ export const SettingListData = (): SettingsList[] => {
         {
           icon: User2,
           onPress: () => {
-            router.navigate('/profile')
+            router.push('/profile')
           },
           title: t('user.userInfo')
         },
@@ -25,7 +25,7 @@ export const SettingListData = (): SettingsList[] => {
         },
         {
           icon: Lock,
-          onPress: () => {},
+          onPress: () => { router.push('/authentication/ChangePassword') },
           title: t('screens.profile.changePassword')
         }
       ],

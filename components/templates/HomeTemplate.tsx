@@ -1,4 +1,5 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { View } from 'tamagui'
@@ -26,6 +27,7 @@ const MemoizedSpecialComboCard = React.memo(SpecialComboCard)
 const HomeTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
   const { colorScheme } = useColorScheme()
+  const router = useRouter()
   const colors = getColors(colorScheme)
   const isDarkMode = colorScheme === 'dark'
 
@@ -48,6 +50,10 @@ const HomeTemplate = (): React.ReactElement => {
     }
   }, [banner, isLoading])
 
+  const redirectToNotification = (): void => {
+    router.push('/notification/Notification')
+  }
+
   return (
     <GradientScrollContainer>
       <View flexDirection="row" alignItems="center" width={'100%'}>
@@ -56,6 +62,7 @@ const HomeTemplate = (): React.ReactElement => {
         </View>
         <View flex={2} />
         <View
+          onPress={redirectToNotification}
           borderRadius={RADIUS_BUTTON}
           borderColor={isDarkMode ? colors.white : colors.gray}
           borderWidth={1}

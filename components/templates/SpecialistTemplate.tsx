@@ -65,7 +65,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       isNil(selectedDay) || isNil(selectedTime) || isNil(selectedStylist?.id)
     ) return
 
-    const obj = JSON.parse(route.params?.item)
+    const obj = JSON.parse(route.params?.item as string)
     const startTime = dayjs(`${selectedDay} ${selectedTime}`,
       'YYYY-MM-DD hh:mm A').tz(dayjs.tz.guess(), true)
     const payload = {

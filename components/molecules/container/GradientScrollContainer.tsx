@@ -2,7 +2,7 @@ import { isNil } from 'lodash'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { type SafeAreaProviderProps, SafeAreaView, type SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { ScrollView, Separator, View, type ViewProps } from 'tamagui'
+import { ScrollView, View, type ViewProps } from 'tamagui'
 
 import AppHeader, { type headerProps } from '~/components/molecules/common/AppHeader'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
@@ -43,7 +43,7 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
           zIndex={1000}
           backgroundColor="$colorTransparent"
           marginTop={insets.top} />
-        <Separator marginVertical={0} />
+        {/* <Separator borderColor={colors.text} marginVertical={0} /> */}
       </View>
     )
   }
