@@ -27,7 +27,7 @@ const BookingCancelled = (): React.ReactElement => {
       (item) => item.id === id && item.customer.id === user.id
     )
     router.push({
-      params: { bookingData: JSON.stringify(viewCompletedAppointment)},
+      params: { bookingData: JSON.stringify(viewCompletedAppointment) },
       pathname: '/checkout/BookingCheckout'
     })
   }
@@ -44,7 +44,7 @@ const BookingCancelled = (): React.ReactElement => {
               dataCombo={CancelledAppointments}
               visibleTextCancel={true}
               visibleFormButton={true}
-              visibleTransparentButton={false} 
+              visibleTransparentButton={false}
               viewBookingPress={id => { viewBooking(id) }}/>)
           : (<Text color={colors.text}>{t('booking.cancelled')}</Text>)
       }

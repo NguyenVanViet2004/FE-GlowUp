@@ -127,16 +127,15 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       const response = await request.post(
         `/auth/change-password/${userId}`, payload
       )
-        if (response.success) {
-          Alert.alert(
-            t('Thành công'),
-            t('Đổi mật khẩu thành công')
-          )
-          router.replace('/(tabs)/profile')
-        } else {
-          setOldPasswordError("Mật khẩu hiện tại không chính xác!")
-        }
-      
+      if (response.success) {
+        Alert.alert(
+          t('Thành công'),
+          t('Đổi mật khẩu thành công')
+        )
+        router.replace('/(tabs)/profile')
+      } else {
+        setOldPasswordError('Mật khẩu hiện tại không chính xác!')
+      }
     } catch (err) {
       Alert.alert(
         t('screens.signUp.false'),

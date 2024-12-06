@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { RadioGroup, Text, View } from 'tamagui'
+
 import RadioGroupItemWithLabel from '~/components/molecules/common/RadioGroupItemWithLabel'
 import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'

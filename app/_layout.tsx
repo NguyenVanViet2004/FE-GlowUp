@@ -74,7 +74,7 @@ function RootLayoutNav (): React.ReactElement {
     }
   }, [notification])
 
-  const handleCloseModal = ():void => {
+  const handleCloseModal = (): void => {
     setIsModalVisible(false)
   }
 
@@ -167,20 +167,20 @@ function RootLayoutNav (): React.ReactElement {
         animationType="fade"
         onRequestClose={handleCloseModal}>
         <View style={styles.modalBackground}>
-          <View 
-          style={
-            [styles.modalContainer, { backgroundColor: colors.lightMist }]
-            }>
-            <Text 
+          <View
             style={
-              [styles.modalTitle, { color: colors.text }]}
-              >{titleNotify}</Text>
-            <Text 
-            style={[styles.modalMessage, { color: colors.text }]}
+              [styles.modalContainer, { backgroundColor: colors.lightMist }]
+            }>
+            <Text
+              style={
+                [styles.modalTitle, { color: colors.text }]}
+            >{titleNotify}</Text>
+            <Text
+              style={[styles.modalMessage, { color: colors.text }]}
             >{message}</Text>
-            <TouchableOpacity 
-            onPress={handleCloseModal} 
-            style={styles.closeButton}>
+            <TouchableOpacity
+              onPress={handleCloseModal}
+              style={styles.closeButton}>
               <Text style={styles.closeButtonText}>Đóng</Text>
             </TouchableOpacity>
           </View>
