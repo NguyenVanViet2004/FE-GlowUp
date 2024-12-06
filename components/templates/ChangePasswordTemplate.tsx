@@ -1,6 +1,6 @@
 import { ChevronLeft, Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
-import { isNil } from 'lodash'
+import { isNil, set } from 'lodash'
 import React, { useState } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -40,8 +40,8 @@ const ChangePasswordTemplate = (): React.ReactElement => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const userAccesToken = useSelector(
-    (state: RootState) => state.user.access_token
+  const userId = useSelector(
+    (state: RootState) => state.user.result.id
   )
 
   const renderPasswordIcon = (): JSX.Element => {
@@ -104,6 +104,7 @@ const ChangePasswordTemplate = (): React.ReactElement => {
   const handleConfirmNewPassword = async (): Promise<void> => {
     try {
       validatePasswordInput(password)
+      validateOldPasswordInput(oldPassword)
       validateConfirmPasswordInput(confirmPassword)
 
       if (
@@ -118,20 +119,24 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       setIsLoading(true)
 
       const payload = {
-        confirm_password: confirmPassword,
-        current_password: oldPassword,
-        new_password: password
+        confirm_password: confirmPassword.trim(),
+        current_password: oldPassword.trim(),
+        new_password: password.trim()
       }
 
       const response = await request.post(
-        `/auth/change-password/${userAccesToken}`, payload
+        `/auth/change-password/${userId}`, payload
       )
-      //   if (response.success === true) {
-      //     router.replace('/authentication/Login')
-      //   } else {
-      //     setPassword('Mật khẩu không hợp lệ')
-      //   }
-      console.log(response)
+        if (response.success) {
+          Alert.alert(
+            t('Thành công'),
+            t('Đổi mật khẩu thành công')
+          )
+          router.replace('/(tabs)/profile')
+        } else {
+          setOldPasswordError("Mật khẩu hiện tại không chính xác!")
+        }
+      
     } catch (err) {
       Alert.alert(
         t('screens.signUp.false'),
