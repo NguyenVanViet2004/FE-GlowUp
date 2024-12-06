@@ -148,6 +148,10 @@ function RootLayoutNav (): React.ReactElement {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="payment/WebView"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="combo/viewAll/ShowAllCombo"
               options={{ headerShown: false }}
             />
