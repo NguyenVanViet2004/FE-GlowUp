@@ -99,7 +99,8 @@ const CheckoutTemplate = (): React.ReactElement => {
     return (
       Array.isArray(boking) &&
       boking.length > 0 &&
-      boking[0]?.status === Status.PENDING
+      boking[0]?.status === Status.PENDING && 
+      boking[0]?.payment_status === Status.PENDING
     )
   }
 
