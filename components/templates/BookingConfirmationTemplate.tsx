@@ -19,7 +19,7 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
 
   const { bookingInfo } = useLocalSearchParams()
   const parseBooking = JSON.parse(bookingInfo)
-  console.log(parseBooking)
+  console.log("Data: ",parseBooking)
   const bookingData = {
     bookingTime: new Date(parseBooking.start_time).toLocaleString(),
     customerName: parseBooking.customer.full_name ?? 'N/A',
@@ -38,7 +38,7 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
       <SafeAreaView style={styles.container}>
         {parseBooking.picture !== null && (
           <Image
-            src={parseBooking.picture}
+            src={parseBooking.combo.picture}
             width="100%"
             height={200}
             borderRadius={10}
