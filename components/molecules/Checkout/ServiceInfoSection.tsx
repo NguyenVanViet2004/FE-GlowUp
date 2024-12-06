@@ -5,15 +5,14 @@ import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
-import type Combo from '~/interfaces/Combo'
 
 import Summary from './Summary'
 
 interface props {
-  combo: Combo
+  booking: any
 }
 
-const ServiceInfoSection: React.FC<props> = ({ combo }) => {
+const ServiceInfoSection: React.FC<props> = ({ booking }) => {
   const colors = getColors(useColorScheme().colorScheme)
   const fonts = useAppFonts()
   const { t } = useTranslation()
@@ -22,8 +21,8 @@ const ServiceInfoSection: React.FC<props> = ({ combo }) => {
     <View width="100%" marginTop={40}>
       <Text color={colors.text} textAlign="center">{t('booking.service')}</Text>
 
-      {combo.steps.map((step, index) => (
-        <XStack marginTop={20} key={`${step._id}-${index}`}>
+      {booking.combo.services.map((step, index) => (
+        <XStack marginTop={20} key={`${step.id}-${index}`}>
           <Text
             color={colors.text}
             flex={1}
@@ -42,7 +41,7 @@ const ServiceInfoSection: React.FC<props> = ({ combo }) => {
         width="100%"
         marginVertical={20} />
 
-      <Summary colors={colors} combo={combo} fonts={fonts} t={t}/>
+      <Summary colors={colors} booking={booking} fonts={fonts} t={t}/>
     </View>
   )
 }

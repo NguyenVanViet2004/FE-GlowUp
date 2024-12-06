@@ -1,14 +1,14 @@
 import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 
-const AboutUs = () => {
+const AboutUs = (): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)
   const { fonts } = useAppFonts()
   const router = useRouter()

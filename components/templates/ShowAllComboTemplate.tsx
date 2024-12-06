@@ -13,7 +13,7 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchCombo from '~/hooks/useFetchCombo'
 import type Combo from '~/interfaces/Combo'
 
-const ShowAllComboTemplate = () => {
+const ShowAllComboTemplate = (): React.ReactElement => {
   const { combos, isLoading } = useFetchCombo()
   const router = useRouter()
   const { fonts } = useAppFonts()

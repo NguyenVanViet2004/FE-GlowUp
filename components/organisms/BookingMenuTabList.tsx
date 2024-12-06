@@ -49,8 +49,7 @@ const BookingMenuTabList = (): React.ReactElement => {
 
                 {tabIndexActive === index
                   ? (
-                    <Separator borderColor={colors.blueSapphire} />
-                  )
+                    <Separator borderColor={colors.blueSapphire} />)
                   : null}
               </YStack>
             </TouchableOpacity>
@@ -63,20 +62,17 @@ const BookingMenuTabList = (): React.ReactElement => {
           ? (
             <View height={'93%'}>
               <BookingUpcoming />
-            </View>
-          )
+            </View>)
           : menuTabs[tabIndexActive].name === t('screens.booking.completed')
             ? (
               <View height={'93%'}>
                 <BookingCompleted />
-              </View>
-            )
+              </View>)
             : menuTabs[tabIndexActive].name === t('screens.booking.cancelled')
               ? (
                 <View height={'93%'}>
                   <BookingCancelled />
-                </View>
-              )
+                </View>)
               : null}
       </View>
     </YStack>

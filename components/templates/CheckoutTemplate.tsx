@@ -1,8 +1,14 @@
-import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
+import { ChevronLeft, ChevronRight, Download } from '@tamagui/lucide-icons'
+import * as MediaLibrary from 'expo-media-library'
+import { useLocalSearchParams } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
-import React from 'react'
+import { isNil } from 'lodash'
+import React, { useEffect, useRef, useState } from 'react'
+import { Alert } from 'react-native'
+import QRCode from 'react-native-qrcode-svg'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Card } from 'tamagui'
+import { captureRef } from 'react-native-view-shot'
+import { Card, View } from 'tamagui'
 
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import BookingInfoSection from '~/components/molecules/Checkout/BookingInfoSection'
@@ -13,26 +19,35 @@ import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
-import type Combo from '~/interfaces/Combo'
-import type Step from '~/interfaces/Step'
-import type Voucher from '~/interfaces/voucher'
+import { Status } from '~/interfaces/enum/Status'
+import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateToLongForm'
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
+  const insets = useSafeAreaInsets()
   const colors = getColors(useColorScheme().colorScheme)
   const router = useExpoRouter()
   const leftIcon =
     <ChevronLeft
       color={colors.text}
-      size={25} onPress={() => router.goBack()}/>
+      size={25} onPress={() => router.goBack()} />
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
+  const [isLocked, setIsLocked] = useState<boolean>(false)
+  const data = useLocalSearchParams()
+  const boking = typeof data.bookingData === 'string'
+    ? JSON.parse(data.bookingData)
+    : null
+
+  const bookingExample = !isNil(boking[0])
+    ? boking[0]
+    : []
 
   const bookingData = [
     {
       flex: 2,
       label: t('booking.date'),
-      value: 'March, 10th 2021',
+      value: formatDateToLongForm(boking[0].start_time as string),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -41,7 +56,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.startTime'),
-      value: '10:00 AM',
+      value: extractTimeWithPeriod(boking[0].start_time as string),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -50,7 +65,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: 2,
       label: t('booking.speciaList'),
-      value: 'Random',
+      value: boking[0].stylist.full_name,
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -59,76 +74,76 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.duration'),
-      value: '5 hours',
+      value: boking[0].total_time + ' giờ',
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
       }
     }
   ]
-  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection()
-  const insets = useSafeAreaInsets()
 
-  const steps: Step[] = [
-    {
-      _id: '1',
-      description:
-        'Discuss your desired look and style with our expert stylist.',
-      duration: '15 minutes',
-      imageUrl: 'https://example.com/images/consultation.jpg',
-      name: 'Consultation',
-      price: 10
-    },
-    {
-      _id: '2',
-      description: 'A relaxing wash with a hydrating shampoo and conditioner.',
-      duration: '10 minutes',
-      imageUrl: 'https://example.com/images/hair_washing.jpg',
-      name: 'Hair Washing',
-      price: 10
-    },
-    {
-      _id: '3',
-      description:
-        'Precision cutting tailored to your face shape and style preferences.',
-      duration: '10 minutes',
-      imageUrl: 'https://example.com/images/hair_cutting.jpg',
-      name: 'Hair Cutting',
-      price: 10
-    },
-    {
-      _id: '4',
-      description:
-        'Finishing touches with styling products to achieve your desired look.',
-      duration: '10 minutes',
-      imageUrl: 'https://example.com/images/styling.jpg',
-      name: 'Styling',
-      price: 10
+  useEffect(() => {
+    if (boking[0].status === Status.COMPLETED || boking[0].status === Status.CANCELLED || boking[0].payment_status === Status.PAID) {
+      setIsLocked(true)
     }
-  ]
+  }, [])
 
-  const voucher: Voucher = {
-    _id: '',
-    expirationDate: new Date(),
-    isActive: false,
-    name: 'hehe boy',
-    percent: 30
-  }
+  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection({ isLocked })
 
-  const comboExample: Combo = {
-    _id: 'combo1',
-    description:
-      `Transform your look with our Ultimate Hair Makeover 
-      package, including consultation, wash, cut, and styling.`,
-    imageUrl: 'https://example.com/images/salon_combo.jpg',
-    name: 'Ultimate Hair Makeover',
-    price: 35,
-    steps,
-    voucher
+  const qrData = JSON.stringify(bookingExample.id)
+  const qrCodeRef = useRef(null)
+  const handleDownloadQR = async (): Promise<void> => {
+    try {
+      // Yêu cầu quyền truy cập thư viện
+      const { status } = await MediaLibrary.requestPermissionsAsync()
+      if (status !== 'granted') {
+        Alert.alert('Lỗi', 'Vui lòng cấp quyền truy cập thư viện!')
+        return
+      }
+
+      // Chụp QR Code và lưu vào thư viện
+      const uri = await captureRef(qrCodeRef, {
+        format: 'png',
+        quality: 1
+      })
+
+      await MediaLibrary.saveToLibraryAsync(uri)
+      Alert.alert('Thành công', 'QR Code đã được lưu vào thư viện ảnh!')
+    } catch (error) {
+      console.error('Lỗi khi tải QR Code:', error)
+      Alert.alert('Lỗi', 'Không thể tải QR Code, vui lòng thử lại.')
+    }
   }
 
   const handleSubmitPress = (): void => {
     console.log(selectedMethodID)
+  }
+
+  const isPendingBooking = (boking: unknown): boking is Array<
+  { payment_status: Status.PENDING }> => {
+    return (
+      Array.isArray(boking) &&
+      boking.length > 0 &&
+      boking[0]?.status === Status.PENDING &&
+      boking[0]?.payment_status === Status.PENDING
+    )
+  }
+
+  const renderButtonCheckout = (): JSX.Element | null => {
+    if (boking !== null && boking !== undefined && isPendingBooking(boking)) {
+      return (
+        <PositiveButton
+          title={t('booking.checkout')}
+          marginHorizontal={20}
+          position="absolute"
+          left={0}
+          right={0}
+          bottom={insets.bottom === 0 ? 20 : insets.bottom}
+          onPress={handleSubmitPress}
+        />
+      )
+    }
+    return null
   }
 
   return (
@@ -136,34 +151,45 @@ const CheckoutTemplate = (): React.ReactElement => {
       <GradientScrollContainer
         paddingHorizontal={0}
         edges={['left', 'right', 'bottom']}
-        headerTitle={t('booking.bookingCheckout')}
+        headerTitle={
+          boking[0].payment_status === Status.PAID
+            ? 'Phiếu đặt'
+            : t('booking.bookingCheckout')
+        }
         isHeaderCenter={true}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
         paddingTop={20}>
+
         <Card
           flex={1}
           borderRadius={15}
           paddingVertical={30}
           paddingHorizontal="8%"
           marginHorizontal={20}
-          alignItems="center"
           backgroundColor={colors.bookingDetailsBackgroundCard} >
           <BookingInfoSection data={bookingData} />
-          {renderPaymentMethods()}
-          <ServiceInfoSection combo={comboExample} />
+          {
+            renderPaymentMethods()
+          }
+          <View gap={5} justifyContent="center" alignItems="center" mt={10}>
+            <View ref={qrCodeRef} backgroundColor={colors.white} padding={10} borderRadius={10}>
+              <QRCode
+                value={qrData} // Giá trị QR Code (phải là chuỗi)
+                size={130} // Kích thước QR Code
+                backgroundColor={colors.white}
+                color={colors.blueSapphire}
+                logo={require('../../assets/images/logoApp.png')}
+              />
+            </View>
+            <Download size={25} color={colors.blueSapphire} onPress={handleDownloadQR}/>
+          </View>
+          <ServiceInfoSection booking={bookingExample} />
+
         </Card>
       </GradientScrollContainer>
 
-      <PositiveButton
-        title={t('booking.checkout')}
-        marginHorizontal={20}
-        position="absolute"
-        left={0}
-        right={0}
-        bottom={insets.bottom === 0 ? 20 : insets.bottom}
-        onPress={handleSubmitPress}
-      />
+      {renderButtonCheckout()}
     </>
   )
 }

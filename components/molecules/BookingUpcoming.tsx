@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -15,6 +16,7 @@ import { type RootState } from '~/redux/store'
 
 const BookingUpcoming = (): React.ReactElement => {
   const { t } = useTranslation()
+  const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
   const { appointments, isLoading, refetch } = useFetchAppointment()
   const [isCanceling, setIsCanceling] = useState(false)
@@ -58,6 +60,16 @@ const BookingUpcoming = (): React.ReactElement => {
     ])
   }
 
+  const viewBooking = (id: string): void => {
+    const viewCompletedAppointment = appointments.filter(
+      (item) => item.id === id && item.customer.id === user.id
+    )
+    router.push({
+      params: { bookingData: JSON.stringify(viewCompletedAppointment) },
+      pathname: '/checkout/BookingCheckout'
+    })
+  }
+
   if (isLoading || isCanceling) {
     return <Loading />
   }
@@ -74,6 +86,7 @@ const BookingUpcoming = (): React.ReactElement => {
             visibleTextCancel={false}
             visibleFormButton={true}
             visibleTransparentButton={true}
+            viewBookingPress={id => { viewBooking(id) }}
           />)
         : (
           <Text color={colors.text}>{t('booking.upcoming')}</Text>)}

@@ -28,7 +28,13 @@ const BookingCompleted = (): React.ReactElement => {
   }
 
   const viewBooking = (id: string): void => {
-    router.push('/checkout/BookingCheckout')
+    const viewCompletedAppointment = appointments.filter(
+      (item) => item.id === id && item.customer.id === user.id
+    )
+    router.push({
+      params: { bookingData: JSON.stringify(viewCompletedAppointment) },
+      pathname: '/checkout/BookingCheckout'
+    })
   }
   return (
     <View>

@@ -19,6 +19,11 @@ const StylistList = (): JSX.Element => {
     null
   )
 
+  const overlayStyles = {
+    enterStyle: { opacity: 0 },
+    exitStyle: { opacity: 0 }
+  }
+
   const renderStylistItem = ({
     item
   }: {
@@ -73,8 +78,8 @@ const StylistList = (): JSX.Element => {
         animation="medium">
         <Sheet.Overlay
           animation="lazy"
-          enterStyle={{ opacity: 0 }}
-          exitStyle={{ opacity: 0 }}
+          enterStyle={overlayStyles.enterStyle}
+          exitStyle={overlayStyles.exitStyle}
         />
         <Sheet.Handle />
         {!isNil(selectedStylist) && (

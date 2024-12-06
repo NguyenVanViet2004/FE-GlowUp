@@ -70,10 +70,9 @@ const RenderBookingItem = ({
               Dịch vụ: {dataCombo.name}
             </Text>
             <Text color={colors.text}>
-              Thành tiền: {item.total_price.toLocaleString('vi-VN', {
-                currency: 'VND',
-                style: 'currency'
-              })}
+              Thành tiền: {
+                item.total_price.toLocaleString(
+                  'vi-VN', { currency: 'VND', style: 'currency' })}
             </Text>
             <Text color={colors.text} fontFamily={fonts.JetBrains}>
               Nhân viên: {item.stylist.full_name}

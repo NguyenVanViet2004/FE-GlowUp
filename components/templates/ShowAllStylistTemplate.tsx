@@ -13,7 +13,7 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchStylist from '~/hooks/useFetchStylist'
 import { GenderEnum } from '~/interfaces/enum/Gender'
 
-const ShowAllStylistTemplate = () => {
+const ShowAllStylistTemplate = (): React.ReactElement => {
   const { stylist, isLoading } = useFetchStylist()
   const router = useRouter()
   const { fonts } = useAppFonts()
