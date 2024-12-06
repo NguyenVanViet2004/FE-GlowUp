@@ -37,7 +37,7 @@ const PaymentMethodItem = ({
         >
           <RadioGroup.Indicator backgroundColor={colors.radioColor} />
         </RadioGroup.Item>
-        <Text fontSize={14} fontWeight="500" flexShrink={1}>
+        <Text fontSize={14} fontWeight="500" flexShrink={1} color={colors.text}>
           {bankName}
         </Text>
       </XStack>

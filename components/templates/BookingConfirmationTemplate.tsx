@@ -1,19 +1,21 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React from 'react'
-import { StyleSheet, useColorScheme } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text, XStack, YStack, Image } from 'tamagui'
+import { Image, Text, XStack, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 import { PositiveButton } from '../atoms/PositiveButton'
-import Header from '../molecules/Header'
+import GradientScrollContainer from '../molecules/container/GradientScrollContainer'
 
 const BookingConfirmationTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
   const router = useRouter()
-  const colors = getColors(useColorScheme())
+  const { colorScheme } = useColorScheme()
+  const colors = getColors(colorScheme)
 
   const { bookingInfo } = useLocalSearchParams()
   const parseBooking = JSON.parse(bookingInfo)
@@ -32,50 +34,51 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Header title={t('booking.confirmationTitle')} />
-      {parseBooking.picture !== null && (
-        <Image
-          src={parseBooking.picture}
-          width="100%"
-          height={200}
-          borderRadius={10}
-          resizeMode="cover"
-          mb={20}
-        />
-      )}
-      <YStack f={1} justifyContent="center" width="100%" px={20}>
-        <YStack mb={20}>
-          <XStack mb={5}>
-            <Text fontSize={16} color={colors.text}>
-              {t('booking.customerName')}: {bookingData.customerName}
-            </Text>
-          </XStack>
-          <XStack mb={5}>
-            <Text fontSize={16} color={colors.text}>
-              {t('booking.time')}: {bookingData.bookingTime}
-            </Text>
-          </XStack>
-          <XStack mb={5}>
-            <Text fontSize={16} color={colors.text}>
-              {t('booking.speciaList')}: {bookingData.stylist}
-            </Text>
-          </XStack>
-          <XStack mb={5}>
-            <Text fontSize={16} color={colors.text}>
-              {t('booking.service')}: {bookingData.services}
-            </Text>
-          </XStack>
-          <XStack mb={5}>
-            <Text fontSize={16} color={colors.text}>
-              {t('booking.total')}: ${bookingData.totalPrice}
-            </Text>
-          </XStack>
-        </YStack>
+    <GradientScrollContainer headerTitle={t('booking.confirmationTitle')}>
+      <SafeAreaView style={styles.container}>
+        {parseBooking.picture !== null && (
+          <Image
+            src={parseBooking.picture}
+            width="100%"
+            height={200}
+            borderRadius={10}
+            resizeMode="cover"
+            mb={20}
+          />
+        )}
+        <YStack f={1} justifyContent="center" width="100%" px={20}>
+          <YStack mb={20}>
+            <XStack mb={5}>
+              <Text fontSize={16} color={colors.text}>
+                {t('booking.customerName')}: {bookingData.customerName}
+              </Text>
+            </XStack>
+            <XStack mb={5}>
+              <Text fontSize={16} color={colors.text}>
+                {t('booking.time')}: {bookingData.bookingTime}
+              </Text>
+            </XStack>
+            <XStack mb={5}>
+              <Text fontSize={16} color={colors.text}>
+                {t('booking.speciaList')}: {bookingData.stylist}
+              </Text>
+            </XStack>
+            <XStack mb={5}>
+              <Text fontSize={16} color={colors.text}>
+                {t('booking.service')}: {bookingData.services}
+              </Text>
+            </XStack>
+            <XStack mb={5}>
+              <Text fontSize={16} color={colors.text}>
+                {t('booking.total')}: ${bookingData.totalPrice}
+              </Text>
+            </XStack>
+          </YStack>
 
-        <PositiveButton title={t('booking.goBack')} onPress={handleGoBack} />
-      </YStack>
-    </SafeAreaView>
+          <PositiveButton title={t('booking.goBack')} onPress={handleGoBack} />
+        </YStack>
+      </SafeAreaView>
+    </GradientScrollContainer>
   )
 }
 const styles = StyleSheet.create({
