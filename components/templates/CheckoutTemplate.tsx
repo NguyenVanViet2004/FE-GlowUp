@@ -182,7 +182,7 @@ const CheckoutTemplate = (): React.ReactElement => {
                 logo={require('../../assets/images/logoApp.png')}
               />
             </View>
-            <Download size={25} color={colors.blueSapphire} onPress={() => handleDownloadQR}/>
+            <Download size={25} color={colors.blueSapphire} onPress={handleDownloadQR}/>
           </View>
           <ServiceInfoSection booking={bookingExample} />
 
