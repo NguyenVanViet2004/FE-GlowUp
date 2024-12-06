@@ -1,10 +1,10 @@
-import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
+import { ChevronLeft, ChevronRight, Download } from '@tamagui/lucide-icons'
 import { useLocalSearchParams } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Card, Text, XStack } from 'tamagui'
+import { Card, View } from 'tamagui'
 
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import BookingInfoSection from '~/components/molecules/Checkout/BookingInfoSection'
@@ -17,6 +17,10 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
 import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateToLongForm'
+import QRCode from 'react-native-qrcode-svg';
+import * as MediaLibrary from 'expo-media-library';
+import { Alert } from 'react-native'
+import { captureRef } from 'react-native-view-shot';
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
@@ -79,7 +83,7 @@ const CheckoutTemplate = (): React.ReactElement => {
   ]
 
   useEffect(() => {
-    if (boking[0].status === Status.COMPLETED || boking[0].status === Status.CANCELLED || boking[0].payment_status === Status.PAID ) {
+    if (boking[0].status === Status.COMPLETED || boking[0].status === Status.CANCELLED || boking[0].payment_status === Status.PAID) {
       setIsLocked(true)
     }
 
@@ -88,6 +92,31 @@ const CheckoutTemplate = (): React.ReactElement => {
 
   const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection({ isLocked: isLocked })
 
+  const qrData = JSON.stringify(bookingExample.id);
+  const qrCodeRef = useRef(null);
+  const handleDownloadQR = async () => {
+    try {
+      // Yêu cầu quyền truy cập thư viện
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Lỗi', 'Vui lòng cấp quyền truy cập thư viện!');
+        return;
+      }
+
+      // Chụp QR Code và lưu vào thư viện
+      const uri = await captureRef(qrCodeRef, {
+        format: 'png',
+        quality: 1,
+      });
+
+      await MediaLibrary.saveToLibraryAsync(uri);
+      Alert.alert('Thành công', 'QR Code đã được lưu vào thư viện ảnh!');
+    } catch (error) {
+      console.error('Lỗi khi tải QR Code:', error);
+      Alert.alert('Lỗi', 'Không thể tải QR Code, vui lòng thử lại.');
+    }
+  };
+
 
 
   const handleSubmitPress = (): void => {
@@ -95,11 +124,11 @@ const CheckoutTemplate = (): React.ReactElement => {
   }
 
   const isPendingBooking = (boking: unknown): boking is Array<
-  { payment_status: Status.PENDING }> => {
+    { payment_status: Status.PENDING }> => {
     return (
       Array.isArray(boking) &&
       boking.length > 0 &&
-      boking[0]?.status === Status.PENDING && 
+      boking[0]?.status === Status.PENDING &&
       boking[0]?.payment_status === Status.PENDING
     )
   }
@@ -121,18 +150,6 @@ const CheckoutTemplate = (): React.ReactElement => {
     return null
   }
 
-  // const renderStautsPayment = (): JSX.Element => {
-  //   return <XStack>
-  //     <Text
-  //       color={colors.text}
-  //       fontFamily={fonts.fonts.JetBrainsMonoBold}
-  //       fontSize={14}>Trạng Thái: </Text>
-  //     <Text
-  //       color={colors.text}
-  //       fontSize={14}>đã thanh toán</Text>
-  //   </XStack>
-  // }
-
 
   return (
     <>
@@ -148,6 +165,7 @@ const CheckoutTemplate = (): React.ReactElement => {
         leftIcon={leftIcon}
         rightIcon={rightIcon}
         paddingTop={20}>
+
         <Card
           flex={1}
           borderRadius={15}
@@ -157,12 +175,22 @@ const CheckoutTemplate = (): React.ReactElement => {
           backgroundColor={colors.bookingDetailsBackgroundCard} >
           <BookingInfoSection data={bookingData} />
           {
-            // boking[0].payment_status === Status.PAID
-            //   ? renderStautsPayment()
-              // : 
-              renderPaymentMethods()
+            renderPaymentMethods()
           }
+          <View gap={5}   justifyContent='center' alignItems='center' mt={10}>
+          <View ref={qrCodeRef} backgroundColor={colors.white} padding={10} borderRadius={10}>
+          <QRCode
+            value={qrData} // Giá trị QR Code (phải là chuỗi)
+            size={130} // Kích thước QR Code
+            backgroundColor={colors.white}
+            color={colors.blueSapphire} 
+            logo={require('../../assets/images/logoApp.png')}
+          />
+          </View>
+          <Download size={25} color={colors.blueSapphire} onPress={(handleDownloadQR)}/>
+          </View>
           <ServiceInfoSection booking={bookingExample} />
+        
         </Card>
       </GradientScrollContainer>
 
