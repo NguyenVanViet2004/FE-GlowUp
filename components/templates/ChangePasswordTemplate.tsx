@@ -1,6 +1,6 @@
 import { ChevronLeft, Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
-import { isNil, set } from 'lodash'
+import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -127,7 +127,7 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       const response = await request.post(
         `/auth/change-password/${userId}`, payload
       )
-      if (response.success) {
+      if (response.success === true) {
         Alert.alert(
           t('Thành công'),
           t('Đổi mật khẩu thành công')

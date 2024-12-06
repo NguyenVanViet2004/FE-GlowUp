@@ -92,7 +92,7 @@ const CheckoutTemplate = (): React.ReactElement => {
 
   const qrData = JSON.stringify(bookingExample.id)
   const qrCodeRef = useRef(null)
-  const handleDownloadQR = async () => {
+  const handleDownloadQR = async (): Promise<void> => {
     try {
       // Yêu cầu quyền truy cập thư viện
       const { status } = await MediaLibrary.requestPermissionsAsync()
@@ -182,7 +182,7 @@ const CheckoutTemplate = (): React.ReactElement => {
                 logo={require('../../assets/images/logoApp.png')}
               />
             </View>
-            <Download size={25} color={colors.blueSapphire} onPress={(handleDownloadQR)}/>
+            <Download size={25} color={colors.blueSapphire} onPress={() => handleDownloadQR}/>
           </View>
           <ServiceInfoSection booking={bookingExample} />
 

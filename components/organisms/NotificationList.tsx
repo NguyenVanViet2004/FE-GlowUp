@@ -1,10 +1,7 @@
 import React from 'react'
 import { FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
-import { View } from 'tamagui'
 
-import getColors from '~/constants/Colors'
-import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchNotifications from '~/hooks/useFetchNotification'
 import { type RootState } from '~/redux/store'
 import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateToLongForm'
