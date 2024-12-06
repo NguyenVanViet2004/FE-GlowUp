@@ -193,6 +193,12 @@
         "goBack": "Go back",
         "orderInformation": "Order information"
     },
+    "error": {
+        "error": "Error",
+        "connectionError": "Connection error",
+        "paymentUrlError": "Unable to retrieve the payment URL. Please try again later.",
+        "networkIssue": "There is an issue with the network connection. Please check and try again."
+    },
     "payment": {
         "title": "Payment",
         "payAtSalon": "Pay at salon",

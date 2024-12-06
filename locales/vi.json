@@ -195,6 +195,12 @@
         "goBack": "Quay lại",
         "orderInformation": "Thông tin phiếu đặt"
     },
+    "error": {
+        "error": "Lỗi",
+        "connectionError": "Lỗi kết nối",
+        "paymentUrlError": "Không thể lấy được URL thanh toán. Vui lòng thử lại sau.",
+        "networkIssue": "Có sự cố với kết nối mạng. Vui lòng kiểm tra và thử lại."
+    },
     "payment": {
         "title": "Thanh toán",
         "payAtSalon": "Thanh toán tại salon",
@@ -208,7 +214,7 @@
         "select&Continue": "Chọn & Tiếp tục"
     },
     "selectPaymentMethod": {
-        "selectPaymentMethod": "Chọn phương thức thanh toán",
+        "selectPaymentMethod": "Phương thức thanh toán",
         "payNow": "Thanh toán ngay"
     },
     "specialist": {
