@@ -96,9 +96,9 @@ Because the expo-router navigates based on the file under the app directory, the
 ## Document GlowUp
 
 #### link document
-(https://docs.google.com/document/d/1p1TOoakcYQS6pg_W6mvfreHy9AOm1Uux/edit)
-(https://app.diagrams.net/#G1d7OCPEhDpD9q5IX1Rv_AQNJvey6pxlxs#%7B%22pageId%22%3A%22SnAUCC3ot9vWHVNbTWrV%22%7D)
-(https://www.figma.com/design/d60yqkXZspwUMpdiyyFyZn/GlowUp-application?node-id=229-3035&node-type=canvas&t=fDmI3mtI6ATooNAy-0)
+[Document](https://docs.google.com/document/d/1p1TOoakcYQS6pg_W6mvfreHy9AOm1Uux/edit)
+[Diagrams](https://app.diagrams.net/#G1d7OCPEhDpD9q5IX1Rv_AQNJvey6pxlxs#%7B%22pageId%22%3A%22SnAUCC3ot9vWHVNbTWrV%22%7D)
+[Figma](https://www.figma.com/design/d60yqkXZspwUMpdiyyFyZn/GlowUp-application?node-id=229-3035&node-type=canvas&t=fDmI3mtI6ATooNAy-0)
 Below is a guide for creating a user manual for an application. This structure ensures clarity and usability for your readers. The description is tailored for a general application and can be customized for a specific app like a barber appointment scheduler:
 
 #### User Manual for GlowUp
