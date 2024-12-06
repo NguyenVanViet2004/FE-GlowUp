@@ -41,7 +41,7 @@ const colors: Record<'light' | 'dark', Colors> = {
     spaceCadet: '#1C2655',
     sunsetOrange: '#F98600',
     tealGreen: '#0FEC82',
-    text: '#fff',
+    text: '#f1ecec',
     textDate: '#979797',
     white: '#FFFFFF',
     yellow: '#ffff00'

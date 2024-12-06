@@ -114,7 +114,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     return <XStack>
       <Text
         color={colors.text}
-        fontFamily={fonts.fonts.JetBrainsMonoBold} 
+        fontFamily={fonts.fonts.JetBrainsMonoBold}
         fontSize={14}>Trạng Thái: </Text>
       <Text
         color={colors.text}

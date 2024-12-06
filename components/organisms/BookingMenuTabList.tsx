@@ -14,11 +14,14 @@ const BookingMenuTabList = (): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
 
-  const menuTabs = useMemo<MenuTab[]>(() => [
-    { name: t('screens.booking.upcoming') },
-    { name: t('screens.booking.completed') },
-    { name: t('screens.booking.cancelled') }
-  ], [t])
+  const menuTabs = useMemo<MenuTab[]>(
+    () => [
+      { name: t('screens.booking.upcoming') },
+      { name: t('screens.booking.completed') },
+      { name: t('screens.booking.cancelled') }
+    ],
+    [t]
+  )
 
   const [tabIndexActive, setTabIndexActive] = useState<number>(0)
 
@@ -31,16 +34,16 @@ const BookingMenuTabList = (): React.ReactElement => {
         renderItem={({ item, index }) => (
           <View marginTop={20}>
             <TouchableOpacity
-              onPress={() => { setTabIndexActive(index) }}
-            >
+              onPress={() => {
+                setTabIndexActive(index)
+              }}>
               <YStack gap={5}>
                 <Text
                   paddingHorizontal={10}
                   fontSize={14}
                   color={
                     tabIndexActive === index ? colors.blueSapphire : colors.gray
-                  }
-                >
+                  }>
                   {item.name}
                 </Text>
 
@@ -59,17 +62,20 @@ const BookingMenuTabList = (): React.ReactElement => {
           ? (
             <View height={'93%'}>
               <BookingUpcoming />
-            </View>)
+            </View>
+          )
           : menuTabs[tabIndexActive].name === t('screens.booking.completed')
             ? (
               <View height={'93%'}>
                 <BookingCompleted />
-              </View>)
+              </View>
+            )
             : menuTabs[tabIndexActive].name === t('screens.booking.cancelled')
               ? (
                 <View height={'93%'}>
                   <BookingCancelled />
-                </View>)
+                </View>
+              )
               : null}
       </View>
     </YStack>

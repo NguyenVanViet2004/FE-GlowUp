@@ -71,7 +71,9 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
     const payload = {
       combo_id: obj?.id,
       customer_id: user?.result?.id,
-      end_time: new Date(startTime.toDate().getTime() + obj?.total_time * 60000),
+      end_time: new Date(
+        startTime.toDate().getTime() + obj?.total_time * 60000
+      ),
       start_time: startTime.toDate(),
       stylist_id: selectedStylist?.id
     }

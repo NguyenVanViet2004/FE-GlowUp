@@ -4,10 +4,11 @@ import React from 'react'
 import { View } from 'tamagui'
 
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
-import LabelNotification from '~/components/molecules/LabelNotification'
 import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
+
+import NotificationList from '../organisms/NotificationList'
 
 const NotificationTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)
@@ -28,26 +29,7 @@ const NotificationTemplate = (): React.ReactElement => {
       rightIcon={rightIcon}
       paddingTop={20}>
       <View>
-        <LabelNotification
-          label="Reminder! . Get ready for your appointment at 9am"
-          time="11.32 PM"
-        />
-        <LabelNotification
-          label="Reminder! . Get ready for your appointment at 9am"
-          time="11.32 PM"
-        />
-        <LabelNotification
-          label="Reminder! . Get ready for your appointment at 9am"
-          time="11.32 PM"
-        />
-        <LabelNotification
-          label="Reminder! . Get ready for your appointment at 9am"
-          time="11.32 PM"
-        />
-        <LabelNotification
-          label="Reminder! . Get ready for your appointment at 9am"
-          time="11.32 PM"
-        />
+        <NotificationList/>
       </View>
 
     </GradientScrollContainer>

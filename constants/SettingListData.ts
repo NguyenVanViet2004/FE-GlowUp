@@ -1,4 +1,4 @@
-import { AlertCircle, BellRing, Globe, Heart, Lock, User2 } from '@tamagui/lucide-icons'
+import { AlertCircle, BellRing, Lock, User2 } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 
 import useTranslation from '~/hooks/useTranslation'
@@ -13,18 +13,15 @@ export const SettingListData = (): SettingsList[] => {
       items: [
         {
           icon: User2,
+          isDisabled: false,
           onPress: () => {
             router.push('/profile')
           },
           title: t('user.userInfo')
         },
         {
-          icon: Heart,
-          onPress: () => {},
-          title: t('user.yourFavorite')
-        },
-        {
           icon: Lock,
+          isDisabled: false,
           onPress: () => { router.push('/authentication/ChangePassword') },
           title: t('screens.profile.changePassword')
         }
@@ -35,17 +32,20 @@ export const SettingListData = (): SettingsList[] => {
       items: [
         {
           icon: BellRing,
+          isDisabled: false,
           onPress: () => {},
           title: t('permissions.NOTIFICATION.title')
         },
-        {
-          icon: Globe,
-          onPress: () => {},
-          title: t('screens.profile.language')
-        },
+        // {
+        //   icon: Globe,
+        //   onPress: () => {},
+        //   title: t('screens.profile.language'),
+        //   isDisabled: true
+        // },
         {
           icon: AlertCircle,
-          onPress: () => {},
+          isDisabled: false,
+          onPress: () => { router.push('/about/AboutUs') },
           title: t('screens.profile.about')
         }
       ],

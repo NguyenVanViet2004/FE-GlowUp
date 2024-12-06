@@ -7,6 +7,7 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 
 interface Props {
   label: string
+  message: string
   time: string
 }
 
@@ -15,7 +16,7 @@ const LabelNotification = (props: Props): React.ReactElement => {
 
   return (
     <YStack marginTop={20}>
-      <XStack marginHorizontal={20} gap={10} justifyContent="space-between" >
+      <XStack marginHorizontal={20} gap={10} alignItems="flex-start" >
         <View
           borderRadius={50}
           width={40}
@@ -24,9 +25,23 @@ const LabelNotification = (props: Props): React.ReactElement => {
           backgroundColor={'#E1F5FA'}
           alignItems="center">
           <Bell size={20} color={colors.blueSapphire} />
-        </View>
-        <Text flex={5.5} fontSize={14} color={colors.text}>{props.label}</Text>
-        <Text flex={1.5} fontSize={12} color={colors.gray}>{props.time}</Text>
+        </View >
+        <YStack gap={5} flex={1}>
+          <XStack flex={1} justifyContent="space-between">
+            <Text
+              flex={1}
+              fontSize={13}
+              color={colors.text}>
+              {props.label}
+            </Text>
+            <Text
+              textAlign="right"
+              flex={1}
+              fontSize={12}
+              color={colors.gray}>{props.time}</Text>
+          </XStack>
+          <Text fontSize={12} color={colors.text}>{props.message}</Text>
+        </YStack>
       </XStack>
       <Separator
         marginTop={20}
