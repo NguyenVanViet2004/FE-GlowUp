@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Text, View } from 'tamagui'
@@ -13,12 +14,23 @@ import { type RootState } from '~/redux/store'
 
 const BookingCancelled = (): React.ReactElement => {
   const { t } = useTranslation()
+  const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
   const { appointments, isLoading } = useFetchAppointment()
   const user = useSelector((state: RootState) => state.user.result)
   const CancelledAppointments = appointments.filter(
     (item) => item.status === Status.CANCELLED && item.customer.id === user.id
   )
+
+  const viewBooking = (id: string): void => {
+    const viewCompletedAppointment = appointments.filter(
+      (item) => item.id === id && item.customer.id === user.id
+    )
+    router.push({
+      params: { bookingData: JSON.stringify(viewCompletedAppointment)},
+      pathname: '/checkout/BookingCheckout'
+    })
+  }
 
   if (isLoading) {
     return <Loading />
@@ -31,8 +43,9 @@ const BookingCancelled = (): React.ReactElement => {
             <BookingList
               dataCombo={CancelledAppointments}
               visibleTextCancel={true}
-              visibleFormButton={false}
-              visibleTransparentButton={false} />)
+              visibleFormButton={true}
+              visibleTransparentButton={false} 
+              viewBookingPress={id => { viewBooking(id) }}/>)
           : (<Text color={colors.text}>{t('booking.cancelled')}</Text>)
       }
     </View>

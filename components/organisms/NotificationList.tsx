@@ -9,34 +9,28 @@ import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateT
 
 import Loading from '../atoms/Loading'
 import LabelNotification from '../molecules/LabelNotification'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/redux/store'
 
 const NotificationList = (): React.ReactElement => {
-  const colors = getColors(useColorScheme().colorScheme)
   const { notifications, isLoading } = useFetchNotifications()
+
+  const userId = useSelector(
+    (state: RootState) => state.user.result.id
+  )
+  const userDataNotification = notifications.filter(
+    (item: any) => item.user_id === userId
+  )
 
   if (isLoading) {
     return (
-
-      <View
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        backgroundColor={colors.lightTransparentBlack}
-        justifyContent="center"
-        alignItems={'center'}
-        zIndex={1}
-      >
-        <Loading />
-      </View>
-
+      <Loading />
     )
   }
 
   return (
     <FlatList
-      data={notifications}
+      data={userDataNotification}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <LabelNotification

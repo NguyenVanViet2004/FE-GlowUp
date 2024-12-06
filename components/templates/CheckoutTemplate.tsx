@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 import { useLocalSearchParams } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Card, Text, XStack } from 'tamagui'
 
@@ -20,6 +20,7 @@ import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateT
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
+  const insets = useSafeAreaInsets()
   const colors = getColors(useColorScheme().colorScheme)
   const router = useExpoRouter()
   const leftIcon =
@@ -28,10 +29,7 @@ const CheckoutTemplate = (): React.ReactElement => {
       size={25} onPress={() => router.goBack()} />
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
-
-  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection()
-  const insets = useSafeAreaInsets()
-
+  const [isLocked, setIsLocked] = useState<boolean>(false);
   const data = useLocalSearchParams()
   const boking = typeof data.bookingData === 'string'
     ? JSON.parse(data.bookingData)
@@ -80,6 +78,18 @@ const CheckoutTemplate = (): React.ReactElement => {
     }
   ]
 
+  useEffect(() => {
+    if (boking[0].status === Status.COMPLETED || boking[0].status === Status.CANCELLED || boking[0].payment_status === Status.PAID ) {
+      setIsLocked(true)
+    }
+
+  }, []);
+
+
+  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection({ isLocked: isLocked })
+
+
+
   const handleSubmitPress = (): void => {
     console.log(selectedMethodID)
   }
@@ -89,7 +99,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     return (
       Array.isArray(boking) &&
       boking.length > 0 &&
-      boking[0]?.payment_status === Status.PENDING
+      boking[0]?.status === Status.PENDING
     )
   }
 
@@ -110,17 +120,18 @@ const CheckoutTemplate = (): React.ReactElement => {
     return null
   }
 
-  const renderStautsPayment = (): JSX.Element => {
-    return <XStack>
-      <Text
-        color={colors.text}
-        fontFamily={fonts.fonts.JetBrainsMonoBold}
-        fontSize={14}>Trạng Thái: </Text>
-      <Text
-        color={colors.text}
-        fontSize={14}>đã thanh toán</Text>
-    </XStack>
-  }
+  // const renderStautsPayment = (): JSX.Element => {
+  //   return <XStack>
+  //     <Text
+  //       color={colors.text}
+  //       fontFamily={fonts.fonts.JetBrainsMonoBold}
+  //       fontSize={14}>Trạng Thái: </Text>
+  //     <Text
+  //       color={colors.text}
+  //       fontSize={14}>đã thanh toán</Text>
+  //   </XStack>
+  // }
+
 
   return (
     <>
@@ -145,9 +156,10 @@ const CheckoutTemplate = (): React.ReactElement => {
           backgroundColor={colors.bookingDetailsBackgroundCard} >
           <BookingInfoSection data={bookingData} />
           {
-            boking[0].payment_status === Status.PAID
-              ? renderStautsPayment()
-              : renderPaymentMethods()
+            // boking[0].payment_status === Status.PAID
+            //   ? renderStautsPayment()
+              // : 
+              renderPaymentMethods()
           }
           <ServiceInfoSection booking={bookingExample} />
         </Card>
