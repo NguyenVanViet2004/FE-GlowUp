@@ -139,7 +139,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
         <Search size={20} color={colors.blueSapphire} />
         <Input
           f={1}
-          placeholder="Tìm kiếm ở đây nhé baby ..."
+          placeholder="Tìm kiếm ..."
           placeholderTextColor="$gray9"
           bg="transparent"
           borderWidth={0}
@@ -160,6 +160,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
           Tìm kiếm gần đây
         </Text>
         <ScrollView
+          showsVerticalScrollIndicator={false}
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContentContainer}>
           {recentSearches.map((item) => (
