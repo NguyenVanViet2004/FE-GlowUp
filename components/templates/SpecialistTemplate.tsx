@@ -95,18 +95,10 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
     try {
       const response = await request.post<any>('/booking', payload)
       if (response.success === true) {
-        const bookingInfo = {
-          combo: response.result.combo,
-          customer: response.result.customer,
-          end_time: response.result.end_time,
-          id: response.result.id,
-          payment_status: response.result.payment_status,
-          start_time: response.result.start_time,
-          stylist: response.result.stylist,
-          total_price: response.result.total_price
-        }
+        const bookingData =
+          Array.isArray(response.result) ? response.result : [response.result]
         router.push({
-          params: { bookingInfo: JSON.stringify(bookingInfo) },
+          params: { bookingData: JSON.stringify(bookingData) },
           pathname: '/checkout/BookingCheckout'
         })
       } else {
