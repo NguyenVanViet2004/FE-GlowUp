@@ -11,7 +11,6 @@ interface SummaryProps {
   colors: Colors
   fonts: any
   t: (key: string) => string
-  totalPrice: number
 }
 
 const Summary: React.FC<SummaryProps> = ({ booking, colors, fonts, t }) => {

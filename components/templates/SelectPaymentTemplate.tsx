@@ -26,7 +26,9 @@ const SelectPaymentTemplate = (): React.ReactElement => {
   const { t } = useTranslation()
 
   const { bookingInfo } = useLocalSearchParams()
-  const parseBooking = JSON.parse(bookingInfo)
+  const parseBooking = Array.isArray(bookingInfo)
+    ? JSON.parse(bookingInfo[0])
+    : JSON.parse(bookingInfo)
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string | null>(null)
@@ -42,7 +44,6 @@ const SelectPaymentTemplate = (): React.ReactElement => {
         bookingId: parseBooking.id
       })
       const paymentUrl = response?.paymentUrl
-      console.log(response)
       if (paymentUrl !== null) {
         router.push({
           params: { url: paymentUrl },
