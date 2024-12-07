@@ -189,7 +189,19 @@
         "timeLocation": "vi-VN",
         "upcoming" : "Bạn chưa đặt lịch",
         "completed": "Bạn chưa có lịch hoàn thành",
-        "cancelled": "Bạn chưa có lịch hủy"
+        "cancelled": "Bạn chưa có lịch hủy",
+        "cancelBookingFailed": "Hủy đặt lịch thất bại",
+        "confirmationTitle": "Xác nhận đặt lịch",
+        "goBack": "Quay lại",
+        "orderInformation": "Thông tin phiếu đặt",
+        "minute": "phút",
+        "success": "Thành công"
+    },
+    "error": {
+        "error": "Lỗi",
+        "connectionError": "Lỗi kết nối",
+        "paymentUrlError": "Không thể lấy được URL thanh toán. Vui lòng thử lại sau.",
+        "networkIssue": "Có sự cố với kết nối mạng. Vui lòng kiểm tra và thử lại."
     },
     "payment": {
         "title": "Thanh toán",
@@ -202,6 +214,10 @@
         "aboutService": "Giới thiệu dịch vụ",
         "hoursService": "giờ",
         "select&Continue": "Chọn & Tiếp tục"
+    },
+    "selectPaymentMethod": {
+        "selectPaymentMethod": "Phương thức thanh toán",
+        "payNow": "Thanh toán ngay"
     },
     "specialist": {
         "title" : "Đặt lịch",

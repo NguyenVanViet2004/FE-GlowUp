@@ -122,7 +122,28 @@ const CheckoutTemplate = (): React.ReactElement => {
   }
 
   const handleSubmitPress = (): void => {
-    console.log(selectedMethodID)
+    if (selectedMethodID === 'cash') {
+      Alert.alert(
+        t('booking.success'),
+        t('booking.successMessage'),
+        [{
+          onPress: () => {
+            router.push({
+              params: { bookingInfo: JSON.stringify(bookingExample) },
+              pathname: 'checkout/BookingConfirmation'
+            })
+          },
+          text: t('ok')
+        }]
+      )
+    } else if (selectedMethodID === 'online') {
+      router.push({
+        params: { bookingInfo: JSON.stringify(bookingExample) },
+        pathname: 'payment/SelectPayment'
+      })
+    } else {
+      Alert.alert('Error', 'Please select a payment method.')
+    }
   }
 
   const isPendingBooking = (boking: unknown): boking is Array<

@@ -8,6 +8,7 @@ import { useLocalSearchParams } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { request } from '~/apis/HttpClient'
@@ -91,9 +92,21 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       stylist_id: selectedStylist?.id
     }
 
-    console.log('payload:', payload)
-    const response = await request.post<any>('/booking', payload)
-    console.log('response:', response)
+    try {
+      const response = await request.post<any>('/booking', payload)
+      if (response.success === true) {
+        const bookingData =
+          Array.isArray(response.result) ? response.result : [response.result]
+        router.push({
+          params: { bookingData: JSON.stringify(bookingData) },
+          pathname: '/checkout/BookingCheckout'
+        })
+      } else {
+        Alert.alert(response.message ?? '')
+      }
+    } catch (error) {
+      console.error('Error push booking', error)
+    }
   }
 
   return (

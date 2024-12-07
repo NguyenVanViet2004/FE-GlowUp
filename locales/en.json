@@ -187,7 +187,19 @@
         "timeLocation": "en-US",
         "upcoming" : "You have not booked an appointment yet.",
         "completed": "You do not have a completion date yet.",
-        "cancelled": "You have no cancellation schedule yet."
+        "cancelled": "You have no cancellation schedule yet.",
+        "cancelBookingFailed": "Cancel booking failed",
+        "confirmationTitle": "Booking Confirmation",
+        "goBack": "Go back",
+        "orderInformation": "Order information",
+        "minute": "minute",
+        "success": "Success"
+    },
+    "error": {
+        "error": "Error",
+        "connectionError": "Connection error",
+        "paymentUrlError": "Unable to retrieve the payment URL. Please try again later.",
+        "networkIssue": "There is an issue with the network connection. Please check and try again."
     },
     "payment": {
         "title": "Payment",
@@ -200,6 +212,10 @@
         "aboutService": "About Service",
         "hoursService": "hours service",
         "select&Continue": "Select & Continue"
+    },
+    "selectPaymentMethod": {
+        "selectPaymentMethod": "Select Payment Method",
+        "payNow": "Pay Now"
     },
     "specialist":{
         "title" : "Booking",

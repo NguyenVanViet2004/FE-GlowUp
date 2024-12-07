@@ -29,7 +29,7 @@ const AppHeader: React.FC<headerProps> = ({
       {leftIcon}
       <Text
         color={colors.text}
-        textAlign={!isNil(isHeaderCenter) ? 'center' : 'left'}
+        textAlign={isNil(isHeaderCenter) ? 'center' : 'left'}
         marginLeft={!isNil(isHeaderCenter) ? 0 : 10}
         fontSize={18}
         flex={1}

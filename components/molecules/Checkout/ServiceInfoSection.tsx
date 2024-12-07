@@ -19,7 +19,9 @@ const ServiceInfoSection: React.FC<props> = ({ booking }) => {
 
   return (
     <View width="100%" marginTop={40}>
-      <Text color={colors.text} textAlign="center">{t('booking.service')}</Text>
+      <Text textAlign="center" fontFamily={fonts.fonts.JetBrainsMonoBold}>
+        {t('booking.service')}
+      </Text>
 
       {booking.combo.services.map((step, index) => (
         <XStack marginTop={20} key={`${step.id}-${index}`}>
