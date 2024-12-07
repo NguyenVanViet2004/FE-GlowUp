@@ -175,6 +175,10 @@ function RootLayoutNav (): React.ReactElement {
               name="notification/Notification"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="profileUser/ProfileUser"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </ThemeProvider>
       </TamaguiProvider>
