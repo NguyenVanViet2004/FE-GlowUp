@@ -149,7 +149,7 @@ const ProfileSettingTemplate = (): JSX.Element => {
       rightIcon={<Octicons
         name="pencil"
         size={24}
-        color={pencilIconColor}
+        color={colors.text}
         onPress={handleEditPress} />}
       paddingTop={20}
     >
@@ -195,7 +195,7 @@ const ProfileSettingTemplate = (): JSX.Element => {
         <Stack space="$4" marginTop={20}>
 
           <InputWithIcons
-            placeholder= "Họ tên"
+            label="Họ tên"
             value={localUser?.result.full_name ?? ''}
             editable={isEditing}
             onChangeText={(text) => {
@@ -207,7 +207,7 @@ const ProfileSettingTemplate = (): JSX.Element => {
               }
             }}/>
           <InputWithIcons
-            placeholder= "Quê quán"
+            label="Quê quán"
             value={localUser?.result.address ?? ''}
             editable={isEditing}
             onChangeText={(text) => {
@@ -220,7 +220,7 @@ const ProfileSettingTemplate = (): JSX.Element => {
             }}/>
 
           <InputWithIcons
-            placeholder="Ngày sinh"
+            label="Ngày sinh"
             value={birthday !== undefined
               ? birthday.toLocaleDateString()
               : 'Chưa có ngày sinh'}
