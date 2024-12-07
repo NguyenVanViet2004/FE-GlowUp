@@ -8,4 +8,6 @@ export default interface Combo {
   createdAt: string
   updatedAt: string
   deleted: boolean
+  point?: any
+  total_time: number
 }

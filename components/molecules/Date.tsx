@@ -46,17 +46,25 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
     month: number,
     year: number
   ): Array<{ day: string, dayOfWeek: string }> => {
+    const today = new Date()
+    const todayString = `${today.getFullYear()}-${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`
+
     if (month >= 1 && month <= 12 && year > 0) {
       const lastDay = new Date(year, month, 0).getDate()
       const daysArray = []
 
       for (let day = 1; day <= lastDay; day++) {
         const dateObj = new Date(year, month - 1, day)
-        const dayOfWeek = dayNames[dateObj.getDay()]
         const formattedDay = `${year}-${month.toString().padStart(2, '0')}-${day
           .toString()
           .padStart(2, '0')}`
-        daysArray.push({ day: formattedDay, dayOfWeek })
+
+        if (formattedDay >= todayString) {
+          const dayOfWeek = dayNames[dateObj.getDay()]
+          daysArray.push({ day: formattedDay, dayOfWeek })
+        }
       }
       return daysArray
     }
@@ -79,6 +87,9 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
         }, 1000)
       })
 
+      if (fetchedData.length > 0) {
+        setSelectedDay(fetchedData[0].day)
+      }
       setDays(fetchedData)
     } catch (error) {
       console.error('Error fetching days:', error)
@@ -92,10 +103,17 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
   }, [month, year])
 
   const handleMonthChange = (direction: 'prev' | 'next'): void => {
+    const today = new Date()
     let newMonth = month
     let newYear = year
 
     if (direction === 'prev') {
+      if (
+        newYear === today.getFullYear() &&
+        newMonth === today.getMonth() + 1
+      ) {
+        return
+      }
       if (newMonth === 1) {
         newMonth = 12
         newYear -= 1

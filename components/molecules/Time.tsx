@@ -11,6 +11,7 @@ import useTranslation from '~/hooks/useTranslation'
 
 interface ITimePicker {
   toSetSelectedTime?: Dispatch<SetStateAction<string | null>>
+  selectedDate?: string
 }
 
 const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
@@ -22,25 +23,61 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const { fonts } = useAppFonts()
   const { t } = useTranslation()
   const colors = getColors(useColorScheme().colorScheme)
-  // Hàm tạo danh sách giờ từ 07:30 AM đến 10:30 PM với phút là 00 và 30
+  const selectedDate = dayjs(props.selectedDate)
+  console.log(selectedDate)
+
   const generateTimes = (): string[] => {
     const times: string[] = []
+    const now = dayjs()
+    const isToday = selectedDate.isSame(now, 'day')
+
     for (let hour = 7; hour < 23; hour++) {
-      // Từ 7h đến 22h
       if (hour === 7) {
-        times.push(dayjs().hour(7).minute(30).format('hh:mm A')) // Bắt đầu từ 07:30
+        // Bắt đầu từ 07:30
+        const time = dayjs().hour(7).minute(30)
+        if (!isToday || time.isAfter(now)) {
+          times.push(time.format('hh:mm A'))
+        }
       } else if (hour === 22) {
-        times.push(dayjs().hour(22).minute(0).format('hh:mm A')) // Dừng ở 22:30
-        times.push(dayjs().hour(22).minute(30).format('hh:mm A'))
+        // Dừng ở 22:30
+        const time1 = dayjs().hour(22).minute(0)
+        const time2 = dayjs().hour(22).minute(30)
+        if (!isToday || time1.isAfter(now)) {
+          times.push(time1.format('hh:mm A'))
+        }
+        if (!isToday || time2.isAfter(now)) {
+          times.push(time2.format('hh:mm A'))
+        }
       } else {
-        times.push(dayjs().hour(hour).minute(0).format('hh:mm A'))
-        times.push(dayjs().hour(hour).minute(30).format('hh:mm A'))
+        const time1 = dayjs().hour(hour).minute(0)
+        const time2 = dayjs().hour(hour).minute(30)
+        if (!isToday || time1.isAfter(now)) {
+          times.push(time1.format('hh:mm A'))
+        }
+        if (!isToday || time2.isAfter(now)) {
+          times.push(time2.format('hh:mm A'))
+        }
       }
     }
+
     return times
   }
 
   const times = generateTimes()
+  const isOutOfWorkingHours =
+    times.length === 0 &&
+    selectedDate.isSame(dayjs(), 'day') &&
+    (dayjs().hour() > 22 ||
+      (dayjs().hour() === 22 && dayjs().minute() > 30))
+
+  if (isOutOfWorkingHours) {
+    return (
+      <Text color={colors.text} mx={20}>
+        Khung giờ hiện tại nằm ngoài làm việc của chúng tôi, vui lòng quay lại
+        sau
+      </Text>
+    )
+  }
 
   const handleTimeSelection = (time: string): void => {
     setSelectedTime(time)

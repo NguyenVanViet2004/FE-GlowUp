@@ -7,9 +7,14 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import { PaymentMethod } from '~/interfaces/enum/Payment'
 
-const PaymentMethodSection = ({ isLocked }: { isLocked: boolean }) => {
+const PaymentMethodSection = ({ isLocked }: { isLocked: boolean }): {
+  renderPaymentMethods: () => JSX.Element
+  selectedMethodID: string
+} => {
   const colors = getColors(useColorScheme().colorScheme)
-  const [selectedMethodID, setSelectedMethodID] = useState<string>(PaymentMethod.CASH)
+  const [selectedMethodID, setSelectedMethodID] = useState<string>(
+    PaymentMethod.CASH
+  )
   const { t } = useTranslation()
 
   const paymentMethods = [
@@ -31,8 +36,7 @@ const PaymentMethodSection = ({ isLocked }: { isLocked: boolean }) => {
         <Text color={colors.text} textAlign="center">{t('payment.title')}</Text>
         <RadioGroup
           value={selectedMethodID}
-          onValueChange={isLocked ? () => {} : setSelectedMethodID}
-        >
+          onValueChange={isLocked ? () => { } : setSelectedMethodID}>
           {paymentMethods.map((method) => (
             <RadioGroupItemWithLabel
               key={method.id}

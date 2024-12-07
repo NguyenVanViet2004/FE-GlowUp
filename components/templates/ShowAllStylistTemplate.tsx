@@ -95,7 +95,9 @@ const ShowAllStylistTemplate = (): React.ReactElement => {
                   numberOfLines={3}
                   ellipsizeMode="tail"
                   color={colors.text}>
-                  {`Kinh nghiệm: ${!isNil(item.profile?.stylist?.experience) ? item.profile?.stylist?.experience : '1 tháng'}`}
+                  {`Kinh nghiệm: ${!isNil(item.profile?.stylist?.experience)
+                    ? item.profile?.stylist?.experience
+                    : '1 tháng'}`}
                 </Text>
               </View>
             </XStack>

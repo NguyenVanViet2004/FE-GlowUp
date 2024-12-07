@@ -27,19 +27,19 @@ const SearchTempale: React.FC = (): JSX.Element => {
   const [searchInput, setSearchInput] = useState('')
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [recentSearches, setRecentSearches] = useState([
-    { id: '1', text: 'Hair service' },
-    { id: '2', text: 'Nail' },
-    { id: '3', text: 'Wax' },
-    { id: '4', text: 'Plush' }
+    { id: '1', text: 'Cắt tóc nam' },
+    { id: '2', text: 'Uốn tóc nam' },
+    { id: '3', text: 'Nhuộm tóc nam' },
+    { id: '4', text: 'Cạo râu' }
   ])
 
   const popularTags = useMemo(
     () => [
-      { id: '1', text: 'Hair' },
-      { id: '2', text: 'Nails' },
-      { id: '3', text: 'Plush' },
-      { id: '4', text: 'Message' },
-      { id: '5', text: 'Facials' }
+      { id: '1', text: 'Tóc ngắn gọn' },
+      { id: '2', text: 'undercut' },
+      { id: '3', text: 'side part' },
+      { id: '4', text: 'Tóc mohican' },
+      { id: '5', text: 'two block' }
     ],
     []
   )
@@ -131,7 +131,8 @@ const SearchTempale: React.FC = (): JSX.Element => {
         ai="center"
         bg={colors.bgSearch}
         br="$4"
-        padding={10}
+        paddingVertical={5}
+        paddingHorizontal={10}
         marginHorizontal={10}
         mt={20}
         mb="$4"

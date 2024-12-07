@@ -83,12 +83,18 @@ const CheckoutTemplate = (): React.ReactElement => {
   ]
 
   useEffect(() => {
-    if (boking[0].status === Status.COMPLETED || boking[0].status === Status.CANCELLED || boking[0].payment_status === Status.PAID) {
+    if (
+      boking[0].status === Status.COMPLETED ||
+      boking[0].status === Status.CANCELLED ||
+      boking[0].payment_status === Status.PAID
+    ) {
       setIsLocked(true)
     }
   }, [])
 
-  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection({ isLocked })
+  const { renderPaymentMethods, selectedMethodID } = PaymentMethodSection({
+    isLocked
+  })
 
   const qrData = JSON.stringify(bookingExample.id)
   const qrCodeRef = useRef(null)
@@ -160,20 +166,21 @@ const CheckoutTemplate = (): React.ReactElement => {
         leftIcon={leftIcon}
         rightIcon={rightIcon}
         paddingTop={20}>
-
         <Card
           flex={1}
           borderRadius={15}
           paddingVertical={30}
           paddingHorizontal="8%"
           marginHorizontal={20}
-          backgroundColor={colors.bookingDetailsBackgroundCard} >
+          backgroundColor={colors.bookingDetailsBackgroundCard}>
           <BookingInfoSection data={bookingData} />
-          {
-            renderPaymentMethods()
-          }
+          {renderPaymentMethods()}
           <View gap={5} justifyContent="center" alignItems="center" mt={10}>
-            <View ref={qrCodeRef} backgroundColor={colors.white} padding={10} borderRadius={10}>
+            <View
+              ref={qrCodeRef}
+              backgroundColor={colors.white}
+              padding={10}
+              borderRadius={10}>
               <QRCode
                 value={qrData} // Giá trị QR Code (phải là chuỗi)
                 size={130} // Kích thước QR Code
@@ -182,10 +189,17 @@ const CheckoutTemplate = (): React.ReactElement => {
                 logo={require('../../assets/images/logoApp.png')}
               />
             </View>
-            <Download size={25} color={colors.blueSapphire} onPress={handleDownloadQR}/>
+            <Download
+              size={25}
+              color={colors.blueSapphire}
+              onPress={() => {
+                void handleDownloadQR().catch((e) => {
+                  console.error(e)
+                })
+              }}
+            />
           </View>
           <ServiceInfoSection booking={bookingExample} />
-
         </Card>
       </GradientScrollContainer>
 

@@ -33,7 +33,7 @@ export const SettingListData = (): SettingsList[] => {
         {
           icon: BellRing,
           isDisabled: false,
-          onPress: () => {},
+          onPress: () => { router.push('/notification/Notification') },
           title: t('permissions.NOTIFICATION.title')
         },
         // {
