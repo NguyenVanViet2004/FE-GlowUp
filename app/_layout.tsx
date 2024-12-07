@@ -200,7 +200,7 @@ function RootLayoutNav (): React.ReactElement {
     </>
   )
 }
-
+/* eslint-disable */
 const styles = StyleSheet.create({
   closeButton: {
     backgroundColor: '#007bff',
@@ -234,3 +234,4 @@ const styles = StyleSheet.create({
     marginBottom: 10
   }
 })
+/* eslint-enable */

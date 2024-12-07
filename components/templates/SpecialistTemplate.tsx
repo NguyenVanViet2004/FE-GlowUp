@@ -68,7 +68,13 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   }, [])
 
   const onPayment = async (): Promise<void> => {
-    if (isNil(selectedDay) || isNil(selectedTime) || isNil(selectedStylist?.id)) { return }
+    if (
+      isNil(selectedDay) ||
+      isNil(selectedTime) ||
+      isNil(selectedStylist?.id)
+    ) {
+      return
+    }
     if (isNil(parsedItem)) return
 
     const startTime = dayjs(

@@ -182,7 +182,7 @@ const AboutUs = (): React.ReactElement => {
     </GradientScrollContainer>
   )
 }
-
+/* eslint-disable */
 const styles = StyleSheet.create({
   content: {
     color: '#333',
@@ -202,5 +202,5 @@ const styles = StyleSheet.create({
     marginBottom: 10
   }
 })
-
+/* eslint-enable */
 export default AboutUs

@@ -160,7 +160,10 @@ const ChangePasswordTemplate = (): React.ReactElement => {
         <View marginTop={'13%'}>
           <ContentTitle
             title={t('Thay đổi mật khẩu')}
-            subtitle={t('Bâu giờ bạn có thể thay đổi mật khẩu và xác nhận lại ở phía bên dưới')}
+            subtitle={
+              'Bây giờ bạn có thể thay đổi mật ' +
+              'khẩu và xác nhận lại ở phía bên dưới'
+            }
           />
         </View>
 
