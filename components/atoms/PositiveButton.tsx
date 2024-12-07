@@ -1,16 +1,17 @@
 import React from 'react'
-import { useColorScheme } from 'react-native'
 import { Button, type ButtonProps } from 'tamagui'
 
 import getColors from '~/constants/Colors'
 import { HEIGHT_BUTTON, RADIUS_BUTTON } from '~/constants/Constants'
+import { useColorScheme } from '~/hooks/useColorScheme'
 
 type Props = {
   title: string
 } & ButtonProps
 
 export const PositiveButton = (props: Props): React.ReactElement => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
+
   return (
     <Button
       {...props}
@@ -21,6 +22,8 @@ export const PositiveButton = (props: Props): React.ReactElement => {
       pressStyle={{ backgroundColor: colors.gray }}
       backgroundColor={colors.blueSapphire}
       borderRadius={RADIUS_BUTTON}
-    >{props.title}</Button>
+      testID="positive-button">
+      {props.title}
+    </Button>
   )
 }

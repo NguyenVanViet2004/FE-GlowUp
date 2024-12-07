@@ -1,16 +1,16 @@
-import React from 'react'
-import { useColorScheme } from 'react-native'
-import { Text, type TextProps } from 'tamagui'
+import React from "react"
+import { Text, type TextProps } from "tamagui"
 
-import getColors from '~/constants/Colors'
-import { useAppFonts } from '~/hooks/useAppFonts'
+import getColors from "~/constants/Colors"
+import { useAppFonts } from "~/hooks/useAppFonts"
+import { useColorScheme } from "~/hooks/useColorScheme"
 
 type Props = {
   text: string
 } & TextProps
 
 export const TextTitle = (props: Props): React.ReactElement => {
-  const colors = getColors(useColorScheme())
+  const colors = getColors(useColorScheme().colorScheme)
   const { fonts } = useAppFonts()
 
   return (
@@ -19,6 +19,8 @@ export const TextTitle = (props: Props): React.ReactElement => {
       fontSize={14}
       fontFamily={fonts.JetBrainsMonoBold}
       color={colors.oceanTeal}
-    >{props.text}</Text>
+      testID='text-title'>
+      {props.text}
+    </Text>
   )
 }

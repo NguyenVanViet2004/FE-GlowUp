@@ -25,13 +25,11 @@ const InputWithIcons: React.FC<Props> = (props: Props) => {
 
   return (
     <YStack>
-
       <XStack
         alignItems="center"
         borderRadius={RADIUS_BUTTON}
         paddingHorizontal={24}
-        style={inputContainerStyle}
-      >
+        style={inputContainerStyle}>
         {!isNil(props.iconRight) && props.iconRight}
 
         <Input
@@ -44,24 +42,22 @@ const InputWithIcons: React.FC<Props> = (props: Props) => {
           color={colors.oceanTeal}
           placeholderTextColor={colors.placeholderColor}
           flex={1}
-          onFocus={() => { setIsFocused(true) }}
-          onBlur={() => { setIsFocused(false) }}
+          onFocus={() => {
+            setIsFocused(true)
+          }}
+          onBlur={() => {
+            setIsFocused(false)
+          }}
         />
 
         {!isNil(props.iconLeft) && props.iconLeft}
       </XStack>
       {!isUndefined(props.errorMessage) && props.errorMessage !== '' && (
-        <Text
-          color={'red'}
-          fontSize={12}
-          left={20}
-          top={3}
-        >
+        <Text color={'red'} fontSize={12} left={20} top={3}>
           {props.errorMessage}
         </Text>
       )}
     </YStack>
-
   )
 }
 

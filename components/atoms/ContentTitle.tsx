@@ -14,14 +14,15 @@ const ContentTitle: React.FC<Props> = ({ title, subtitle }) => {
   const colors = getColors(colorScheme)
   const { fonts } = useAppFonts()
   return (
-    <YStack >
+    <YStack testID="contentTitle">
       <Text
+        testID="title"
         fontSize={24}
         fontFamily={fonts.JetBrainsMonoBold}
         color={colors.text}>
         {title}
       </Text>
-      <Text fontSize={14} color={colors.gray}>{subtitle}</Text>
+      <Text testID="subtitle" fontSize={14} color={colors.gray}>{subtitle}</Text>
     </YStack>
   )
 }
