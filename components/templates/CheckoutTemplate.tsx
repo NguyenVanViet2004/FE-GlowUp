@@ -83,7 +83,11 @@ const CheckoutTemplate = (): React.ReactElement => {
   ]
 
   useEffect(() => {
-    if (boking[0].status === Status.COMPLETED || boking[0].status === Status.CANCELLED || boking[0].payment_status === Status.PAID) {
+    if (
+      boking[0].status === Status.COMPLETED ||
+      boking[0].status === Status.CANCELLED ||
+      boking[0].payment_status === Status.PAID
+    ) {
       setIsLocked(true)
     }
   }, [])

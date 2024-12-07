@@ -1,10 +1,10 @@
-import { useRoute } from '@react-navigation/core'
 import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import duration from 'dayjs/plugin/duration'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
+import { useLocalSearchParams } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
@@ -20,6 +20,7 @@ import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
+import type Combo from '~/interfaces/Combo'
 import type Stylist from '~/interfaces/Stylist'
 import type User from '~/interfaces/User'
 
@@ -33,7 +34,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       onPress={() => router.goBack()}
     />
   )
-  const rightIcon = <ChevronRight size={25} opacity={0}/>
+  const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
@@ -42,6 +43,11 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
 
   const { getObjectItem } = useStorage()
+  const dataCombo = useLocalSearchParams()
+  const parsedItem =
+    typeof dataCombo.item === 'string'
+      ? (JSON.parse(dataCombo.item) as Combo)
+      : null
 
   const [user, setUser] = React.useState<User>()
   dayjs.extend(customParseFormat)
@@ -50,29 +56,30 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   dayjs.extend(duration)
 
   const fetchUserLocal = async (): Promise<void> => {
-    const userData = await getObjectItem('userData') as User
+    const userData = (await getObjectItem('userData')) as User
     if (!isNil(userData)) {
       setUser(userData)
     }
   }
   useLayoutEffect(() => {
-    fetchUserLocal().catch((e) => { console.error(e) })
+    fetchUserLocal().catch((e) => {
+      console.error(e)
+    })
   }, [])
-  const route = useRoute()
 
   const onPayment = async (): Promise<void> => {
-    if (
-      isNil(selectedDay) || isNil(selectedTime) || isNil(selectedStylist?.id)
-    ) return
+    if (isNil(selectedDay) || isNil(selectedTime) || isNil(selectedStylist?.id)) { return }
+    if (isNil(parsedItem)) return
 
-    const obj = JSON.parse(route.params?.item as string)
-    const startTime = dayjs(`${selectedDay} ${selectedTime}`,
-      'YYYY-MM-DD hh:mm A').tz(dayjs.tz.guess(), true)
+    const startTime = dayjs(
+      `${selectedDay} ${selectedTime}`,
+      'YYYY-MM-DD hh:mm A'
+    ).tz(dayjs.tz.guess(), true)
     const payload = {
-      combo_id: obj?.id,
+      combo_id: parsedItem?.id,
       customer_id: user?.result?.id,
       end_time: new Date(
-        startTime.toDate().getTime() + obj?.total_time * 60000
+        startTime.toDate().getTime() + parsedItem.total_time * 60000
       ),
       start_time: startTime.toDate(),
       stylist_id: selectedStylist?.id
@@ -92,24 +99,27 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
         isHeaderCenter={true}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
-        paddingTop={10}
-      >
-        <Specialist toSetSelectedUser={setSelectedStylist}/>
-        <DateComponent toSetSelectedDay={setSelectedDay}/>
-        <TimePicker toSetSelectedTime={setSelectedTime}/>
+        paddingTop={10}>
+        <Specialist toSetSelectedUser={setSelectedStylist} />
+        <DateComponent toSetSelectedDay={setSelectedDay} />
+        <TimePicker
+          toSetSelectedTime={setSelectedTime}
+          selectedDate={selectedDay ?? undefined}
+        />
       </GradientScrollContainer>
 
       <PositiveButton
         title={t('specialist.send')}
         onPress={() => {
-          onPayment().catch((err) => { console.error(err) })
+          onPayment().catch((err) => {
+            console.error(err)
+          })
         }}
         marginHorizontal={20}
         position="absolute"
         left={0}
         right={0}
         bottom={insets.bottom === 0 ? 20 : insets.bottom}
-
       />
     </>
   )

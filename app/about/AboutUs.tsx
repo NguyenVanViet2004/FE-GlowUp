@@ -184,12 +184,6 @@ const AboutUs = (): React.ReactElement => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 20
-  },
   content: {
     color: '#333',
     fontSize: 14,
