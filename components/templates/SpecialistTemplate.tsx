@@ -10,6 +10,7 @@ import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 
 import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
@@ -69,13 +70,40 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   }, [])
 
   const onPayment = async (): Promise<void> => {
-    if (
-      isNil(selectedDay) ||
-      isNil(selectedTime) ||
-      isNil(selectedStylist?.id)
-    ) {
+    console.log(isNil(selectedDay), isNil(selectedTime), isNil(selectedStylist))
+    if (isNil(selectedDay)) {
+      Toast.show({
+        position: 'top',
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Vui lòng chọn ngày giờ hợp lệ!',
+        type: 'error'
+      })
+
       return
     }
+
+    if (isNil(selectedTime)) {
+      Toast.show({
+        position: 'top',
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Vui lòng chọn khung giờ hợp lệ!',
+        type: 'error'
+      })
+
+      return
+    }
+
+    if (isNil(selectedStylist)) {
+      Toast.show({
+        position: 'top',
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Bạn chưa chọn nhân viên!',
+        type: 'error'
+      })
+
+      return
+    }
+
     if (isNil(parsedItem)) return
 
     const startTime = dayjs(
@@ -95,8 +123,9 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
     try {
       const response = await request.post<any>('/booking', payload)
       if (response.success === true) {
-        const bookingData =
-          Array.isArray(response.result) ? response.result : [response.result]
+        const bookingData = Array.isArray(response.result)
+          ? response.result
+          : [response.result]
         router.push({
           params: { bookingData: JSON.stringify(bookingData) },
           pathname: '/checkout/BookingCheckout'

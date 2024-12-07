@@ -1,9 +1,8 @@
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { ChevronLeft } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
@@ -17,9 +16,6 @@ import GradientScrollContainer from '../molecules/container/GradientScrollContai
 const SelectPaymentTemplate = (): React.ReactElement => {
   const router = useRouter()
   const insets = useSafeAreaInsets()
-  const back = (): void => {
-    router.back()
-  }
   const { colorScheme } = useColorScheme()
 
   const colors = getColors(colorScheme)
@@ -30,8 +26,18 @@ const SelectPaymentTemplate = (): React.ReactElement => {
     ? JSON.parse(bookingInfo[0])
     : JSON.parse(bookingInfo)
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState<string | null>(null)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+  string | null
+  >(null)
+  const leftIcon = (
+    <ChevronLeft
+      color={colors.text}
+      size={25}
+      onPress={() => {
+        router.back()
+      }}
+    />
+  )
 
   const handleMethodChange = (method: string | null): void => {
     setSelectedPaymentMethod(method)
@@ -51,48 +57,39 @@ const SelectPaymentTemplate = (): React.ReactElement => {
         })
       } else {
         console.error('Payment URL is not available')
-        Alert.alert(
-          t('error.error'),
-          t('error.paymentUrlError'),
-          [{ text: 'OK' }]
-        )
+        Alert.alert(t('error.error'), t('error.paymentUrlError'), [
+          { text: 'OK' }
+        ])
       }
     } catch (error) {
       console.error('Error:', error)
-      Alert.alert(
-        t('error.connectionError'),
-        t('error.networkIssue'),
-        [{ text: 'OK' }]
-      )
+      Alert.alert(t('error.connectionError'), t('error.networkIssue'), [
+        { text: 'OK' }
+      ])
     }
   }
 
   return (
-    <GradientScrollContainer
-      position={true}
-      headerTitle={t('selectPaymentMethod.selectPaymentMethod')}
-      leftIcon={<View position="absolute" left={20}>
-        <Ionicons
-          name="chevron-back"
-          size={24}
-          color={colors.text}
-          onPress={back}
-        />
-      </View>}>
-
-      <View flex={1}>
+    <>
+      <GradientScrollContainer
+        // positionT={true}
+        isHeaderCenter
+        headerTitle={t('selectPaymentMethod.selectPaymentMethod')}
+        leftIcon={leftIcon}>
+        {/* <View flex={1}> */}
         <PaymentMethodList onMethodChange={handleMethodChange} />
-        <PositiveButton
-          title={t('selectPaymentMethod.payNow')}
-          marginHorizontal={20}
-          position="absolute"
-          left={0}
-          right={0}
-          bottom={insets.bottom === 0 ? 20 : insets.bottom}
-          onPress={handleSubmitPress}
-        />
-      </View>
-    </GradientScrollContainer>
+        {/* </View> */}
+      </GradientScrollContainer>
+      <PositiveButton
+        title={t('selectPaymentMethod.payNow')}
+        marginHorizontal={20}
+        position="absolute"
+        left={0}
+        right={0}
+        bottom={insets.bottom === 0 ? 20 : insets.bottom}
+        onPress={handleSubmitPress}
+      />
+    </>
   )
 }
 

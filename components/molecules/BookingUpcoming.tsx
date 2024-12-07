@@ -52,7 +52,9 @@ const BookingUpcoming = (): React.ReactElement => {
           }
 
           // Call the async function
-          cancelBooking().catch(err => { console.log(err) })
+          cancelBooking().catch((err) => {
+            console.log(err)
+          })
         },
         // Use an inline function to handle the async operation
         text: 'Đồng ý'
@@ -77,19 +79,21 @@ const BookingUpcoming = (): React.ReactElement => {
   return (
     <View>
       {pendingAppointments.length > 0
-        ? (
-          <BookingList
-            cancellPress={id => {
-              handleCancelBooking(id).catch(err => { console.log(err) })
-            }}
-            dataCombo={pendingAppointments}
-            visibleTextCancel={false}
-            visibleFormButton={true}
-            visibleTransparentButton={true}
-            viewBookingPress={id => { viewBooking(id) }}
-          />)
-        : (
-          <Text color={colors.text}>{t('booking.upcoming')}</Text>)}
+        ? (<BookingList
+          cancellPress={(id) => {
+            handleCancelBooking(id).catch((err) => {
+              console.log(err)
+            })
+          }}
+          dataCombo={pendingAppointments}
+          visibleTextCancel={false}
+          visibleFormButton={true}
+          visibleTransparentButton={true}
+          viewBookingPress={(id) => {
+            viewBooking(id)
+          }}
+        />)
+        : (<Text color={colors.text}>{t('booking.upcoming')}</Text>)}
     </View>
   )
 }

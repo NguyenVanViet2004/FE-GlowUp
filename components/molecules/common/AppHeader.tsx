@@ -19,6 +19,7 @@ const AppHeader: React.FC<headerProps> = ({
   rightIcon,
   isHeaderCenter,
   fontFamily,
+  onPress,
   ...props
 }) => {
   const { colorScheme } = useColorScheme()
@@ -28,8 +29,9 @@ const AppHeader: React.FC<headerProps> = ({
     <XStack width="100%" alignItems="center" paddingVertical={10} {...props}>
       {leftIcon}
       <Text
+        onPress={isNil(isHeaderCenter) || !isHeaderCenter ? onPress : undefined}
         color={colors.text}
-        textAlign={isNil(isHeaderCenter) ? 'center' : 'left'}
+        textAlign={!isNil(isHeaderCenter) && isHeaderCenter ? 'center' : 'left'}
         marginLeft={!isNil(isHeaderCenter) ? 0 : 10}
         fontSize={18}
         flex={1}

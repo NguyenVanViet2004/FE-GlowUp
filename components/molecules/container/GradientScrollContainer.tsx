@@ -12,7 +12,7 @@ type GradientScrollContainerProps = {
   children: React.ReactNode
   header?: React.ReactNode
   edges?: Array<'top' | 'bottom' | 'left' | 'right'>
-  position?: boolean | undefined
+  positionT?: boolean | undefined
 } & ViewProps & SafeAreaProviderProps & headerProps
 
 const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
@@ -23,7 +23,7 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
   rightIcon,
   isHeaderCenter,
   fontFamily,
-  position,
+  positionT,
   ...props
 }) => {
   const fonts = useAppFonts()
@@ -56,7 +56,7 @@ const GradientScrollContainer: React.FC<GradientScrollContainerProps> = ({
       <ScrollView fullscreen
         marginTop={isNil(headerTitle) ? undefined : headerHeight}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={position === true
+        contentContainerStyle={positionT === true
           ? styles.contentContainer
           : undefined}>
         <SafeAreaView style={{

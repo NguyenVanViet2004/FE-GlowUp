@@ -22,8 +22,7 @@ const BookingTemplate = (): React.ReactElement => {
           <Text
             fontSize={16}
             color={colors.text}
-            fontFamily={fonts.JetBrainsMonoBold}
-          >
+            fontFamily={fonts.JetBrainsMonoBold}>
             {t('screens.booking.title')}
           </Text>
         </View>

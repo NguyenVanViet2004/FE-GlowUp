@@ -19,7 +19,10 @@ const ServiceInfoSection: React.FC<props> = ({ booking }) => {
 
   return (
     <View width="100%" marginTop={40}>
-      <Text textAlign="center" fontFamily={fonts.fonts.JetBrainsMonoBold}>
+      <Text
+        textAlign="center"
+        color={colors.text}
+        fontFamily={fonts.fonts.JetBrainsMonoBold}>
         {t('booking.service')}
       </Text>
 
@@ -41,9 +44,10 @@ const ServiceInfoSection: React.FC<props> = ({ booking }) => {
       <Separator
         borderColor={colors.lightSilver}
         width="100%"
-        marginVertical={20} />
+        marginVertical={20}
+      />
 
-      <Summary colors={colors} booking={booking} fonts={fonts} t={t}/>
+      <Summary colors={colors} booking={booking} fonts={fonts} t={t} />
     </View>
   )
 }
