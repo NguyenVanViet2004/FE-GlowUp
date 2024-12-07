@@ -111,7 +111,6 @@ const ProfileSettingTemplate = (): JSX.Element => {
 
       const response =
       await request.patch(`/user/${userData.result.id}`, finalUserData)
-      console.log(response)
 
       if (response?.success === true) {
         setIsEditing(false)
@@ -146,7 +145,6 @@ const ProfileSettingTemplate = (): JSX.Element => {
       paddingHorizontal={0}
       edges={['left', 'right', 'bottom']}
       headerTitle={t('Thông tin của bạn')}
-      isHeaderCenter={true}
       leftIcon={leftIcon}
       rightIcon={<Octicons
         name="pencil"
