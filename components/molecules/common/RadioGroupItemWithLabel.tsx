@@ -31,7 +31,7 @@ const RadioGroupItemWithLabel: React.FC<props> = ({
   const colors = getColors(useColorScheme().colorScheme)
 
   return (
-    <XStack alignItems="center">
+    <XStack alignItems="center" key={id}>
       <YStack flex={1}>
         <Label color={colors.text} size={size} htmlFor={id}>
           {label}
@@ -48,9 +48,10 @@ const RadioGroupItemWithLabel: React.FC<props> = ({
         id={id}
         size={size}
         backgroundColor="$colorTransparent"
+        key={id}
         borderColor={colors.radioColor}
         {...props}>
-        <RadioGroup.Indicator backgroundColor={colors.radioColor} />
+        <RadioGroup.Indicator key={id} backgroundColor={colors.radioColor} />
       </RadioGroup.Item>
     </XStack>
   )

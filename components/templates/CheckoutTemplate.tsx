@@ -100,14 +100,12 @@ const CheckoutTemplate = (): React.ReactElement => {
   const qrCodeRef = useRef(null)
   const handleDownloadQR = async (): Promise<void> => {
     try {
-      // Yêu cầu quyền truy cập thư viện
       const { status } = await MediaLibrary.requestPermissionsAsync()
       if (status !== 'granted') {
         Alert.alert('Lỗi', 'Vui lòng cấp quyền truy cập thư viện!')
         return
       }
 
-      // Chụp QR Code và lưu vào thư viện
       const uri = await captureRef(qrCodeRef, {
         format: 'png',
         quality: 1

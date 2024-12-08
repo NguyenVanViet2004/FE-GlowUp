@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
 
@@ -205,6 +206,7 @@ function RootLayoutNav (): React.ReactElement {
         </View>
       </Modal>
 
+      <Toast />
       <StatusBar
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
       />

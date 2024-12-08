@@ -153,6 +153,7 @@ const ChangePasswordTemplate = (): React.ReactElement => {
             onPress={() => { router.back() }}
             headerTitle={t('common.back')}
             fontFamily={fonts.JetBrainsMonoRegular}
+            isHeaderCenter={false}
             leftIcon={
               <ChevronLeft color={colors.text} size={25} />}
           />
