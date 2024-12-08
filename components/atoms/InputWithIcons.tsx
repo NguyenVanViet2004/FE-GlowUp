@@ -11,6 +11,7 @@ type Props = {
   iconRight?: JSX.Element
   iconLeft?: JSX.Element
   errorMessage?: string
+  label?: string
 } & InputProps
 
 const InputWithIcons: React.FC<Props> = (props: Props) => {
@@ -24,8 +25,8 @@ const InputWithIcons: React.FC<Props> = (props: Props) => {
   }
 
   return (
-    <YStack>
-
+    <YStack gap={10}>
+      <Text fontSize={16} color={colors.text}>{props.label}</Text>
       <XStack
         alignItems="center"
         borderRadius={RADIUS_BUTTON}

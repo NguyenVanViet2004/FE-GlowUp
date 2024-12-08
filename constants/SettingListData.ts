@@ -1,13 +1,20 @@
 import { AlertCircle, BellRing, Lock, User2 } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
+import { Alert } from 'react-native'
 
+import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import type SettingsList from '~/interfaces/SettingsList'
 
 export const SettingListData = (): SettingsList[] => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { getObjectItem } = useStorage()
 
+  const checkLoginStatus = async (): Promise<boolean> => {
+    const localUser = await getObjectItem('userData')
+    return localUser !== null && localUser !== undefined
+  }
   return [
     {
       items: [
@@ -15,7 +22,14 @@ export const SettingListData = (): SettingsList[] => {
           icon: User2,
           isDisabled: false,
           onPress: () => {
-            router.push('/profile')
+            void (async () => {
+              const isLoggedIn = await checkLoginStatus()
+              if (isLoggedIn) {
+                router.push('/profileUser/ProfileUser')
+              } else {
+                Alert.alert('Thông báo', 'Bạn chưa đăng nhập', [{ text: 'OK' }])
+              }
+            })()
           },
           title: t('user.userInfo')
         },

@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 import store from '~/redux/store'
 
 export const BASE_URL =
-  Platform.OS === 'ios' ? 'http://localhost:3000' : 'http:/192.168.1.8:3000'
+  Platform.OS === 'ios' ? 'http://localhost:3000' : 'http:/192.168.101.17:3000'
 
 const headers = {
   'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ class HttpClient {
   private readonly _initializeResponseInterceptor = (): any => {
     this.axiosInstance.interceptors.request.use(
       async (config): Promise<any> => {
-        const token = store.getState().auths.token
+        const token = store.getState().user.access_token
         config.headers.Authorization = `${token}`
         return config
       },
