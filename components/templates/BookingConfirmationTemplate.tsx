@@ -23,8 +23,9 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
   const bookingData = {
     bookingTime: new Date(parseBooking.start_time).toLocaleString(),
     customerName: parseBooking.customer.full_name ?? 'N/A',
-    services: parseBooking.combo.services
-      ?.map(service=> service.name).join(', ') ?? 'N/A',
+    services:
+      parseBooking.combo.services?.map((service) => service.name).join(', ') ??
+      'N/A',
     stylist: parseBooking.stylist?.full_name ?? 'N/A',
     totalPrice: parseBooking.total_price ?? 0
   }
@@ -34,7 +35,9 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
   }
 
   return (
-    <GradientScrollContainer headerTitle={t('booking.confirmationTitle')}>
+    <GradientScrollContainer
+      isHeaderCenter
+      headerTitle={t('booking.confirmationTitle')}>
       <SafeAreaView style={styles.container}>
         {parseBooking.picture !== null && (
           <Image

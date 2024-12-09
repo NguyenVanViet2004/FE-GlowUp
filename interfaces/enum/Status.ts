@@ -5,5 +5,6 @@ export enum Status {
   FAILED = 'failed',
   EXPIRED = 'expired',
   REJECTED = 'rejected',
-  PAID = 'PAID'
+  PAID = 'PAID',
+  CASH = 'CASH',
 }

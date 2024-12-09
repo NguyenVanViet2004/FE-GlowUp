@@ -4,7 +4,7 @@ import { isNil } from 'lodash'
 import React, { useLayoutEffect } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, ScrollView, Text } from 'tamagui'
 
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
@@ -19,6 +19,7 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import type User from '~/interfaces/User'
+import { type RootState } from '~/redux/store'
 
 const ProfileTemplate = (): React.ReactElement => {
   const { colorScheme } = useColorScheme()
@@ -27,18 +28,11 @@ const ProfileTemplate = (): React.ReactElement => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { removeItem } = useStorage()
-  const { getObjectItem } = useStorage()
-  const [user, setUser] = React.useState<User>()
 
-  const fetchUserLocal = async (): Promise<void> => {
-    const userData = (await getObjectItem('userData')) as User
-    if (!isNil(userData)) {
-      setUser(userData)
-    }
-  }
+  const userData = useSelector((state: RootState) => state.user)
 
   const handlePressLoginOrLogOut = (): void => {
-    if (!isNil(user)) {
+    if (!isNil(userData)) {
       Alert.alert(t('common.warning'), t('common.doYouWantToLogout'), [
         {
           onPress: () => {
@@ -61,17 +55,11 @@ const ProfileTemplate = (): React.ReactElement => {
     }
   }
 
-  useLayoutEffect(() => {
-    fetchUserLocal().catch((e) => {
-      console.error(e)
-    })
-  }, [])
-
   return (
     <LinearGradientBackground>
       <ScrollView fullscreen showsVerticalScrollIndicator={false}>
         <SafeAreaView style={styles.container}>
-          <UserProfile user={isNil(user) ? INITIAL_USER_STATE : user} />
+          <UserProfile user={isNil(userData) ? INITIAL_USER_STATE : userData} />
           <SettingList colors={colors} />
 
           <Button
@@ -83,7 +71,7 @@ const ProfileTemplate = (): React.ReactElement => {
             icon={<LogOut color={colors.text} />}
             justifyContent="center">
             <Text color={colors.text} fontWeight="600">
-              {isNil(user) ? 'Đăng nhập' : t('screens.profile.logout')}
+              {isNil(userData) ? 'Đăng nhập' : t('screens.profile.logout')}
             </Text>
           </Button>
         </SafeAreaView>

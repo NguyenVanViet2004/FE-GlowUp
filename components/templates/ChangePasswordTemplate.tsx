@@ -40,9 +40,7 @@ const ChangePasswordTemplate = (): React.ReactElement => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const userId = useSelector(
-    (state: RootState) => state.user.result.id
-  )
+  const userId = useSelector((state: RootState) => state.user.result.id)
 
   const renderPasswordIcon = (): JSX.Element => {
     const IconVisiablePassword = showPassword ? EyeOff : Eye
@@ -50,7 +48,9 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       <IconVisiablePassword
         size={16}
         color={colors.oceanTeal}
-        onPress={() => { setShowPassword(!showPassword) }}
+        onPress={() => {
+          setShowPassword(!showPassword)
+        }}
       />
     )
   }
@@ -60,7 +60,9 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       <IconVisiablePassword
         size={16}
         color={colors.oceanTeal}
-        onPress={() => { setShowOldPassword(!showOldPassword) }}
+        onPress={() => {
+          setShowOldPassword(!showOldPassword)
+        }}
       />
     )
   }
@@ -70,7 +72,9 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       <IconVisiablePassword
         size={16}
         color={colors.oceanTeal}
-        onPress={() => { setShowPasswordConfirm(!showPasswordConfirm) }}
+        onPress={() => {
+          setShowPasswordConfirm(!showPasswordConfirm)
+        }}
       />
     )
   }
@@ -109,12 +113,14 @@ const ChangePasswordTemplate = (): React.ReactElement => {
 
       if (
         oldPasswordError !== '' ||
-            passwordError !== '' ||
-            confirmPasswordError !== '' ||
-            oldPassword === '' ||
-            password === '' ||
-            confirmPassword === ''
-      ) { return }
+        passwordError !== '' ||
+        confirmPasswordError !== '' ||
+        oldPassword === '' ||
+        password === '' ||
+        confirmPassword === ''
+      ) {
+        return
+      }
 
       setIsLoading(true)
 
@@ -125,22 +131,17 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       }
 
       const response = await request.post(
-        `/auth/change-password/${userId}`, payload
+        `/auth/change-password/${userId}`,
+        payload
       )
       if (response.success === true) {
-        Alert.alert(
-          t('Thành công'),
-          t('Đổi mật khẩu thành công')
-        )
+        Alert.alert(t('Thành công'), t('Đổi mật khẩu thành công'))
         router.replace('/(tabs)/profile')
       } else {
         setOldPasswordError('Mật khẩu hiện tại không chính xác!')
       }
     } catch (err) {
-      Alert.alert(
-        t('screens.signUp.false'),
-        t('Đã xảy ra lỗi')
-      )
+      Alert.alert(t('screens.signUp.false'), t('Đã xảy ra lỗi'))
     } finally {
       setIsLoading(false)
     }
@@ -150,12 +151,13 @@ const ChangePasswordTemplate = (): React.ReactElement => {
       <SafeAreaView style={styles.container}>
         <View>
           <AppHeader
-            onPress={() => { router.back() }}
+            onPress={() => {
+              router.back()
+            }}
             headerTitle={t('common.back')}
             fontFamily={fonts.JetBrainsMonoRegular}
             isHeaderCenter={false}
-            leftIcon={
-              <ChevronLeft color={colors.text} size={25} />}
+            leftIcon={<ChevronLeft color={colors.text} size={25} />}
           />
         </View>
         <View marginTop={'13%'}>
@@ -168,7 +170,7 @@ const ChangePasswordTemplate = (): React.ReactElement => {
           />
         </View>
 
-        <View marginTop={'25%'} gap={20}>
+        <View marginTop={'15%'} gap={20}>
           <InputWithIcons
             iconRight={<LockKeyhole size={16} color={colors.oceanTeal} />}
             placeholder={t('Mật khẩu cũ')}
@@ -215,8 +217,7 @@ const ChangePasswordTemplate = (): React.ReactElement => {
             backgroundColor={colors.lightTransparentBlack}
             justifyContent="center"
             alignItems={'center'}
-            zIndex={1}
-          >
+            zIndex={1}>
             <Loading />
           </View>
         )}
@@ -224,13 +225,14 @@ const ChangePasswordTemplate = (): React.ReactElement => {
         <View flex={1} justifyContent="flex-end">
           <PositiveButton
             onPress={() => {
-              handleConfirmNewPassword().catch(err => { console.log(err) })
+              handleConfirmNewPassword().catch((err) => {
+                console.log(err)
+              })
             }}
             title={t('screens.resetPassword.confirmNewPassword')}
           />
         </View>
       </SafeAreaView>
-
     </LinearGradientBackground>
   )
 }

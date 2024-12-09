@@ -189,6 +189,7 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
         ? (<Text color={colors.text}>Đang tải dữ liệu...</Text>)
         : (<FlatList
           data={days}
+          showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
           horizontal
           renderItem={({ item }) => {

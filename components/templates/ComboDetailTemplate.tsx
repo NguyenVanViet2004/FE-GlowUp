@@ -18,6 +18,8 @@ import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
+import UserReviews from '../molecules/UserReviews'
+
 const ComboDetailTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
@@ -88,7 +90,7 @@ const ComboDetailTemplate = (): React.ReactElement => {
             <LabelWithDescription Description={parsedItem.description} />
             <OpeningHours />
             <OurServices data={parsedItem} />
-            <OurSpecialist />
+            {/* <OurSpecialist /> */}
             {/* <UserReviews /> */}
           </View>
         </View>

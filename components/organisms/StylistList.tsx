@@ -10,6 +10,11 @@ import useFetchStylist from '~/hooks/useFetchStylist'
 import { GenderEnum } from '~/interfaces/enum/Gender'
 import type Stylist from '~/interfaces/Stylist'
 
+export const overlayStyles = {
+  enterStyle: { opacity: 0 },
+  exitStyle: { opacity: 0 }
+}
+
 const StylistList = (): JSX.Element => {
   const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
@@ -18,11 +23,6 @@ const StylistList = (): JSX.Element => {
   const [selectedStylist, setSelectedStylist] = React.useState<Stylist | null>(
     null
   )
-
-  const overlayStyles = {
-    enterStyle: { opacity: 0 },
-    exitStyle: { opacity: 0 }
-  }
 
   const renderStylistItem = ({
     item
@@ -150,14 +150,14 @@ const StylistList = (): JSX.Element => {
                   fontSize={16}
                   color={
                     isNil(selectedStylist.profile?.stylist?.isWorking) ||
-                    selectedStylist.profile?.stylist?.isWorking
+                    !selectedStylist.profile?.stylist?.isWorking
                       ? colors.red
                       : colors.green
                   }>
                   {isNil(selectedStylist.profile?.stylist?.isWorking) ||
                   selectedStylist.profile?.stylist?.isWorking
-                    ? ' Đang bận'
-                    : ' Đang rảnh'}
+                    ? ' Đang hoạt động'
+                    : ' Đã dừng hoạt động'}
                 </Text>
               </Text>
             </View>

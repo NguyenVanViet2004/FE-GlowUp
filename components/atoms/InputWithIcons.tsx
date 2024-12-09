@@ -26,43 +26,44 @@ const InputWithIcons: React.FC<Props> = (props: Props) => {
 
   return (
     <YStack gap={10}>
-      <Text fontSize={16} color={colors.text}>{props.label}</Text>
+      {!isNil(props.label) && (
+        <Text fontSize={16} color={colors.text}>
+          {props.label}
+        </Text>
+      )}
       <XStack
         alignItems="center"
         borderRadius={RADIUS_BUTTON}
         paddingHorizontal={24}
-        style={inputContainerStyle}
-      >
+        style={inputContainerStyle}>
         {!isNil(props.iconRight) && props.iconRight}
 
         <Input
           {...props}
           unstyled
-          marginHorizontal={18}
+          marginHorizontal={!isNil(props.iconRight) && 18}
           height={HEIGHT_BUTTON}
           fontFamily={fonts.JetBrainsMonoRegular}
           fontSize={16}
           color={colors.oceanTeal}
           placeholderTextColor={colors.placeholderColor}
           flex={1}
-          onFocus={() => { setIsFocused(true) }}
-          onBlur={() => { setIsFocused(false) }}
+          onFocus={() => {
+            setIsFocused(true)
+          }}
+          onBlur={() => {
+            setIsFocused(false)
+          }}
         />
 
         {!isNil(props.iconLeft) && props.iconLeft}
       </XStack>
       {!isUndefined(props.errorMessage) && props.errorMessage !== '' && (
-        <Text
-          color={'red'}
-          fontSize={12}
-          left={20}
-          top={3}
-        >
+        <Text color={'red'} fontSize={12} left={20} top={3}>
           {props.errorMessage}
         </Text>
       )}
     </YStack>
-
   )
 }
 

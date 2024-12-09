@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Loading from '~/components/atoms/Loading'
 import OnboardingTemplate from '~/components/templates/OnboardingTemplate'
-import { setUser } from '~/features/userSlice'
+import { setUser, updateCardInfo } from '~/features/userSlice'
 import useStorage from '~/hooks/useStorage'
+import type User from '~/interfaces/User'
+import { type cardInfo } from '~/interfaces/User'
 import { type RootState } from '~/redux/store'
 
 export default function Home (): React.ReactElement {
@@ -20,9 +22,15 @@ export default function Home (): React.ReactElement {
   const user = useSelector((state: RootState) => state.user)
 
   const fetchUserLocal = async (): Promise<void> => {
-    const userData = await getObjectItem('userData')
+    const userData = await getObjectItem('userData') as User
+    const cardInfo = await getObjectItem('card_info') as cardInfo
+
     if (!isNil(userData)) {
       dispatch(setUser(userData))
+    }
+
+    if (!isNil(cardInfo)) {
+      dispatch(updateCardInfo(cardInfo))
     }
   }
 

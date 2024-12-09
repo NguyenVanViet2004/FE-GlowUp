@@ -41,6 +41,7 @@ const SelectPaymentTemplate = (): React.ReactElement => {
 
   const handleMethodChange = (method: string | null): void => {
     setSelectedPaymentMethod(method)
+    console.log('selectedPaymentMethod', selectedPaymentMethod)
   }
 
   const handleSubmitPress = async (): Promise<void> => {
