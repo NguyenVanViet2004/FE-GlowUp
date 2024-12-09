@@ -1,4 +1,6 @@
+import dayjs from 'dayjs'
 import { useRouter } from 'expo-router'
+import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -23,10 +25,20 @@ const BookingUpcoming = (): React.ReactElement => {
 
   const user = useSelector((state: RootState) => state.user.result)
 
-  const pendingAppointments = appointments.filter(
-    (item) => item.status === Status.PENDING && item.customer.id === user.id
-  )
-
+  const pendingAppointments = appointments
+    .filter(
+      (item) =>
+        item.status === Status.PENDING &&
+      !isNil(item.customer) &&
+      item.customer.id === user.id
+    )
+  // .map((item) => ({
+  //   ...item,
+  //   payment_status:
+  //     item.payment_status === Status.PENDING
+  //       ? Status.CASH
+  //       : item.payment_status,
+  // }))
   const handleCancelBooking = async (Id: string): Promise<void> => {
     Alert.alert('Cảnh báo', 'Bạn chắc chắn muốn hủy lịch?', [
       {
@@ -63,7 +75,7 @@ const BookingUpcoming = (): React.ReactElement => {
   }
 
   const viewBooking = (id: string): void => {
-    const viewCompletedAppointment = appointments.filter(
+    const viewCompletedAppointment = pendingAppointments.filter(
       (item) => item.id === id && item.customer.id === user.id
     )
     router.push({
@@ -79,21 +91,25 @@ const BookingUpcoming = (): React.ReactElement => {
   return (
     <View>
       {pendingAppointments.length > 0
-        ? (<BookingList
-          cancellPress={(id) => {
-            handleCancelBooking(id).catch((err) => {
-              console.log(err)
-            })
-          }}
-          dataCombo={pendingAppointments}
-          visibleTextCancel={false}
-          visibleFormButton={true}
-          visibleTransparentButton={true}
-          viewBookingPress={(id) => {
-            viewBooking(id)
-          }}
-        />)
-        : (<Text color={colors.text}>{t('booking.upcoming')}</Text>)}
+        ? (
+          <BookingList
+            cancellPress={(id) => {
+              handleCancelBooking(id).catch((err) => {
+                console.log(err)
+              })
+            }}
+            dataCombo={pendingAppointments}
+            visibleTextCancel={false}
+            visibleFormButton={true}
+            visibleTransparentButton={true}
+            viewBookingPress={(id) => {
+              viewBooking(id)
+            }}
+          />
+        )
+        : (
+          <Text color={colors.text}>{t('booking.upcoming')}</Text>
+        )}
     </View>
   )
 }

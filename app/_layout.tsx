@@ -72,8 +72,10 @@ function RootLayoutNav (): React.ReactElement {
   const [message, setMessage] = React.useState('')
   const [titleNotify, setTitleNotify] = React.useState('')
 
-  console.log(JSON.stringify(notification, null, 2))
-  console.log(JSON.stringify(expoPushToken, null, 2))
+  React.useEffect(() => {
+    console.log(JSON.stringify(notification, null, 2))
+    console.log(JSON.stringify(expoPushToken, null, 2))
+  }, [notification, expoPushToken])
 
   useEffect(() => {
     if (!isNil(notification)) {
@@ -178,6 +180,10 @@ function RootLayoutNav (): React.ReactElement {
             />
             <Stack.Screen
               name="profileUser/ProfileUser"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="cardInfo/CardInfo"
               options={{ headerShown: false }}
             />
           </Stack>

@@ -10,6 +10,11 @@ import useFetchStylist from '~/hooks/useFetchStylist'
 import { GenderEnum } from '~/interfaces/enum/Gender'
 import type Stylist from '~/interfaces/Stylist'
 
+export const overlayStyles = {
+  enterStyle: { opacity: 0 },
+  exitStyle: { opacity: 0 }
+}
+
 const StylistList = (): JSX.Element => {
   const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
@@ -18,11 +23,6 @@ const StylistList = (): JSX.Element => {
   const [selectedStylist, setSelectedStylist] = React.useState<Stylist | null>(
     null
   )
-
-  const overlayStyles = {
-    enterStyle: { opacity: 0 },
-    exitStyle: { opacity: 0 }
-  }
 
   const renderStylistItem = ({
     item

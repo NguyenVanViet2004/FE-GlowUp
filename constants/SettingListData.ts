@@ -1,6 +1,6 @@
-import { AlertCircle, BellRing, Lock, User2 } from '@tamagui/lucide-icons'
+import { AlertCircle, BellRing, CreditCard, Lock, User2 } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
-import { Alert } from 'react-native'
+import Toast from 'react-native-toast-message'
 
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
@@ -27,16 +27,52 @@ export const SettingListData = (): SettingsList[] => {
               if (isLoggedIn) {
                 router.push('/profileUser/ProfileUser')
               } else {
-                Alert.alert('Thông báo', 'Bạn chưa đăng nhập', [{ text: 'OK' }])
+                Toast.show({
+                  position: 'top',
+                  text1: 'Vui lòng đăng nhập trước khi sử dụng tính năng này!',
+                  type: 'error'
+                })
               }
             })()
           },
           title: t('user.userInfo')
         },
         {
+          icon: CreditCard,
+          isDisabled: false,
+          onPress: () => {
+            void (async () => {
+              const isLoggedIn = await checkLoginStatus()
+              if (isLoggedIn) {
+                router.push('/cardInfo/CardInfo')
+              } else {
+                Toast.show({
+                  position: 'top',
+                  text1: 'Vui lòng đăng nhập trước khi sử dụng tính năng này!',
+                  type: 'error'
+                })
+              }
+            })()
+          },
+          title: 'Thông tin thẻ'
+        },
+        {
           icon: Lock,
           isDisabled: false,
-          onPress: () => { router.push('/authentication/ChangePassword') },
+          onPress: () => {
+            void (async () => {
+              const isLoggedIn = await checkLoginStatus()
+              if (isLoggedIn) {
+                router.push('/authentication/ChangePassword')
+              } else {
+                Toast.show({
+                  position: 'top',
+                  text1: 'Vui lòng đăng nhập trước khi sử dụng tính năng này!',
+                  type: 'error'
+                })
+              }
+            })()
+          },
           title: t('screens.profile.changePassword')
         }
       ],
@@ -47,7 +83,9 @@ export const SettingListData = (): SettingsList[] => {
         {
           icon: BellRing,
           isDisabled: false,
-          onPress: () => { router.push('/notification/Notification') },
+          onPress: () => {
+            router.push('/notification/Notification')
+          },
           title: t('permissions.NOTIFICATION.title')
         },
         // {
@@ -59,7 +97,9 @@ export const SettingListData = (): SettingsList[] => {
         {
           icon: AlertCircle,
           isDisabled: false,
-          onPress: () => { router.push('/about/AboutUs') },
+          onPress: () => {
+            router.push('/about/AboutUs')
+          },
           title: t('screens.profile.about')
         }
       ],

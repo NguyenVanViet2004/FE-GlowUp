@@ -1,15 +1,18 @@
 import { ChevronLeft, ChevronRight, Download } from '@tamagui/lucide-icons'
 import * as MediaLibrary from 'expo-media-library'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
-import { isNil } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 import React, { useEffect, useRef, useState } from 'react'
 import { Alert } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import { captureRef } from 'react-native-view-shot'
+import { useSelector } from 'react-redux'
 import { Card, View } from 'tamagui'
 
+import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
 import BookingInfoSection from '~/components/molecules/Checkout/BookingInfoSection'
 import PaymentMethodSection from '~/components/molecules/Checkout/PaymentMethodSection'
@@ -20,28 +23,33 @@ import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
-import { extractTimeWithPeriod, formatDateToLongForm } from '~/utils/formatDateToLongForm'
+import { type RootState } from '~/redux/store'
+import {
+  extractTimeWithPeriod,
+  formatDateToLongForm
+} from '~/utils/formatDateToLongForm'
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
   const insets = useSafeAreaInsets()
   const colors = getColors(useColorScheme().colorScheme)
-  const router = useExpoRouter()
-  const leftIcon =
+  const router = useRouter()
+  const leftIcon = (
     <ChevronLeft
       color={colors.text}
-      size={25} onPress={() => router.goBack()} />
+      size={25}
+      onPress={() => { router.back() }}
+    />
+  )
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
   const [isLocked, setIsLocked] = useState<boolean>(false)
   const data = useLocalSearchParams()
-  const boking = typeof data.bookingData === 'string'
-    ? JSON.parse(data.bookingData)
-    : null
+  const boking =
+    typeof data.bookingData === 'string' ? JSON.parse(data.bookingData) : null
 
-  const bookingExample = !isNil(boking[0])
-    ? boking[0]
-    : []
+  const bookingExample = !isNil(boking[0]) ? boking[0] : []
+  const user = useSelector((state: RootState) => state.user)
 
   const bookingData = [
     {
@@ -74,7 +82,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.duration'),
-      value: boking[0].total_time + ' giờ',
+      value: boking[0].total_time + ' phút',
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -102,7 +110,11 @@ const CheckoutTemplate = (): React.ReactElement => {
     try {
       const { status } = await MediaLibrary.requestPermissionsAsync()
       if (status !== 'granted') {
-        Alert.alert('Lỗi', 'Vui lòng cấp quyền truy cập thư viện!')
+        Toast.show({
+          position: 'top',
+          text1: 'Vui lòng cấp quyền truy cập thư viện ảnh!',
+          type: 'error'
+        })
         return
       }
 
@@ -112,40 +124,86 @@ const CheckoutTemplate = (): React.ReactElement => {
       })
 
       await MediaLibrary.saveToLibraryAsync(uri)
-      Alert.alert('Thành công', 'QR Code đã được lưu vào thư viện ảnh!')
+      Toast.show({
+        position: 'top',
+        text1: 'Đã tải QR Code thành công!',
+        type: 'success'
+      })
     } catch (error) {
       console.error('Lỗi khi tải QR Code:', error)
-      Alert.alert('Lỗi', 'Không thể tải QR Code, vui lòng thử lại.')
+      Toast.show({
+        position: 'top',
+        text1: 'Không thể tải QR Code. Vui lòng thử lại!',
+        type: 'error'
+      })
     }
   }
 
-  const handleSubmitPress = (): void => {
+  const handleSubmitPress = async (): Promise<void> => {
     if (selectedMethodID === 'cash') {
-      Alert.alert(
-        t('booking.success'),
-        t('booking.successMessage'),
-        [{
+      Alert.alert(t('booking.success'), t('booking.successMessage'), [
+        {
           onPress: () => {
             router.push({
               params: { bookingInfo: JSON.stringify(bookingExample) },
-              pathname: 'checkout/BookingConfirmation'
+              pathname: '/checkout/BookingConfirmation'
             })
           },
           text: t('ok')
-        }]
-      )
+        }
+      ])
     } else if (selectedMethodID === 'online') {
-      router.push({
-        params: { bookingInfo: JSON.stringify(bookingExample) },
-        pathname: 'payment/SelectPayment'
-      })
+      if (
+        isNil(user.result.card_info) ||
+        isEmpty(user.result.card_info.cardHolder) ||
+        isEmpty(user.result.card_info.cardNumber) ||
+        isEmpty(user.result.card_info.expiryDate)
+      ) {
+        router.push('/cardInfo/CardInfo')
+      } else {
+        // router.push({
+        //   params: { bookingInfo: JSON.stringify(bookingExample) },
+        //   pathname: "/payment/SelectPayment",
+        // })
+
+        try {
+          const response = await request.post('payment/create_payment_url', {
+            bankCode: user.result.card_info.bank?.bank_code,
+            bookingId: bookingExample.id
+          })
+          const paymentUrl = response?.paymentUrl
+          if (paymentUrl !== null) {
+            router.push({
+              params: { url: paymentUrl },
+              pathname: '/payment/WebView'
+            })
+          } else {
+            Toast.show({
+              text1: 'Đường dẫn không hợp lệ!',
+              type: 'error'
+            })
+          }
+        } catch (error) {
+          console.error('Error:', error)
+          Toast.show({
+            text1: 'Đã xảy ra lỗi!',
+            text2: 'Vui lòng thử lại!',
+            type: 'error'
+          })
+        }
+      }
     } else {
-      Alert.alert('Error', 'Please select a payment method.')
+      Toast.show({
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Vui lòng thử lại!',
+        type: 'error'
+      })
     }
   }
 
-  const isPendingBooking = (boking: unknown): boking is Array<
-  { payment_status: Status.PENDING }> => {
+  const isPendingBooking = (
+    boking: unknown
+  ): boking is Array<{ payment_status: Status.PENDING }> => {
     return (
       Array.isArray(boking) &&
       boking.length > 0 &&
@@ -164,7 +222,7 @@ const CheckoutTemplate = (): React.ReactElement => {
           left={0}
           right={0}
           bottom={insets.bottom === 0 ? 20 : insets.bottom}
-          onPress={handleSubmitPress}
+          onPress={() => void handleSubmitPress().catch(e => { console.error(e) })}
         />
       )
     }
@@ -201,8 +259,8 @@ const CheckoutTemplate = (): React.ReactElement => {
               padding={10}
               borderRadius={10}>
               <QRCode
-                value={qrData} // Giá trị QR Code (phải là chuỗi)
-                size={130} // Kích thước QR Code
+                value={qrData}
+                size={130}
                 backgroundColor={colors.white}
                 color={colors.blueSapphire}
                 logo={require('../../assets/images/logoApp.png')}

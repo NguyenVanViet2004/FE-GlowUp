@@ -1,13 +1,34 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Alert, StyleSheet } from 'react-native'
-import { WebView } from 'react-native-webview'
+import { WebView, type WebViewMessageEvent } from 'react-native-webview'
+import { useSelector } from 'react-redux'
 
 import Loading from '~/components/atoms/Loading'
+import { type RootState } from '~/redux/store'
 
 const WebviewTemplate = (): React.ReactElement => {
   const { url } = useLocalSearchParams<{ url: string }>()
+  console.log(JSON.stringify(url, null, 2))
   const router = useRouter()
+
+  const webViewRef = useRef<WebView>(null)
+  const user = useSelector((state: RootState) => state.user)
+
+  const cardInfo = {
+    cardHolder: 'Nguyen Van A',
+    cardNumber: '9704198526191432198',
+    expiryDate: '07/15'
+  }
+
+  const injectCardInfo = () => {
+    const script = `
+      document.querySelector('input[name="cardNumber"]').value = "${user.result.card_info?.cardNumber}";
+      document.querySelector('input[name="cardHolder"]').value = "${user.result.card_info?.cardHolder}";
+      document.querySelector('input[name="cardDate"]').value = "${user.result.card_info?.expiryDate}";
+    `
+    return script
+  }
 
   if (url === null) {
     return <Loading />
@@ -15,6 +36,10 @@ const WebviewTemplate = (): React.ReactElement => {
 
   return (
     <WebView
+      ref={webViewRef}
+      onMessage={(event: WebViewMessageEvent) => {
+        console.log(event)
+      }}
       source={{ uri: url }}
       style={styles.container}
       javaScriptEnabled={true}
@@ -37,7 +62,7 @@ const WebviewTemplate = (): React.ReactElement => {
           [
             {
               onPress: () => {
-                router.back()
+                router.replace('/(tabs)/booking')
               },
               text: 'Quay lại'
             },
@@ -45,6 +70,7 @@ const WebviewTemplate = (): React.ReactElement => {
           ]
         )
       }}
+      injectedJavaScript={injectCardInfo()}
     />
   )
 }

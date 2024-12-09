@@ -19,7 +19,6 @@ const useFetchBank = (): UseFetchComboReturn => {
         const response =
         await request.get<Bank[]>('payment/bank-list')
         if (response !== null) {
-          console.log('BANK: ', bank)
           setBank(response as Bank[])
         }
       } catch (err: any) {
