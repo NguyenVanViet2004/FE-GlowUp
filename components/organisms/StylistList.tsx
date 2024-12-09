@@ -150,14 +150,14 @@ const StylistList = (): JSX.Element => {
                   fontSize={16}
                   color={
                     isNil(selectedStylist.profile?.stylist?.isWorking) ||
-                    selectedStylist.profile?.stylist?.isWorking
+                    !selectedStylist.profile?.stylist?.isWorking
                       ? colors.red
                       : colors.green
                   }>
                   {isNil(selectedStylist.profile?.stylist?.isWorking) ||
                   selectedStylist.profile?.stylist?.isWorking
-                    ? ' Đang bận'
-                    : ' Đang rảnh'}
+                    ? ' Đang hoạt động'
+                    : ' Đã dừng hoạt động'}
                 </Text>
               </Text>
             </View>
