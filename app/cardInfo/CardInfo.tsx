@@ -20,11 +20,11 @@ import useStorage from '~/hooks/useStorage'
 import type Bank from '~/interfaces/Bank'
 import { type RootState } from '~/redux/store'
 
-const formatCardInfo = (info: string) => {
+const formatCardInfo = (info: string): string => {
   return info.length > 3 ? '*'.repeat(info.length - 3) + info.slice(-3) : info
 }
 
-const CardInfo = () => {
+const CardInfo = (): React.JSX.Element => {
   const colors = getColors(useColorScheme().colorScheme)
   const { setObjectItem } = useStorage<string | object>()
   const [cardNumber, setCardNumber] = useState('')
@@ -63,7 +63,7 @@ const CardInfo = () => {
     }
   }, [user])
 
-  const handleBankInputChange = (value: string) => {
+  const handleBankInputChange = (value: string): void => {
     setBankInput(value)
 
     if (value.trim() === '') {
@@ -77,14 +77,19 @@ const CardInfo = () => {
     setSuggestions(filteredBanks)
   }
 
-  const handleBankSelect = (bank: Bank) => {
+  const handleBankSelect = (bank: Bank): void => {
     setSelectedBank(bank)
     setBankInput(bank.bank_name)
     setSuggestions([])
   }
 
-  const handleSaveCardInfo = async () => {
-    if (isEmpty(cardNumber) || isEmpty(cardHolder) || isEmpty(expiryDate) || isEmpty(bankInput)) {
+  const handleSaveCardInfo = async (): Promise<void> => {
+    if (
+      isEmpty(cardNumber) ||
+      isEmpty(cardHolder) ||
+      isEmpty(expiryDate) ||
+      isEmpty(bankInput)
+    ) {
       Toast.show({
         position: 'top',
         text1: 'Thông báo!',
@@ -243,7 +248,11 @@ const CardInfo = () => {
         )}
 
         <PositiveButton
-          onPress={handleSaveCardInfo}
+          onPress={() =>
+            void handleSaveCardInfo().catch((e) => {
+              console.error(e)
+            })
+          }
           backgroundColor="blueSapphire"
           title="Lưu thông tin thẻ"
         />

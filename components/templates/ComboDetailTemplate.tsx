@@ -10,15 +10,12 @@ import LabelWithDescription from '~/components/molecules/LabelWithDescription'
 import LinearGradientBackground from '~/components/molecules/LinearGradientBackground'
 import OpeningHours from '~/components/molecules/OpeningHours'
 import OurServices from '~/components/molecules/OurServices'
-import OurSpecialist from '~/components/molecules/OurSpecialist'
 import ServiceCardTitle from '~/components/molecules/ServiceCardTitle'
 import TotalAmount from '~/components/molecules/TotalAmount'
 // import UserReviews from '~/components/molecules/UserReviews'
 import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
-
-import UserReviews from '../molecules/UserReviews'
 
 const ComboDetailTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)

@@ -10,6 +10,7 @@ export type headerProps = {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
   isHeaderCenter?: boolean
+  titleColor?: string
 } & XStackProps &
 TextProps
 
@@ -20,6 +21,7 @@ const AppHeader: React.FC<headerProps> = ({
   isHeaderCenter,
   fontFamily,
   onPress,
+  titleColor,
   ...props
 }) => {
   const { colorScheme } = useColorScheme()
@@ -30,7 +32,7 @@ const AppHeader: React.FC<headerProps> = ({
       {leftIcon}
       <Text
         onPress={isNil(isHeaderCenter) || !isHeaderCenter ? onPress : undefined}
-        color={colors.text}
+        color={isNil(titleColor) ? colors.text : titleColor}
         textAlign={!isNil(isHeaderCenter) && isHeaderCenter ? 'center' : 'left'}
         marginLeft={!isNil(isHeaderCenter) ? 0 : 10}
         fontSize={18}

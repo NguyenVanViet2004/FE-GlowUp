@@ -32,7 +32,10 @@ const userSlice = createSlice({
     setUser: (_, action: PayloadAction<User>) => {
       return action.payload
     },
-    updateCardInfo: (state, action: PayloadAction<Partial<User['result']['card_info']>>) => {
+    updateCardInfo: (
+      state,
+      action: PayloadAction<Partial<User['result']['card_info']>>
+    ) => {
       state.result.card_info = {
         bank: action?.payload?.bank ?? undefined,
         cardHolder: action?.payload?.cardHolder ?? '',
@@ -46,6 +49,7 @@ const userSlice = createSlice({
   }
 })
 
-export const { setUser, updateUser, resetUser, updateCardInfo } = userSlice.actions
+export const { setUser, updateUser, resetUser, updateCardInfo } =
+  userSlice.actions
 
 export default userSlice.reducer

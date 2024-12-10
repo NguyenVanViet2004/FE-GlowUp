@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight, Download } from '@tamagui/lucide-icons'
 import * as MediaLibrary from 'expo-media-library'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isEmpty, isNil } from 'lodash'
 import React, { useEffect, useRef, useState } from 'react'
 import { Alert } from 'react-native'
@@ -222,7 +221,11 @@ const CheckoutTemplate = (): React.ReactElement => {
           left={0}
           right={0}
           bottom={insets.bottom === 0 ? 20 : insets.bottom}
-          onPress={() => void handleSubmitPress().catch(e => { console.error(e) })}
+          onPress={() =>
+            handleSubmitPress().catch((e) => {
+              console.error(e)
+            })
+          }
         />
       )
     }
