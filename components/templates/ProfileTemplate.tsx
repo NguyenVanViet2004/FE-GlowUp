@@ -1,7 +1,7 @@
 import { LogOut } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
-import { isNil } from 'lodash'
-import React, { useLayoutEffect } from 'react'
+import { isEqual, isNil } from 'lodash'
+import React from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,7 +18,6 @@ import {
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
-import type User from '~/interfaces/User'
 import { type RootState } from '~/redux/store'
 
 const ProfileTemplate = (): React.ReactElement => {
@@ -71,7 +70,9 @@ const ProfileTemplate = (): React.ReactElement => {
             icon={<LogOut color={colors.text} />}
             justifyContent="center">
             <Text color={colors.text} fontWeight="600">
-              {isNil(userData) ? 'Đăng nhập' : t('screens.profile.logout')}
+              {isEqual(userData, INITIAL_USER_STATE)
+                ? 'Đăng nhập'
+                : t('screens.profile.logout')}
             </Text>
           </Button>
         </SafeAreaView>
