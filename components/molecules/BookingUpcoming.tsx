@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
@@ -105,11 +104,8 @@ const BookingUpcoming = (): React.ReactElement => {
             viewBookingPress={(id) => {
               viewBooking(id)
             }}
-          />
-        )
-        : (
-          <Text color={colors.text}>{t('booking.upcoming')}</Text>
-        )}
+          />)
+        : (<Text color={colors.text}>{t('booking.upcoming')}</Text>)}
     </View>
   )
 }

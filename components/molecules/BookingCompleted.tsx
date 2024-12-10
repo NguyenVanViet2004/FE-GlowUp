@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { isNil } from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Text, View } from 'tamagui'
@@ -20,7 +21,9 @@ const BookingCompleted = (): React.ReactElement => {
   const user = useSelector((state: RootState) => state.user.result)
 
   const CompletedAppointments = appointments.filter(
-    (item) => item.status === Status.COMPLETED && item.customer.id === user.id
+    (item) => item.status === Status.COMPLETED &&
+    !isNil(item.customer) &&
+    item.customer.id === user.id
   )
 
   if (isLoading) {

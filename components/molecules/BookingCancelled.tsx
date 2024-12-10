@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { isNil } from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Text, View } from 'tamagui'
@@ -19,7 +20,9 @@ const BookingCancelled = (): React.ReactElement => {
   const { appointments, isLoading } = useFetchAppointment()
   const user = useSelector((state: RootState) => state.user.result)
   const CancelledAppointments = appointments.filter(
-    (item) => item.status === Status.CANCELLED && item.customer.id === user.id
+    (item) => item.status === Status.CANCELLED &&
+    !isNil(item.customer) &&
+    item.customer.id === user.id
   )
 
   const viewBooking = (id: string): void => {
