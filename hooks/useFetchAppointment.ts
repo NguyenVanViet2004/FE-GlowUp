@@ -8,6 +8,7 @@ const useFetchAppointment = (): {
   appointments: Appointment[]
   isLoading: boolean
   refetch: () => Promise<void>
+  removeLocalAppointment: (id: string) => void
 } => {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -26,11 +27,22 @@ const useFetchAppointment = (): {
     }
   }, [])
 
+  const removeLocalAppointment = (id: string): void => {
+    setAppointments((prevAppointments) =>
+      prevAppointments.filter((appointment) => appointment.id !== id)
+    )
+  }
+
   useEffect(() => {
     fetchAppointments().catch((err) => { console.log(err) })
   }, [fetchAppointments])
 
-  return { appointments, isLoading, refetch: fetchAppointments }
+  return {
+    appointments,
+    isLoading,
+    refetch: fetchAppointments,
+    removeLocalAppointment
+  }
 }
 
 export default useFetchAppointment

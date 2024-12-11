@@ -13,7 +13,7 @@ export default interface User {
     full_name: string
     phone_number: string
     avatar: string | null
-    date_of_birth: Date | null
+    date_of_birth: string | null
     address: string | null
     createdAt: string
     updatedAt: string

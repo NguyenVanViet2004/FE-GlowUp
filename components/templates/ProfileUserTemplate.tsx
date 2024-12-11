@@ -7,7 +7,8 @@ import * as ImagePicker from 'expo-image-picker'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
-import { Alert } from 'react-native'
+import Toast from 'react-native-toast-message'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Avatar,
   Button,
@@ -20,27 +21,33 @@ import {
 import { request } from '~/apis/HttpClient'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
+import { resetUser, setUser } from '~/features/userSlice'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
 import type User from '~/interfaces/User'
+import { type RootState } from '~/redux/store'
 
 import InputWithIcons from '../atoms/InputWithIcons'
 import { PositiveButton } from '../atoms/PositiveButton'
+import AppModal from '../molecules/common/AppModal'
 const ProfileSettingTemplate = (): JSX.Element => {
   const fonts = useAppFonts()
   const colors = getColors(useColorScheme().colorScheme)
   const router = useExpoRouter()
   const leftIcon = <ChevronLeft size={25} onPress={() => router.goBack()} />
   const { t } = useTranslation()
-  const { getObjectItem } = useStorage()
   const [localUser, setLocalUser] = useState<User | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [avatarUrl, setAvatarUrl] =
   useState<string | null | undefined>(undefined)
   const [birthday, setBirthday] = useState<Date | undefined>(new Date())
   const [showDatePicker, setShowDatePicker] = useState(false)
+  const { setObjectItem, removeItem } = useStorage<string | object>()
+  const userDataCurrent = useSelector((state: RootState) => state.user)
+  const [isModalVisible, setIsModalVisible] = React.useState(false)
+  const dispatch = useDispatch()
 
   const handlePickImage = async (): Promise<void> => {
     const permissionResult =
@@ -65,18 +72,14 @@ const ProfileSettingTemplate = (): JSX.Element => {
 
   useLayoutEffect(() => {
     const fetchUserLocal = async (): Promise<void> => {
-      const userData = await getObjectItem('userData') as User
-      if (!isNil(userData)) {
-        setLocalUser(userData)
+      if (!isNil(userDataCurrent)) {
+        setLocalUser(userDataCurrent)
       }
-      console.log(userData)
-      setBirthday(new Date(userData.result.date_of_birth))
-      setAvatarUrl(userData.result.avatar)
+      setBirthday(new Date(userDataCurrent.result.date_of_birth))
+      setAvatarUrl(userDataCurrent.result.avatar)
     }
     fetchUserLocal().catch((e) => { console.error(e) })
   }, [])
-
-  const pencilIconColor = isEditing ? colors.red : colors.text
 
   const handleEditPress = (): void => {
     setIsEditing(!isEditing)
@@ -86,11 +89,35 @@ const ProfileSettingTemplate = (): JSX.Element => {
     setShowDatePicker(true)
   }
 
+  const handleLogout = async (): Promise<void> => {
+    dispatch(resetUser())
+    await removeItem('userData').catch((err) => { console.error(err) })
+    await removeItem('card_info').catch((err) => { console.error(err) })
+    router.navigate('/authentication/Login')
+    setIsModalVisible(false)
+  }
+
   const handleSaveChanges = async (userData: any): Promise<void> => {
     try {
       if (userData.result.full_name === undefined ||
-          userData.result.phone_number === undefined) {
-        Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin!')
+        userData.result.full_name.trim() === '') {
+        Toast.show({
+          position: 'top',
+          text1: 'Đã xảy ra lỗi!',
+          text2: 'Vui lòng điền đầy đủ họ tên',
+          type: 'error'
+        })
+        return
+      }
+
+      if (userData.result.address === undefined ||
+        userData.result.address.trim() === '') {
+        Toast.show({
+          position: 'top',
+          text1: 'Đã xảy ra lỗi!',
+          text2: 'Vui lòng điền đầy đủ quê quán',
+          type: 'error'
+        })
         return
       }
 
@@ -106,37 +133,44 @@ const ProfileSettingTemplate = (): JSX.Element => {
       const finalUserData = {
         ...updatedUserData,
         avatar: avatarUrl,
-        date_of_birth: birthday
+        date_of_birth: birthday?.toISOString()
       }
-
+      delete finalUserData.card_info
       const response =
       await request.patch(`/user/${userData.result.id}`, finalUserData)
 
       if (response?.success === true) {
         setIsEditing(false)
-        Alert.alert('Thành công', 'Thông tin đã được cập nhật!')
+        dispatch(setUser({ result: { ...userData.result, ...finalUserData } }))
+        await setObjectItem('userData',
+          { result: { ...userData.result, ...finalUserData } })
+        Toast.show({
+          position: 'top',
+          text1: 'Thành công',
+          text2: 'Thông tin đã được cập nhật',
+          type: 'success'
+        })
       } else {
         if (response?.message === 'Invalid access token!') {
-          Alert.alert(
-            'Hết hạn phiên đăng nhập',
-            'Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.',
-            [
-              {
-                onPress: () => {
-                  router.navigate('/authentication/Login')
-                },
-                text: 'Đăng nhập lại'
-              }
-            ]
-          )
+          setIsModalVisible(true)
         } else {
           console.error('Lỗi cập nhật:', response.message)
-          Alert.alert('Thất bại', response.message ?? 'Đã xảy ra lỗi!')
+          Toast.show({
+            position: 'top',
+            text1: 'Đã xảy ra lỗi!',
+            text2: response.message ?? 'Vui lòng điền đầy đủ quê quán',
+            type: 'error'
+          })
         }
       }
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu cập nhật:', error)
-      Alert.alert('Lỗi', 'Không thể cập nhật thông tin. Vui lòng thử lại.')
+      Toast.show({
+        position: 'top',
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Không thể cập nhật thông tin. Vui lòng thử lại.',
+        type: 'error'
+      })
     }
   }
 
@@ -188,7 +222,7 @@ const ProfileSettingTemplate = (): JSX.Element => {
             fontWeight="600"
             color={colors.text}
             textAlign="center">
-            {localUser?.result.full_name}
+            {userDataCurrent?.result.full_name}
           </Text>
         </View>
 
@@ -221,19 +255,22 @@ const ProfileSettingTemplate = (): JSX.Element => {
 
           <InputWithIcons
             label="Ngày sinh"
-            value={birthday !== undefined
-              ? birthday.toLocaleDateString()
-              : 'Chưa có ngày sinh'}
+            value={
+              birthday !== undefined
+                ? birthday.toLocaleDateString()
+                : 'Chưa có ngày sinh'
+            }
             editable={false}
             iconLeft={
-              isEditing && (
-                <AntDesign
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={handleDatePicker}
-                />
-              )
+              isEditing
+                ? (
+                  <AntDesign
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={handleDatePicker}
+                  />)
+                : undefined
             }
           />
 
@@ -245,9 +282,9 @@ const ProfileSettingTemplate = (): JSX.Element => {
               display="default"
               onChange={(event, selectedDate) => {
                 setShowDatePicker(false)
-                if (selectedDate) {
+                if (!isNil(selectedDate)) {
                   setBirthday(selectedDate)
-                  if (localUser) {
+                  if (localUser != null) {
                     setLocalUser({
                       ...localUser,
                       result: {
@@ -270,6 +307,20 @@ const ProfileSettingTemplate = (): JSX.Element => {
                 .catch((e) => { console.log(e) })
             }}/>
         )}
+        <AppModal
+          visible={isModalVisible}
+          title="Hết hạn phiên đăng nhập"
+          type="INFO"
+          ontClose={() => { setIsModalVisible(false) }}
+          subtitle="Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại."
+          cancelText="Hủy"
+          onCancel={() => { setIsModalVisible(false) }}
+          confirmText="Đăng xuất"
+          onConfirm={() => {
+            handleLogout().catch((e) => { console.error(e) })
+          }}
+        />
+
       </YStack>
     </GradientScrollContainer>
 
