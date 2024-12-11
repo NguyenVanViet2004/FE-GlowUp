@@ -7,6 +7,7 @@ import { Text, View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import Loading from '~/components/atoms/Loading'
+import AppModal from '~/components/molecules/common/AppModal'
 import BookingList from '~/components/organisms/BookingList'
 import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
@@ -14,7 +15,6 @@ import useFetchAppointment from '~/hooks/useFetchAppointment'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
-import AppModal from '~/components/molecules/common/AppModal'
 
 const BookingUpcoming = (): React.ReactElement => {
   const { t } = useTranslation()
