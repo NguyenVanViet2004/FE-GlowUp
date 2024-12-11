@@ -8,6 +8,7 @@ import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
 import { Alert } from 'react-native'
+import { err } from 'react-native-svg'
 import Toast from 'react-native-toast-message'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -22,7 +23,7 @@ import {
 import { request } from '~/apis/HttpClient'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
-import { setUser } from '~/features/userSlice'
+import { resetUser, setUser } from '~/features/userSlice'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
@@ -32,6 +33,7 @@ import { type RootState } from '~/redux/store'
 
 import InputWithIcons from '../atoms/InputWithIcons'
 import { PositiveButton } from '../atoms/PositiveButton'
+import AppModal from '../molecules/common/AppModal'
 const ProfileSettingTemplate = (): JSX.Element => {
   const fonts = useAppFonts()
   const colors = getColors(useColorScheme().colorScheme)
@@ -44,8 +46,9 @@ const ProfileSettingTemplate = (): JSX.Element => {
   useState<string | null | undefined>(undefined)
   const [birthday, setBirthday] = useState<Date | undefined>(new Date())
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const { setObjectItem } = useStorage<string | object>()
+  const { setObjectItem, removeItem } = useStorage<string | object>()
   const userDataCurrent = useSelector((state: RootState) => state.user)
+  const [isModalVisible, setIsModalVisible] = React.useState(false)
   const dispatch = useDispatch()
 
   const handlePickImage = async (): Promise<void> => {
@@ -86,6 +89,14 @@ const ProfileSettingTemplate = (): JSX.Element => {
 
   const handleDatePicker = (): void => {
     setShowDatePicker(true)
+  }
+
+  const handleLogout = async (): Promise<void> => {
+    dispatch(resetUser())
+    await removeItem('userData').catch((err) => { console.error(err) })
+    await removeItem('card_info').catch((err) => { console.error(err) })
+    router.navigate('/authentication/Login')
+    setIsModalVisible(false)
   }
 
   const handleSaveChanges = async (userData: any): Promise<void> => {
@@ -143,18 +154,7 @@ const ProfileSettingTemplate = (): JSX.Element => {
         })
       } else {
         if (response?.message === 'Invalid access token!') {
-          Alert.alert(
-            'Hết hạn phiên đăng nhập',
-            'Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.',
-            [
-              {
-                onPress: () => {
-                  router.navigate('/authentication/Login')
-                },
-                text: 'Đăng nhập lại'
-              }
-            ]
-          )
+          setIsModalVisible(true)
         } else {
           console.error('Lỗi cập nhật:', response.message)
           Toast.show({
@@ -309,6 +309,20 @@ const ProfileSettingTemplate = (): JSX.Element => {
                 .catch((e) => { console.log(e) })
             }}/>
         )}
+        <AppModal
+          visible={isModalVisible}
+          title="Hết hạn phiên đăng nhập"
+          type="INFO"
+          ontClose={() => { setIsModalVisible(false) }}
+          subtitle="Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại."
+          cancelText="Hủy"
+          onCancel={() => { setIsModalVisible(false) }}
+          confirmText="Đăng xuất"
+          onConfirm={() => {
+            handleLogout().catch((e) => { console.error(e) })
+          }}
+        />
+
       </YStack>
     </GradientScrollContainer>
 

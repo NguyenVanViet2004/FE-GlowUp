@@ -270,7 +270,7 @@ const CheckoutTemplate = (): React.ReactElement => {
               ? (
                 selectMethod === PaymentMethod.ONLINE
                   ? (
-                    bookingExample.payment_status === 'COMPLETED'
+                    bookingExample.payment_status === 'PAID'
                       ? (
                         <Text
                           textAlign="center"
