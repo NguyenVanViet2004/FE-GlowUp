@@ -23,7 +23,7 @@ const BookingCancelled = (): React.ReactElement => {
     (item) => item.status === Status.CANCELLED &&
     !isNil(item.customer) &&
     item.customer.id === user.id
-  )
+  ).reverse()
 
   const viewBooking = (id: string): void => {
     const viewCompletedAppointment = appointments.filter(

@@ -4,6 +4,7 @@ import { isNil } from 'lodash'
 import React, { useState } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { View } from 'tamagui'
 
@@ -134,14 +135,25 @@ const ChangePasswordTemplate = (): React.ReactElement => {
         `/auth/change-password/${userId}`,
         payload
       )
+
+      console.log(JSON.stringify(response, null, 2))
       if (response.success === true) {
-        Alert.alert(t('Thành công'), t('Đổi mật khẩu thành công'))
-        router.replace('/(tabs)/profile')
+        Toast.show({
+          text1: 'Thay đổi mật khẩu thành công',
+          type: 'success'
+        })
       } else {
-        setOldPasswordError('Mật khẩu hiện tại không chính xác!')
+        setOldPasswordError(response.message ?? 'Mật khẩu đang được sử dụng hoặc sai mật khẩu!')
+        setPasswordError(response.message ?? 'Mật khẩu đang được sử dụng hoặc sai mật khẩu!')
+        setConfirmPasswordError(response.message ?? 'Mật khẩu đang được sử dụng hoặc sai mật khẩu!')
       }
     } catch (err) {
-      Alert.alert(t('screens.signUp.false'), t('Đã xảy ra lỗi'))
+      console.error(err)
+      Toast.show({
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Vui lòng thử lại!',
+        type: 'error'
+      })
     } finally {
       setIsLoading(false)
     }

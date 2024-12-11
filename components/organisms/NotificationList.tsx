@@ -17,7 +17,7 @@ const NotificationList = (): React.ReactElement => {
   )
   const userDataNotification = notifications.filter(
     (item: any) => item.user_id === userId
-  )
+  ).reverse()
 
   if (isLoading) {
     return (

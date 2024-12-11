@@ -24,7 +24,7 @@ const BookingCompleted = (): React.ReactElement => {
     (item) => item.status === Status.COMPLETED &&
     !isNil(item.customer) &&
     item.customer.id === user.id
-  )
+  ).reverse()
 
   if (isLoading) {
     return <Loading />
