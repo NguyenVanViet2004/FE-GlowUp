@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { Alert } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { Text, View } from 'tamagui'
 
@@ -14,6 +14,7 @@ import useFetchAppointment from '~/hooks/useFetchAppointment'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
+import AppModal from '~/components/molecules/common/AppModal'
 
 const BookingUpcoming = (): React.ReactElement => {
   const { t } = useTranslation()
@@ -23,14 +24,15 @@ const BookingUpcoming = (): React.ReactElement => {
   const [isCanceling, setIsCanceling] = useState(false)
 
   const user = useSelector((state: RootState) => state.user.result)
+  const [isModalVisible, setIsModalVisible] = React.useState(false)
+  const [cancelId, setCancelId] = useState('')
 
-  const pendingAppointments = appointments
-    .filter(
-      (item) =>
-        item.status === Status.PENDING &&
+  const pendingAppointments = appointments.filter(
+    (item) =>
+      item.status === Status.PENDING &&
       !isNil(item.customer) &&
       item.customer.id === user.id
-    )
+  ).reverse()
   // .map((item) => ({
   //   ...item,
   //   payment_status:
@@ -38,39 +40,40 @@ const BookingUpcoming = (): React.ReactElement => {
   //       ? Status.CASH
   //       : item.payment_status,
   // }))
-  const handleCancelBooking = async (Id: string): Promise<void> => {
-    Alert.alert('Cảnh báo', 'Bạn chắc chắn muốn hủy lịch?', [
-      {
-        style: 'cancel',
-        text: 'Hủy'
-      },
-      {
-        onPress: () => {
-          const cancelBooking = async (): Promise<void> => {
-            try {
-              setIsCanceling(true)
-              const response = await request.get(
-                `booking/cancel?phone=${user.phone_number}&booking_id=${Id}`
-              )
-              if (response.success === true) {
-                await refetch()
-                setIsCanceling(false)
-              }
-            } catch (error) {
-              console.error(error)
-              setIsCanceling(false)
-            }
-          }
 
-          // Call the async function
-          cancelBooking().catch((err) => {
-            console.log(err)
-          })
-        },
-        // Use an inline function to handle the async operation
-        text: 'Đồng ý'
+  const confirmCancelBooking = async (): Promise<void> => {
+    try {
+      setIsCanceling(true)
+      const response = await request.get(
+        `booking/cancel?phone=${user.phone_number}&booking_id=${cancelId}`
+      )
+      if (response.success === true) {
+        await refetch()
+        Toast.show({
+          position: 'top',
+          text1: 'Bạn đã huỷ lịch hẹn thành công!',
+          type: 'success'
+        })
+      } else {
+        setIsModalVisible(false)
+        Toast.show({
+          position: 'top',
+          text1: 'Đã có lỗi xảy ra!',
+          text2: 'Vui lòng thử lại sau!',
+          type: 'error'
+        })
       }
-    ])
+    } catch (error) {
+      console.error(error)
+      Toast.show({
+        position: 'top',
+        text1: 'Đã có lỗi xảy ra!',
+        text2: 'Vui lòng thử lại sau!',
+        type: 'error'
+      })
+    }
+    setIsCanceling(false)
+    setIsModalVisible(false)
   }
 
   const viewBooking = (id: string): void => {
@@ -93,9 +96,8 @@ const BookingUpcoming = (): React.ReactElement => {
         ? (
           <BookingList
             cancellPress={(id) => {
-              handleCancelBooking(id).catch((err) => {
-                console.log(err)
-              })
+              setIsModalVisible(true)
+              setCancelId(id)
             }}
             dataCombo={pendingAppointments}
             visibleTextCancel={false}
@@ -106,6 +108,18 @@ const BookingUpcoming = (): React.ReactElement => {
             }}
           />)
         : (<Text color={colors.text}>{t('booking.upcoming')}</Text>)}
+
+      <AppModal
+        visible={isModalVisible}
+        title="Cảnh báo!"
+        type="INFO"
+        ontClose={() => { setIsModalVisible(false) }}
+        subtitle="Bạn có chắc chắn muốn huỷ lịch hẹn này không?"
+        cancelText="Hủy"
+        onCancel={() => { setIsModalVisible(false) }}
+        confirmText="Chắc chắn"
+        onConfirm={confirmCancelBooking}
+      />
     </View>
   )
 }

@@ -221,10 +221,11 @@ const CheckoutTemplate = (): React.ReactElement => {
           left={0}
           right={0}
           bottom={insets.bottom === 0 ? 20 : insets.bottom}
-          onPress={() =>
+          onPress={async () => {
             handleSubmitPress().catch((e) => {
               console.error(e)
             })
+          }
           }
         />
       )

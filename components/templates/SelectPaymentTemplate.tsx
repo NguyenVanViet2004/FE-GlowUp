@@ -75,23 +75,24 @@ const SelectPaymentTemplate = (): React.ReactElement => {
       <GradientScrollContainer
         // positionT={true}
         isHeaderCenter
-        headerTitle={t("selectPaymentMethod.selectPaymentMethod")}
+        headerTitle={t('selectPaymentMethod.selectPaymentMethod')}
         leftIcon={leftIcon}>
         {/* <View flex={1}> */}
         <PaymentMethodList onMethodChange={handleMethodChange} />
         {/* </View> */}
       </GradientScrollContainer>
       <PositiveButton
-        title={t("selectPaymentMethod.payNow")}
+        title={t('selectPaymentMethod.payNow')}
         marginHorizontal={20}
-        position='absolute'
+        position="absolute"
         left={0}
         right={0}
         bottom={insets.bottom === 0 ? 20 : insets.bottom}
-        onPress={() =>
-          handleSubmitPress().catch((e) => {
+        onPress={async () => {
+          await handleSubmitPress().catch((e) => {
             console.error(e)
           })
+        }
         }
       />
     </>

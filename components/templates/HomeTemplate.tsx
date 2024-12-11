@@ -77,8 +77,7 @@ const HomeTemplate = (): React.ReactElement => {
 
       <MemoizedBanner
         marginTop={15}
-        img={bannerData?.banner[0] ??
-          require('~/assets/images/imgBanner.png')}
+        img={require('~/assets/images/imgBanner.png')}
         nameCombo={bannerData?.name ?? ''}
         percent="20"
       />

@@ -31,12 +31,15 @@ const ProfileTemplate = (): React.ReactElement => {
   const userData = useSelector((state: RootState) => state.user)
 
   const handlePressLoginOrLogOut = (): void => {
-    if (!isNil(userData)) {
+    if (!isNil(userData) && !isEqual(userData, INITIAL_USER_STATE)) {
       Alert.alert(t('common.warning'), t('common.doYouWantToLogout'), [
         {
           onPress: () => {
             dispatch(resetUser())
             removeItem('userData').catch((err) => {
+              console.log(err)
+            })
+            removeItem('card_info').catch((err) => {
               console.log(err)
             })
 

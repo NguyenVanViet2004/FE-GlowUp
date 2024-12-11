@@ -6,18 +6,12 @@ import {
 import { SplashScreen, Stack } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useEffect } from 'react'
-import {
-  Modal,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import { StatusBar } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { Provider } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
 
+import AppModal from '~/components/molecules/common/AppModal'
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
@@ -190,31 +184,16 @@ function RootLayoutNav (): React.ReactElement {
         </ThemeProvider>
       </TamaguiProvider>
 
-      <Modal
+      <AppModal
         visible={isModalVisible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={handleCloseModal}>
-        <View style={styles.modalBackground}>
-          <View
-            style={[
-              styles.modalContainer,
-              { backgroundColor: colors.lightMist }
-            ]}>
-            <Text style={[styles.modalTitle, { color: colors.text }]}>
-              {titleNotify}
-            </Text>
-            <Text style={[styles.modalMessage, { color: colors.text }]}>
-              {message}
-            </Text>
-            <TouchableOpacity
-              onPress={handleCloseModal}
-              style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>Đóng</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        ontClose={handleCloseModal}
+        // type='SUCCESS'
+        title={titleNotify}
+        subtitle={message}
+        cancelText="Đóng"
+        cancelColor={colors.white}
+        onCancel={handleCloseModal}
+      />
 
       <Toast />
       <StatusBar
@@ -223,38 +202,3 @@ function RootLayoutNav (): React.ReactElement {
     </>
   )
 }
-/* eslint-disable */
-const styles = StyleSheet.create({
-  closeButton: {
-    backgroundColor: '#007bff',
-    borderRadius: 5,
-    padding: 10
-  },
-  closeButtonText: {
-    color: 'white',
-    fontSize: 16
-  },
-  modalBackground: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    flex: 1,
-    justifyContent: 'center'
-  },
-  modalContainer: {
-    alignItems: 'center',
-    borderRadius: 10,
-    padding: 20,
-    width: '80%'
-  },
-  modalMessage: {
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: 'center'
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10
-  }
-})
-/* eslint-enable */
