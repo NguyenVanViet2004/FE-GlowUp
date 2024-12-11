@@ -7,8 +7,6 @@ import * as ImagePicker from 'expo-image-picker'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
-import { Alert } from 'react-native'
-import { err } from 'react-native-svg'
 import Toast from 'react-native-toast-message'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -137,7 +135,7 @@ const ProfileSettingTemplate = (): JSX.Element => {
         avatar: avatarUrl,
         date_of_birth: birthday?.toISOString()
       }
-
+      delete finalUserData.card_info
       const response =
       await request.patch(`/user/${userData.result.id}`, finalUserData)
 
