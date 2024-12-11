@@ -293,10 +293,10 @@ const CheckoutTemplate = (): React.ReactElement => {
                       Bạn sẽ thanh toán khi thực hiện xong các bước
                       tại salon. Vui lòng đến đúng giờ.
                     </Text>)
-             )
+                )
               : (
                 renderPaymentMethods()
-            )}
+                )}
           </View>
 
           <View gap={5} justifyContent="center" alignItems="center" mt={10}>
