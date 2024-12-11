@@ -1,6 +1,7 @@
+import { useFocusEffect } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { Text, View } from 'tamagui'
@@ -20,19 +21,31 @@ const BookingUpcoming = (): React.ReactElement => {
   const { t } = useTranslation()
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
-  const { appointments, isLoading, refetch } = useFetchAppointment()
-  const [isCanceling, setIsCanceling] = useState(false)
-
+  const
+    {
+      appointments,
+      isLoading,
+      removeLocalAppointment,
+      refetch
+    } = useFetchAppointment()
   const user = useSelector((state: RootState) => state.user.result)
   const [isModalVisible, setIsModalVisible] = React.useState(false)
   const [cancelId, setCancelId] = useState('')
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch().catch((err) => {
+        console.error('Error refetching appointments:', err)
+      })
+    }, [refetch])
+  )
 
   const pendingAppointments = appointments.filter(
     (item) =>
       item.status === Status.PENDING &&
       !isNil(item.customer) &&
       item.customer.id === user.id
-  ).reverse()
+  )
   // .map((item) => ({
   //   ...item,
   //   payment_status:
@@ -41,14 +54,13 @@ const BookingUpcoming = (): React.ReactElement => {
   //       : item.payment_status,
   // }))
 
-  const confirmCancelBooking = async (): Promise<void> => {
+  const confirmCancelBooking = async (id: string): Promise<void> => {
     try {
-      setIsCanceling(true)
+      removeLocalAppointment(id)
       const response = await request.get(
         `booking/cancel?phone=${user.phone_number}&booking_id=${cancelId}`
       )
       if (response.success === true) {
-        await refetch()
         Toast.show({
           position: 'top',
           text1: 'Bạn đã huỷ lịch hẹn thành công!',
@@ -72,7 +84,6 @@ const BookingUpcoming = (): React.ReactElement => {
         type: 'error'
       })
     }
-    setIsCanceling(false)
     setIsModalVisible(false)
   }
 
@@ -86,7 +97,7 @@ const BookingUpcoming = (): React.ReactElement => {
     })
   }
 
-  if (isLoading || isCanceling) {
+  if (isLoading) {
     return <Loading />
   }
 
@@ -118,7 +129,7 @@ const BookingUpcoming = (): React.ReactElement => {
         cancelText="Hủy"
         onCancel={() => { setIsModalVisible(false) }}
         confirmText="Chắc chắn"
-        onConfirm={confirmCancelBooking}
+        onConfirm={async () => { await confirmCancelBooking(cancelId) }}
       />
     </View>
   )
