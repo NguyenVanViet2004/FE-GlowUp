@@ -73,7 +73,11 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
             </XStack>
             <XStack mb={5}>
               <Text fontSize={16} color={colors.text}>
-                {t('booking.total')}: ${bookingData.totalPrice}
+                {t('booking.total')}:
+                {Number(bookingData.totalPrice).toLocaleString('vi-VN', {
+                  currency: 'VND',
+                  style: 'currency'
+                })}
               </Text>
             </XStack>
           </YStack>

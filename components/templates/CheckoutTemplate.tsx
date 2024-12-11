@@ -35,7 +35,7 @@ const CheckoutTemplate = (): React.ReactElement => {
   const insets = useSafeAreaInsets()
   const colors = getColors(useColorScheme().colorScheme)
   const router = useRouter()
-  const [selectMethod, setSelectMethod] = useState<string>('')
+  const [selectMethod, setSelectMethod] = useState<string | undefined>('')
   const leftIcon = (
     <ChevronLeft
       color={colors.text}
@@ -57,13 +57,9 @@ const CheckoutTemplate = (): React.ReactElement => {
   useEffect(() => {
     const fetchMethod = async (): Promise<void> => {
       const method = await getItem(`SELECTED_METHOD_${bookingExample.id}`)
-      if (!isNil(method)) {
-        setSelectMethod(method)
-      }
-      console.log('METHOD:  ', selectMethod)
+      setSelectMethod(method)
     }
     fetchMethod().catch((e) => { console.error(e) })
-    console.log('BOOKING:  ', bookingExample)
   }, [])
 
   const bookingData = [
@@ -276,33 +272,31 @@ const CheckoutTemplate = (): React.ReactElement => {
                   ? (
                     bookingExample.payment_status === 'COMPLETED'
                       ? (
-                            <Text
+                        <Text
                           textAlign="center"
                           color={colors.blueSapphire}
                           fontFamily={fonts.fonts.JetBrainsMonoBold}
                           marginBottom={10}
                         >
                           Bạn đã thanh toán. Vui lòng đến đúng giờ.
-                        </Text>
-                      )
+                        </Text>)
                       : (
-                        renderPaymentMethods()
-                      )
+                        renderPaymentMethods())
                   )
                   : (
-                      <Text
+                    <Text
                       textAlign="center"
                       color={colors.blueSapphire}
                       fontFamily={fonts.fonts.JetBrainsMonoBold}
                       marginBottom={10}
                     >
-                      Bạn sẽ thanh toán khi thực hiện xong các bước tại salon. Vui lòng đến đúng giờ.
-                    </Text>
-                  )
-              )
+                      Bạn sẽ thanh toán khi thực hiện xong các bước
+                      tại salon. Vui lòng đến đúng giờ.
+                    </Text>)
+             )
               : (
                 renderPaymentMethods()
-              )}
+            )}
           </View>
 
           <View gap={5} justifyContent="center" alignItems="center" mt={10}>

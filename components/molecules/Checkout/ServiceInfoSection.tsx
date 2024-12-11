@@ -37,7 +37,10 @@ const ServiceInfoSection: React.FC<props> = ({ booking }) => {
           <Text
             color={colors.blueSapphire}
             fontFamily={fonts.fonts.JetBrainsMonoBold}>
-            ${step.price}
+            {Number(step.price).toLocaleString('vi-VN', {
+              currency: 'VND',
+              style: 'currency'
+            })}
           </Text>
         </XStack>
       ))}
