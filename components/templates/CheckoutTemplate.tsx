@@ -25,7 +25,6 @@ import { PaymentMethod } from '~/interfaces/enum/Payment'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
 import {
-  extractTimeWithPeriod,
   formatDateToLongForm
 } from '~/utils/formatDateToLongForm'
 
@@ -35,6 +34,19 @@ const CheckoutTemplate = (): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)
   const router = useRouter()
   const [selectMethod, setSelectMethod] = useState<string | undefined>('')
+
+  const extractTimeWithPeriod = (startTime: string): string => {
+    const date = new Date(startTime)
+    const hours = date.getUTCHours()
+    const minutes = date.getUTCMinutes()
+
+    const period = hours >= 12 ? 'PM' : 'AM'
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
+
+    return `${formattedHours}:${formattedMinutes} ${period}`
+  }
+
   const leftIcon = (
     <ChevronLeft
       color={colors.text}
@@ -74,7 +86,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.startTime'),
-      value: extractTimeWithPeriod(boking[0].start_time as string),
+      value: extractTimeWithPeriod(bookingExample.start_time as string),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold

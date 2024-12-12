@@ -70,7 +70,6 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   }, [])
 
   const onPayment = async (): Promise<void> => {
-    console.log(isNil(selectedDay), isNil(selectedTime), isNil(selectedStylist))
     if (isNil(selectedDay)) {
       Toast.show({
         position: 'top',
@@ -110,13 +109,16 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       `${selectedDay} ${selectedTime}`,
       'YYYY-MM-DD hh:mm A'
     ).tz(dayjs.tz.guess(), true)
+
+    const endTime = new Date(
+      startTime.toDate().getTime() + parsedItem.total_time * 60000
+    )
+
     const payload = {
       combo_id: parsedItem?.id,
       customer_id: user?.result?.id,
-      end_time: new Date(
-        startTime.toDate().getTime() + parsedItem.total_time * 60000
-      ),
-      start_time: startTime.toDate(),
+      end_time: endTime.toISOString(),
+      start_time: startTime,
       stylist_id: selectedStylist?.id
     }
 
