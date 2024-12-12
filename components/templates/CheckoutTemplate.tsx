@@ -3,7 +3,6 @@ import * as MediaLibrary from 'expo-media-library'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { isEmpty, isNil } from 'lodash'
 import React, { useEffect, useRef, useState } from 'react'
-import { Alert } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
@@ -153,17 +152,10 @@ const CheckoutTemplate = (): React.ReactElement => {
   const handleSubmitPress = async (): Promise<void> => {
     if (selectedMethodID === 'cash') {
       await setItem(`SELECTED_METHOD_${bookingExample.id}`, PaymentMethod.CASH)
-      Alert.alert(t('booking.success'), t('booking.successMessage'), [
-        {
-          onPress: () => {
-            router.push({
-              params: { bookingInfo: JSON.stringify(bookingExample) },
-              pathname: '/checkout/BookingConfirmation'
-            })
-          },
-          text: t('ok')
-        }
-      ])
+      router.push({
+        params: { bookingInfo: JSON.stringify(bookingExample) },
+        pathname: '/checkout/BookingConfirmation'
+      })
     } else if (selectedMethodID === 'online') {
       await setItem(`SELECTED_METHOD_${bookingExample.id}`,
         PaymentMethod.ONLINE)

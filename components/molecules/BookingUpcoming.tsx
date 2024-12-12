@@ -45,7 +45,7 @@ const BookingUpcoming = (): React.ReactElement => {
       item.status === Status.PENDING &&
       !isNil(item.customer) &&
       item.customer.id === user.id
-  )
+  ).reverse()
   // .map((item) => ({
   //   ...item,
   //   payment_status:
@@ -57,6 +57,7 @@ const BookingUpcoming = (): React.ReactElement => {
   const confirmCancelBooking = async (id: string): Promise<void> => {
     try {
       removeLocalAppointment(id)
+      setIsModalVisible(false)
       const response = await request.get(
         `booking/cancel?phone=${user.phone_number}&booking_id=${cancelId}`
       )
