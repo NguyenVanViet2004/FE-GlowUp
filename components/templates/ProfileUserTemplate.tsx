@@ -121,47 +121,79 @@ const ProfileSettingTemplate = (): JSX.Element => {
         return
       }
 
-      const {
-        id,
-        role,
-        createdAt,
-        updatedAt,
-        notify_token,
-        phone_number,
-        ...updatedUserData
-      } = userData.result
-      const finalUserData = {
-        ...updatedUserData,
-        avatar: avatarUrl,
-        date_of_birth: birthday?.toISOString()
-      }
-      delete finalUserData.card_info
-      const response =
-      await request.patch(`/user/${userData.result.id}`, finalUserData)
+      const formData = new FormData()
+      formData.append('picture', {
+        name: 'avatar.jpg',
+        type: 'image/jpeg',
+        uri: avatarUrl
+      })
 
-      if (response?.success === true) {
-        setIsEditing(false)
-        dispatch(setUser({ result: { ...userData.result, ...finalUserData } }))
-        await setObjectItem('userData',
-          { result: { ...userData.result, ...finalUserData } })
-        Toast.show({
-          position: 'top',
-          text1: 'Thành công',
-          text2: 'Thông tin đã được cập nhật',
-          type: 'success'
-        })
-      } else {
-        if (response?.message === 'Invalid access token!') {
-          setIsModalVisible(true)
-        } else {
-          console.error('Lỗi cập nhật:', response.message)
+      const response1 = await request.patch(
+        `/user/update-avatar/${userData.result.id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      )
+
+      if (response1?.success === true) {
+        const {
+          avatar,
+          id,
+          role,
+          createdAt,
+          updatedAt,
+          notify_token,
+          phone_number,
+          ...updatedUserData
+        } = userData.result
+
+        const finalUserData = {
+          ...updatedUserData,
+          avatar: response1.data.avatar,
+          date_of_birth: birthday?.toISOString()
+        }
+
+        delete finalUserData.card_info
+
+        const response2 =
+        await request.patch(`/user/${userData.result.id}`, finalUserData)
+        if (response2?.success === true) {
+          setIsEditing(false)
+          const updatedData =
+          { result: { ...userData.result, ...finalUserData } }
+          dispatch(setUser(updatedData))
+          await setObjectItem('userData', updatedData)
+
           Toast.show({
             position: 'top',
-            text1: 'Đã xảy ra lỗi!',
-            text2: response.message ?? 'Vui lòng điền đầy đủ quê quán',
-            type: 'error'
+            text1: 'Thành công',
+            text2: 'Thông tin đã được cập nhật',
+            type: 'success'
           })
+        } else {
+          if (response2?.message === 'Invalid access token!') {
+            setIsModalVisible(true)
+          } else {
+            console.error('Lỗi cập nhật:', response2.message)
+            Toast.show({
+              position: 'top',
+              text1: 'Đã xảy ra lỗi!',
+              text2: response2.message ?? 'Vui lòng điền đầy đủ quê quán',
+              type: 'error'
+            })
+          }
         }
+      } else {
+        console.error('Lỗi cập nhật avatar:', response1?.message)
+        Toast.show({
+          position: 'top',
+          text1: 'Đã xảy ra lỗi!',
+          text2: response1?.message ?? 'Không thể cập nhật avatar',
+          type: 'error'
+        })
       }
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu cập nhật:', error)
