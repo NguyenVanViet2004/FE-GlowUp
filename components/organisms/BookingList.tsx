@@ -75,7 +75,7 @@ const RenderBookingItem = ({
                   'vi-VN', { currency: 'VND', style: 'currency' })}
             </Text>
             <Text color={colors.text} fontFamily={fonts.JetBrains}>
-              Nhân viên: {item.stylist.full_name}
+              Nhân viên: {item.stylist.full_name ?? ''}
             </Text>
             {/* <Text>{item.rate}</Text> */}
           </YStack>

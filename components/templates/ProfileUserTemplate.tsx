@@ -187,13 +187,17 @@ const ProfileSettingTemplate = (): JSX.Element => {
           }
         }
       } else {
-        console.error('Lỗi cập nhật avatar:', response1?.message)
-        Toast.show({
-          position: 'top',
-          text1: 'Đã xảy ra lỗi!',
-          text2: response1?.message ?? 'Không thể cập nhật avatar',
-          type: 'error'
-        })
+        if (response1?.message === 'Invalid access token!') {
+          setIsModalVisible(true)
+        } else {
+          console.error('Lỗi cập nhật avatar:', response1?.message)
+          Toast.show({
+            position: 'top',
+            text1: 'Đã xảy ra lỗi!',
+            text2: response1?.message ?? 'Không thể cập nhật avatar',
+            type: 'error'
+          })
+        }
       }
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu cập nhật:', error)
