@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight, Download } from '@tamagui/lucide-icons'
+import dayjs from 'dayjs'
 import * as MediaLibrary from 'expo-media-library'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { isEmpty, isNil } from 'lodash'
@@ -64,7 +65,9 @@ const CheckoutTemplate = (): React.ReactElement => {
 
   const bookingExample = !isNil(boking[0]) ? boking[0] : []
   const user = useSelector((state: RootState) => state.user)
-
+  const bookTime = bookingExample.start_time
+  const vietnamTime = dayjs(bookTime)
+    .tz('Asia/Ho_Chi_Minh', true).format('YYYY-MM-DDTHH:mm:ss[Z]')
   useEffect(() => {
     const fetchMethod = async (): Promise<void> => {
       const method = await getItem(`SELECTED_METHOD_${bookingExample.id}`)
@@ -77,7 +80,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: 2,
       label: t('booking.date'),
-      value: formatDateToLongForm(boking[0].start_time as string),
+      value: formatDateToLongForm(vietnamTime),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -86,7 +89,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.startTime'),
-      value: extractTimeWithPeriod(bookingExample.start_time as string),
+      value: extractTimeWithPeriod(vietnamTime),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
