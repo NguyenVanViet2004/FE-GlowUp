@@ -8,7 +8,6 @@ import { useLocalSearchParams } from 'expo-router'
 import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
-import { Alert } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 
@@ -105,20 +104,22 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
 
     if (isNil(parsedItem)) return
 
-    const startTime = dayjs(
+    const startTime = dayjs.tz(
       `${selectedDay} ${selectedTime}`,
-      'YYYY-MM-DD hh:mm A'
-    ).tz(dayjs.tz.guess(), true)
-
-    const endTime = new Date(
-      startTime.toDate().getTime() + parsedItem.total_time * 60000
+      'YYYY-MM-DD hh:mm A',
+      'Asia/Ho_Chi_Minh'
     )
+
+    const endTime = startTime.add(parsedItem.total_time, 'minute')
+
+    const startTimeUTC = startTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
+    const endTimeUTC = endTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
 
     const payload = {
       combo_id: parsedItem?.id,
       customer_id: user?.result?.id,
-      end_time: endTime.toISOString(),
-      start_time: startTime,
+      end_time: endTimeUTC,
+      start_time: startTimeUTC,
       stylist_id: selectedStylist?.id
     }
 
@@ -133,7 +134,12 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
           pathname: '/checkout/BookingCheckout'
         })
       } else {
-        Alert.alert(response.message ?? '')
+        Toast.show({
+          position: 'top',
+          text1: 'Đã có lỗi xảy ra!',
+          text2: response.message ?? 'Vui lòng thử lại sau!',
+          type: 'error'
+        })
       }
     } catch (error) {
       console.error('Error push booking', error)
