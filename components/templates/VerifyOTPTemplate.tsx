@@ -1,8 +1,9 @@
 import { ChevronLeft, Verified } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { Alert, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
@@ -76,10 +77,12 @@ const VerifyOTPTemplate = (): React.ReactElement => {
         setOtpError('OTP không hợp lệ')
       }
     } catch (err) {
-      Alert.alert(
-        t('screens.signUp.false'),
-        t('Đã xảy ra lỗi')
-      )
+      Toast.show({
+        position: 'top',
+        text1: 'Thất bại',
+        text2: 'Đã xảy ra lỗi',
+        type: 'error'
+      })
     } finally {
       setIsLoading(false)
     }
@@ -94,10 +97,12 @@ const VerifyOTPTemplate = (): React.ReactElement => {
       setTimer(60) // Reset bộ đếm
       setIsResendDisabled(true)
     } catch (err) {
-      Alert.alert(
-        t('screens.signUp.false'),
-        t('Gửi OTP Thất bại')
-      )
+      Toast.show({
+        position: 'top',
+        text1: 'Thất bại',
+        text2: 'Gửi OTP Thất bại',
+        type: 'error'
+      })
     }
   }
 

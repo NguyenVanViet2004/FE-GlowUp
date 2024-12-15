@@ -1,7 +1,7 @@
 import { ChevronLeft } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useRef } from 'react'
-import { Alert, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { WebView, type WebViewMessageEvent } from 'react-native-webview'
 import { useSelector } from 'react-redux'
@@ -12,10 +12,12 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import { type RootState } from '~/redux/store'
 
 import AppHeader from '../molecules/common/AppHeader'
+import AppModal from '../molecules/common/AppModal'
 
 const WebviewTemplate = (): React.ReactElement => {
   const { url } = useLocalSearchParams<{ url: string }>()
   console.log(JSON.stringify(url, null, 2))
+  const [isModalVisible, setIsModalVisible] = React.useState(false)
   const router = useRouter()
 
   const webViewRef = useRef<WebView>(null)
@@ -42,6 +44,10 @@ const WebviewTemplate = (): React.ReactElement => {
 
   if (url === null) {
     return <Loading />
+  }
+
+  const back = (): void => {
+    router.replace('/(tabs)/booking')
   }
 
   return (
@@ -79,22 +85,25 @@ const WebviewTemplate = (): React.ReactElement => {
         onError={(syntheticEvent) => {
           const { nativeEvent } = syntheticEvent
           console.error(nativeEvent)
-          Alert.alert(
-            'Kết nối thất bại',
-            'Không thể kết nối đến máy chủ. ' +
-              'Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau.',
-            [
-              {
-                onPress: () => {
-                  router.replace('/(tabs)/booking')
-                },
-                text: 'Quay lại'
-              },
-              { style: 'cancel', text: 'Hủy' }
-            ]
-          )
+          setIsModalVisible(true)
         }}
         injectedJavaScript={injectCardInfo()}
+      />
+      <AppModal
+        visible={isModalVisible}
+        title="Kết nối thất bại"
+        type="INFO"
+        ontClose={() => {
+          setIsModalVisible(false)
+        }}
+        subtitle="Không thể kết nối đến máy chủ.
+        Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau."
+        cancelText="Hủy"
+        onCancel={() => {
+          setIsModalVisible(false)
+        }}
+        confirmText="Quay lại"
+        onConfirm={back}
       />
     </>
   )

@@ -1,7 +1,7 @@
 import * as Location from 'expo-location'
 import { isNil } from 'lodash'
 import { useState } from 'react'
-import { Alert } from 'react-native'
+import Toast from 'react-native-toast-message'
 
 import { usePermissions } from '~/hooks/usePermissions'
 
@@ -60,7 +60,12 @@ export const useUserLocation = (): UseUserLocationResult => {
       if (!isNil(permissionStatus) && !permissionStatus.granted) {
         setLocation(null) // Ensures location state is reset if permission is denied
         setAddress(null) // Ensures address state is reset if permission is denied
-        Alert.alert('Error', errorMsg ?? '')
+        Toast.show({
+          position: 'top',
+          text1: 'Thất bại',
+          text2: errorMsg ?? '',
+          type: 'error'
+        })
         return
       }
 
@@ -81,12 +86,22 @@ export const useUserLocation = (): UseUserLocationResult => {
         } = reverseGeocodeResult[0]
         setAddress({ city, country, postalCode, region, street })
       } else {
-        Alert.alert('Error', 'No address found for the given coordinates')
+        Toast.show({
+          position: 'top',
+          text1: 'Thất bại',
+          text2: 'Không tìm thấy địa chỉ cho tọa độ đã cho',
+          type: 'error'
+        })
         setAddress(null)
       }
     } catch (error) {
       console.error('Error fetching location or address:', error)
-      Alert.alert('Fetching location or address', errorMsg ?? '')
+      Toast.show({
+        position: 'top',
+        text1: 'Thất bại',
+        text2: errorMsg ?? '',
+        type: 'error'
+      })
     }
   }
 
