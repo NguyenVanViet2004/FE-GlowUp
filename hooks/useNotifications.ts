@@ -4,6 +4,7 @@ import * as Notifications from 'expo-notifications'
 import { isNil } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 import { Alert, Platform } from 'react-native'
+import Toast from 'react-native-toast-message'
 
 import useTranslation from '~/hooks/useTranslation'
 
@@ -39,7 +40,12 @@ const useNotifications = (): {
           finalStatus = status
         }
         if (finalStatus !== 'granted') {
-          Alert.alert(t('notification.permissionNotGranted'))
+          Toast.show({
+            position: 'top',
+            text1: 'Thất bại',
+            text2: 'Chưa được cấp quyền',
+            type: 'error'
+          })
           return
         }
 
@@ -57,7 +63,12 @@ const useNotifications = (): {
           console.error(error)
         }
       } else {
-        Alert.alert(t('notification.mustUsePhysicalDevice'))
+        Toast.show({
+          position: 'top',
+          text1: 'Thất bại',
+          text2: 'Phải sử dụng thiết bị vật lí',
+          type: 'error'
+        })
       }
     }
 

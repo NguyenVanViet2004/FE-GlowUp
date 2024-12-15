@@ -23,7 +23,13 @@ const Summary: React.FC<SummaryProps> = ({ booking, colors, fonts, t }) => {
     // { label: t('booking.subTotal'), value: `$${combo.price}` },
     // { label: t('booking.discount'), value: `${combo.voucher?.percent ?? 0}%` },
     // { label: t('booking.total'), value: `$${total}` }
-    { label: t('booking.total'), value: `$${booking.total_price}` }
+    {
+      label: t('booking.total'),
+      value: `${Number(booking.total_price).toLocaleString('vi-VN', {
+        currency: 'VND',
+        style: 'currency'
+      })}`
+    }
   ]
 
   return (

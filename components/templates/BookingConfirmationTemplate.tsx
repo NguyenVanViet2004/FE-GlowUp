@@ -22,7 +22,7 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
   console.log('Data: ', parseBooking)
   const bookingData = {
     bookingTime: new Date(parseBooking.start_time).toLocaleString(),
-    customerName: parseBooking.customer.full_name ?? 'N/A',
+    customerName: parseBooking.customer?.full_name ?? 'N/A',
     services:
       parseBooking.combo.services?.map((service) => service.name).join(', ') ??
       'N/A',
@@ -73,7 +73,11 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
             </XStack>
             <XStack mb={5}>
               <Text fontSize={16} color={colors.text}>
-                {t('booking.total')}: ${bookingData.totalPrice}
+                {t('booking.total')}:
+                {Number(bookingData.totalPrice).toLocaleString('vi-VN', {
+                  currency: 'VND',
+                  style: 'currency'
+                })}
               </Text>
             </XStack>
           </YStack>

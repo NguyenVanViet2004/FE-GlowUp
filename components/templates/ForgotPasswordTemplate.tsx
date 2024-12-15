@@ -1,8 +1,9 @@
 import { ChevronLeft, Phone } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { Alert, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
@@ -59,10 +60,12 @@ const ForgotTemplate = (): React.ReactElement => {
         pathname: '/authentication/VerifyOTP'
       })
     } catch (err) {
-      Alert.alert(
-        t('screens.signUp.false'),
-        t('Gửi OTP Thất bại')
-      )
+      Toast.show({
+        position: 'top',
+        text1: 'Thất bại',
+        text2: 'Gửi OTP Thất bại',
+        type: 'error'
+      })
     } finally {
       setIsLoading(false)
     }

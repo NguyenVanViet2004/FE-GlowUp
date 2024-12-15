@@ -1,7 +1,6 @@
 import { ChevronLeft } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { Alert } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { request } from '~/apis/HttpClient'
@@ -12,6 +11,7 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 import GradientScrollContainer from '../molecules/container/GradientScrollContainer'
+import Toast from 'react-native-toast-message'
 
 const SelectPaymentTemplate = (): React.ReactElement => {
   const router = useRouter()
@@ -58,15 +58,21 @@ const SelectPaymentTemplate = (): React.ReactElement => {
         })
       } else {
         console.error('Payment URL is not available')
-        Alert.alert(t('error.error'), t('error.paymentUrlError'), [
-          { text: 'OK' }
-        ])
+        Toast.show({
+          position: 'top',
+          text1: 'Thất bại',
+          text2: 'Không thể lấy được URL thanh toán. Vui lòng thử lại sau.',
+          type: 'error'
+        })
       }
     } catch (error) {
       console.error('Error:', error)
-      Alert.alert(t('error.connectionError'), t('error.networkIssue'), [
-        { text: 'OK' }
-      ])
+      Toast.show({
+        position: 'top',
+        text1: 'Lỗi kết nối',
+        text2: 'Có sự cố với kết nối mạng. Vui lòng kiểm tra và thử lại.',
+        type: 'error'
+      })
     }
   }
 

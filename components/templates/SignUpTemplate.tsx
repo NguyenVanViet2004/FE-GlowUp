@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { Alert, useColorScheme } from 'react-native'
+import { useColorScheme } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
@@ -85,18 +86,22 @@ const SignUpTemplate: React.FC = (): JSX.Element => {
       const res = await request.post('/auth/register', payload)
       if (!isNil(res.success) && res.success) {
         router.replace('/authentication/Login')
-        Alert.alert(
-          t('screens.signUp.succes'),
-          t('screens.signUp.accountCreatedSuccessfully')
-        )
+        Toast.show({
+          position: 'top',
+          text1: 'Thành công',
+          text2: 'Tạo tài khoản thành công',
+          type: 'error'
+        })
       } else {
         setPhoneError(t('screens.signUp.registeredPhoneNumber'))
       }
     } catch (err) {
-      Alert.alert(
-        t('screens.signUp.false'),
-        t('screens.signUp.accountCreatedFalse')
-      )
+      Toast.show({
+        position: 'top',
+        text1: 'Thất bại',
+        text2: 'Thao tác thất bại',
+        type: 'error'
+      })
     } finally {
       setIsLoading(false)
     }

@@ -2,8 +2,9 @@ import { ChevronLeft, Eye, EyeOff, LockKeyhole } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { isNil } from 'lodash'
 import React, { useState } from 'react'
-import { Alert, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import { View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
@@ -100,10 +101,12 @@ const ResetPasswordTemplate: React.FC = (): JSX.Element => {
         setPassword('Mật khẩu không hợp lệ')
       }
     } catch (err) {
-      Alert.alert(
-        t('screens.signUp.false'),
-        t('Đã xảy ra lỗi')
-      )
+      Toast.show({
+        position: 'top',
+        text1: 'Thất bại',
+        text2: 'Đã xảy ra lỗi',
+        type: 'error'
+      })
     } finally {
       setIsLoading(false)
     }

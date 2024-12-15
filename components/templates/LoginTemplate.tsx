@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { Alert, useColorScheme } from 'react-native'
+import { useColorScheme } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { useDispatch } from 'react-redux'
 import { View } from 'tamagui'
 
@@ -69,10 +70,12 @@ const LoginTemplate: React.FC = (): JSX.Element => {
         setPhoneError(t('screens.login.incorrectAccountOrPassword'))
       }
     } catch (err) {
-      Alert.alert(
-        t('screens.signUp.false'),
-        t('screens.signUp.accountCreatedFalse')
-      )
+      Toast.show({
+        position: 'top',
+        text1: 'Thất bại',
+        text2: 'Thao tác thất bại',
+        type: 'error'
+      })
     } finally {
       setIsLoading(false)
     }

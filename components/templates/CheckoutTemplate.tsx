@@ -1,15 +1,17 @@
 import { ChevronLeft, ChevronRight, Download } from '@tamagui/lucide-icons'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import * as MediaLibrary from 'expo-media-library'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { isEmpty, isNil } from 'lodash'
 import React, { useEffect, useRef, useState } from 'react'
-import { Alert } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 import { captureRef } from 'react-native-view-shot'
 import { useSelector } from 'react-redux'
-import { Card, View } from 'tamagui'
+import { Card, Text, View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
@@ -20,11 +22,12 @@ import GradientScrollContainer from '~/components/molecules/container/GradientSc
 import getColors from '~/constants/Colors'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
+import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
+import { PaymentMethod } from '~/interfaces/enum/Payment'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
 import {
-  extractTimeWithPeriod,
   formatDateToLongForm
 } from '~/utils/formatDateToLongForm'
 
@@ -33,6 +36,23 @@ const CheckoutTemplate = (): React.ReactElement => {
   const insets = useSafeAreaInsets()
   const colors = getColors(useColorScheme().colorScheme)
   const router = useRouter()
+  const [selectMethod, setSelectMethod] = useState<string | undefined>('')
+
+  dayjs.extend(utc)
+  dayjs.extend(timezone)
+
+  const extractTimeWithPeriod = (startTime: string): string => {
+    const date = new Date(startTime)
+    const hours = date.getUTCHours()
+    const minutes = date.getUTCMinutes()
+
+    const period = hours >= 12 ? 'PM' : 'AM'
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
+
+    return `${formattedHours}:${formattedMinutes} ${period}`
+  }
+
   const leftIcon = (
     <ChevronLeft
       color={colors.text}
@@ -46,15 +66,30 @@ const CheckoutTemplate = (): React.ReactElement => {
   const data = useLocalSearchParams()
   const boking =
     typeof data.bookingData === 'string' ? JSON.parse(data.bookingData) : null
+  const { getItem, setItem } = useStorage()
 
   const bookingExample = !isNil(boking[0]) ? boking[0] : []
   const user = useSelector((state: RootState) => state.user)
+  const bookTime = bookingExample.start_time
+  const validBookTime: string | number | null =
+  typeof bookTime === 'string' || typeof bookTime === 'number' ? bookTime : null
+
+  const vietnamTime = dayjs(validBookTime)
+    .tz('Asia/Ho_Chi_Minh', true)
+    .format('YYYY-MM-DDTHH:mm:ss[Z]')
+  useEffect(() => {
+    const fetchMethod = async (): Promise<void> => {
+      const method = await getItem(`SELECTED_METHOD_${bookingExample.id}`)
+      setSelectMethod(method)
+    }
+    fetchMethod().catch((e) => { console.error(e) })
+  }, [])
 
   const bookingData = [
     {
       flex: 2,
       label: t('booking.date'),
-      value: formatDateToLongForm(boking[0].start_time as string),
+      value: formatDateToLongForm(vietnamTime),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -63,7 +98,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: undefined,
       label: t('booking.startTime'),
-      value: extractTimeWithPeriod(boking[0].start_time as string),
+      value: extractTimeWithPeriod(vietnamTime),
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -72,7 +107,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: 2,
       label: t('booking.speciaList'),
-      value: boking[0].stylist.full_name,
+      value: boking[0].stylist?.full_name ?? 'Không có nhân viên',
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
@@ -140,18 +175,14 @@ const CheckoutTemplate = (): React.ReactElement => {
 
   const handleSubmitPress = async (): Promise<void> => {
     if (selectedMethodID === 'cash') {
-      Alert.alert(t('booking.success'), t('booking.successMessage'), [
-        {
-          onPress: () => {
-            router.push({
-              params: { bookingInfo: JSON.stringify(bookingExample) },
-              pathname: '/checkout/BookingConfirmation'
-            })
-          },
-          text: t('ok')
-        }
-      ])
+      await setItem(`SELECTED_METHOD_${bookingExample.id}`, PaymentMethod.CASH)
+      router.push({
+        params: { bookingInfo: JSON.stringify(bookingExample) },
+        pathname: '/checkout/BookingConfirmation'
+      })
     } else if (selectedMethodID === 'online') {
+      await setItem(`SELECTED_METHOD_${bookingExample.id}`,
+        PaymentMethod.ONLINE)
       if (
         isNil(user.result.card_info) ||
         isEmpty(user.result.card_info.cardHolder) ||
@@ -160,11 +191,6 @@ const CheckoutTemplate = (): React.ReactElement => {
       ) {
         router.push('/cardInfo/CardInfo')
       } else {
-        // router.push({
-        //   params: { bookingInfo: JSON.stringify(bookingExample) },
-        //   pathname: "/payment/SelectPayment",
-        // })
-
         try {
           const response = await request.post('payment/create_payment_url', {
             bankCode: user.result.card_info.bank?.bank_code,
@@ -255,7 +281,40 @@ const CheckoutTemplate = (): React.ReactElement => {
           marginHorizontal={20}
           backgroundColor={colors.bookingDetailsBackgroundCard}>
           <BookingInfoSection data={bookingData} />
-          {renderPaymentMethods()}
+          <View>
+            {!isNil(selectMethod)
+              ? (
+                selectMethod === PaymentMethod.ONLINE
+                  ? (
+                    bookingExample.payment_status === 'PAID'
+                      ? (
+                        <Text
+                          textAlign="center"
+                          color={colors.blueSapphire}
+                          fontFamily={fonts.fonts.JetBrainsMonoBold}
+                          marginBottom={10}
+                        >
+                          Bạn đã thanh toán. Vui lòng đến đúng giờ.
+                        </Text>)
+                      : (
+                        renderPaymentMethods())
+                  )
+                  : (
+                    <Text
+                      textAlign="center"
+                      color={colors.blueSapphire}
+                      fontFamily={fonts.fonts.JetBrainsMonoBold}
+                      marginBottom={10}
+                    >
+                      Bạn sẽ thanh toán khi thực hiện xong các bước
+                      tại salon. Vui lòng đến đúng giờ.
+                    </Text>)
+                )
+              : (
+                renderPaymentMethods()
+                )}
+          </View>
+
           <View gap={5} justifyContent="center" alignItems="center" mt={10}>
             <View
               ref={qrCodeRef}
@@ -284,7 +343,13 @@ const CheckoutTemplate = (): React.ReactElement => {
         </Card>
       </GradientScrollContainer>
 
-      {renderButtonCheckout()}
+      {
+        isNil(selectMethod) ||
+        (selectMethod === PaymentMethod.ONLINE &&
+          bookingExample.payment_status === 'PENDING')
+          ? (renderButtonCheckout())
+          : undefined
+      }
     </>
   )
 }

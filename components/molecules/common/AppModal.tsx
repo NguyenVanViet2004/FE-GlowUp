@@ -65,14 +65,12 @@ const AppModal = ({
           borderWidth={1}
           alignItems="center">
           <YStack space="$2">
-            <typeStyles.icon
-              size={40}
-              color={colors.white}
+            <View
               alignSelf="center"
-              padding={25}
               borderRadius={50}
-              backgroundColor={typeStyles.color}
-            />
+              backgroundColor={typeStyles.color}>
+              <typeStyles.icon size={50} color={colors.white} />
+            </View>
             <Text
               fontSize={18}
               fontFamily={fonts.JetBrainsMonoBold}

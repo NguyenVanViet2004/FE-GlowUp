@@ -18,6 +18,7 @@ type props = {
   value: string
   label: string
   descriptions?: string
+  keyRadio: string
 } & ViewProps
 
 const RadioGroupItemWithLabel: React.FC<props> = ({
@@ -25,15 +26,15 @@ const RadioGroupItemWithLabel: React.FC<props> = ({
   value,
   label,
   descriptions,
+  keyRadio,
   ...props
 }) => {
-  const id = `radiogroup-${value}`
   const colors = getColors(useColorScheme().colorScheme)
 
   return (
-    <XStack alignItems="center" key={id}>
+    <XStack alignItems="center" key={keyRadio}>
       <YStack flex={1}>
-        <Label color={colors.text} size={size} htmlFor={id}>
+        <Label color={colors.text} size={size} htmlFor={keyRadio}>
           {label}
         </Label>
         {!isNil(descriptions) && (
@@ -45,13 +46,15 @@ const RadioGroupItemWithLabel: React.FC<props> = ({
 
       <RadioGroup.Item
         value={value}
-        id={id}
+        id={keyRadio}
         size={size}
         backgroundColor="$colorTransparent"
-        key={id}
+        key={keyRadio}
         borderColor={colors.radioColor}
         {...props}>
-        <RadioGroup.Indicator key={id} backgroundColor={colors.radioColor} />
+        <RadioGroup.Indicator
+          key={keyRadio}
+          backgroundColor={colors.radioColor} />
       </RadioGroup.Item>
     </XStack>
   )

@@ -94,7 +94,10 @@ const StepList = (props: Props): JSX.Element => {
                     {item.name}
                   </Text>
                   <Text color={colors.text} fontSize={12}>
-                    {item.price}$
+                    {Number(item.price).toLocaleString('vi-VN', {
+                      currency: 'VND',
+                      style: 'currency'
+                    })}
                   </Text>
                   <Text color={colors.text} fontSize={14}>
                     {item.description.length > 40
