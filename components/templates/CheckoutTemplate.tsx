@@ -1,5 +1,7 @@
 import { ChevronLeft, ChevronRight, Download } from '@tamagui/lucide-icons'
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import * as MediaLibrary from 'expo-media-library'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { isEmpty, isNil } from 'lodash'
@@ -36,6 +38,9 @@ const CheckoutTemplate = (): React.ReactElement => {
   const router = useRouter()
   const [selectMethod, setSelectMethod] = useState<string | undefined>('')
 
+  dayjs.extend(utc)
+  dayjs.extend(timezone)
+
   const extractTimeWithPeriod = (startTime: string): string => {
     const date = new Date(startTime)
     const hours = date.getUTCHours()
@@ -66,8 +71,12 @@ const CheckoutTemplate = (): React.ReactElement => {
   const bookingExample = !isNil(boking[0]) ? boking[0] : []
   const user = useSelector((state: RootState) => state.user)
   const bookTime = bookingExample.start_time
-  const vietnamTime = dayjs(bookTime)
-    .tz('Asia/Ho_Chi_Minh', true).format('YYYY-MM-DDTHH:mm:ss[Z]')
+  const validBookTime: string | number | null =
+  typeof bookTime === 'string' || typeof bookTime === 'number' ? bookTime : null
+
+  const vietnamTime = dayjs(validBookTime)
+    .tz('Asia/Ho_Chi_Minh', true)
+    .format('YYYY-MM-DDTHH:mm:ss[Z]')
   useEffect(() => {
     const fetchMethod = async (): Promise<void> => {
       const method = await getItem(`SELECTED_METHOD_${bookingExample.id}`)
@@ -98,7 +107,7 @@ const CheckoutTemplate = (): React.ReactElement => {
     {
       flex: 2,
       label: t('booking.speciaList'),
-      value: boking[0].stylist.full_name,
+      value: boking[0].stylist?.full_name ?? 'Không có nhân viên',
       valueProps: {
         color: colors.blueSapphire,
         fontFamily: fonts.fonts.JetBrainsMonoBold
