@@ -22,7 +22,7 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
   console.log('Data: ', parseBooking)
   const bookingData = {
     bookingTime: new Date(parseBooking.start_time).toLocaleString(),
-    customerName: parseBooking.customer.full_name ?? 'N/A',
+    customerName: parseBooking.customer?.full_name ?? 'N/A',
     services:
       parseBooking.combo.services?.map((service) => service.name).join(', ') ??
       'N/A',
