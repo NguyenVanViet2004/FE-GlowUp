@@ -288,7 +288,7 @@ const CheckoutTemplate = (): React.ReactElement => {
                   ? (
                     bookingExample.payment_status === 'PAID'
                       ? (
-                        <Text
+                            <Text
                           textAlign="center"
                           color={colors.blueSapphire}
                           fontFamily={fonts.fonts.JetBrainsMonoBold}
@@ -300,7 +300,7 @@ const CheckoutTemplate = (): React.ReactElement => {
                         renderPaymentMethods())
                   )
                   : (
-                    <Text
+                      <Text
                       textAlign="center"
                       color={colors.blueSapphire}
                       fontFamily={fonts.fonts.JetBrainsMonoBold}

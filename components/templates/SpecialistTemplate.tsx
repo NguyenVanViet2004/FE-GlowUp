@@ -1,36 +1,37 @@
-import { ChevronLeft, ChevronRight } from "@tamagui/lucide-icons"
-import dayjs from "dayjs"
-import customParseFormat from "dayjs/plugin/customParseFormat"
-import duration from "dayjs/plugin/duration"
-import timezone from "dayjs/plugin/timezone"
-import utc from "dayjs/plugin/utc"
-import { useLocalSearchParams, useRouter } from "expo-router"
-import { useExpoRouter } from "expo-router/build/global-state/router-store"
-import { isNil } from "lodash"
-import React, { useLayoutEffect, useState } from "react"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import Toast from "react-native-toast-message"
+import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import duration from 'dayjs/plugin/duration'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import { useExpoRouter } from 'expo-router/build/global-state/router-store'
+import { isNil } from 'lodash'
+import React, { useLayoutEffect, useState } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 
-import { request } from "~/apis/HttpClient"
-import { PositiveButton } from "~/components/atoms/PositiveButton"
-import GradientScrollContainer from "~/components/molecules/container/GradientScrollContainer"
-import DateComponent from "~/components/molecules/Date"
-import TimePicker from "~/components/molecules/Time"
-import Specialist from "~/components/organisms/Specialist"
-import getColors from "~/constants/Colors"
-import { useColorScheme } from "~/hooks/useColorScheme"
-import useStorage from "~/hooks/useStorage"
-import useTranslation from "~/hooks/useTranslation"
-import type Combo from "~/interfaces/Combo"
-import type Stylist from "~/interfaces/Stylist"
-import type User from "~/interfaces/User"
-import AppModal from "../molecules/common/AppModal"
+import { request } from '~/apis/HttpClient'
+import { PositiveButton } from '~/components/atoms/PositiveButton'
+import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
+import DateComponent from '~/components/molecules/Date'
+import TimePicker from '~/components/molecules/Time'
+import Specialist from '~/components/organisms/Specialist'
+import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
+import useStorage from '~/hooks/useStorage'
+import useTranslation from '~/hooks/useTranslation'
+import type Combo from '~/interfaces/Combo'
+import type Stylist from '~/interfaces/Stylist'
+import type User from '~/interfaces/User'
+
+import AppModal from '../molecules/common/AppModal'
 
 const SpecialistTemplate: React.FC = (): JSX.Element => {
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
   const leftIcon = (
-    <ChevronLeft size={25} color={colors.text} onPress={() => router.back()} />
+    <ChevronLeft size={25} color={colors.text} onPress={() => { router.back() }} />
   )
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
@@ -44,7 +45,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   const { getObjectItem } = useStorage()
   const dataCombo = useLocalSearchParams()
   const parsedItem =
-    typeof dataCombo.item === "string"
+    typeof dataCombo.item === 'string'
       ? (JSON.parse(dataCombo.item) as Combo)
       : null
 
@@ -55,7 +56,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   dayjs.extend(duration)
 
   const fetchUserLocal = async (): Promise<void> => {
-    const userData = (await getObjectItem("userData")) as User
+    const userData = (await getObjectItem('userData')) as User
     if (!isNil(userData)) {
       setUser(userData)
     }
@@ -74,10 +75,10 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
 
     if (isNil(selectedDay)) {
       Toast.show({
-        position: "top",
-        text1: "Đã xảy ra lỗi!",
-        text2: "Vui lòng chọn ngày giờ hợp lệ!",
-        type: "error",
+        position: 'top',
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Vui lòng chọn ngày giờ hợp lệ!',
+        type: 'error'
       })
 
       return
@@ -85,10 +86,10 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
 
     if (isNil(selectedTime)) {
       Toast.show({
-        position: "top",
-        text1: "Đã xảy ra lỗi!",
-        text2: "Vui lòng chọn khung giờ hợp lệ!",
-        type: "error",
+        position: 'top',
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Vui lòng chọn khung giờ hợp lệ!',
+        type: 'error'
       })
 
       return
@@ -96,10 +97,10 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
 
     if (isNil(selectedStylist)) {
       Toast.show({
-        position: "top",
-        text1: "Đã xảy ra lỗi!",
-        text2: "Bạn chưa chọn nhân viên!",
-        type: "error",
+        position: 'top',
+        text1: 'Đã xảy ra lỗi!',
+        text2: 'Bạn chưa chọn nhân viên!',
+        type: 'error'
       })
 
       return
@@ -109,43 +110,43 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
 
     const startTime = dayjs.tz(
       `${selectedDay} ${selectedTime}`,
-      "YYYY-MM-DD hh:mm A",
-      "Asia/Ho_Chi_Minh"
+      'YYYY-MM-DD hh:mm A',
+      'Asia/Ho_Chi_Minh'
     )
 
-    const endTime = startTime.add(parsedItem.total_time, "minute")
+    const endTime = startTime.add(parsedItem.total_time, 'minute')
 
-    const startTimeUTC = startTime.utc().format("YYYY-MM-DDTHH:mm:ss[Z]")
-    const endTimeUTC = endTime.utc().format("YYYY-MM-DDTHH:mm:ss[Z]")
+    const startTimeUTC = startTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
+    const endTimeUTC = endTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
 
     const payload = {
       combo_id: parsedItem?.id,
       customer_id: user?.result?.id,
       end_time: endTimeUTC,
       start_time: startTimeUTC,
-      stylist_id: selectedStylist?.id,
+      stylist_id: selectedStylist?.id
     }
 
     try {
-      const response = await request.post<any>("/booking", payload)
+      const response = await request.post<any>('/booking', payload)
       if (response.success === true) {
         const bookingData = Array.isArray(response.result)
           ? response.result
           : [response.result]
         router.push({
           params: { bookingData: JSON.stringify(bookingData) },
-          pathname: "/checkout/BookingCheckout",
+          pathname: '/checkout/BookingCheckout'
         })
       } else {
         Toast.show({
-          position: "top",
-          text1: "Đã có lỗi xảy ra!",
-          text2: response.message ?? "Vui lòng thử lại sau!",
-          type: "error",
+          position: 'top',
+          text1: 'Đã có lỗi xảy ra!',
+          text2: response.message ?? 'Vui lòng thử lại sau!',
+          type: 'error'
         })
       }
     } catch (error) {
-      console.error("Error push booking", error)
+      console.error('Error push booking', error)
     }
   }
 
@@ -153,8 +154,8 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
     <>
       <GradientScrollContainer
         paddingHorizontal={0}
-        edges={["left", "right", "bottom"]}
-        headerTitle={t("specialist.title")}
+        edges={['left', 'right', 'bottom']}
+        headerTitle={t('specialist.title')}
         isHeaderCenter={true}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
@@ -168,14 +169,14 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       </GradientScrollContainer>
 
       <PositiveButton
-        title={t("specialist.send")}
+        title={t('specialist.send')}
         onPress={() => {
           onPayment().catch((err) => {
             console.error(err)
           })
         }}
         marginHorizontal={20}
-        position='absolute'
+        position="absolute"
         left={0}
         right={0}
         bottom={insets.bottom === 0 ? 20 : insets.bottom}
@@ -183,20 +184,20 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
 
       <AppModal
         visible={isModalVisible}
-        title='Bạn chưa đăng nhập!'
-        type='ERROR'
+        title="Bạn chưa đăng nhập!"
+        type="ERROR"
         ontClose={() => {
           setIsModalVisible(false)
         }}
-        subtitle='Chuyển tới màn hình đăng nhập?'
-        cancelText='Hủy'
+        subtitle="Chuyển tới màn hình đăng nhập?"
+        cancelText="Hủy"
         onCancel={() => {
           setIsModalVisible(false)
         }}
-        confirmText='Di chuyển'
+        confirmText="Di chuyển"
         onConfirm={() => {
           setIsModalVisible(false)
-          router.push("/authentication/Login")
+          router.push('/authentication/Login')
         }}
       />
     </>

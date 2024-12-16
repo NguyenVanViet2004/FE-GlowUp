@@ -2,6 +2,7 @@ import { ChevronLeft } from '@tamagui/lucide-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 
 import { request } from '~/apis/HttpClient'
 import { PositiveButton } from '~/components/atoms/PositiveButton'
@@ -11,7 +12,6 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 
 import GradientScrollContainer from '../molecules/container/GradientScrollContainer'
-import Toast from 'react-native-toast-message'
 
 const SelectPaymentTemplate = (): React.ReactElement => {
   const router = useRouter()
