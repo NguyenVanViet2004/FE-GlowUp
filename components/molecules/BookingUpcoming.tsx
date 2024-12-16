@@ -1,7 +1,6 @@
-import { useFocusEffect } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 import { isNil } from 'lodash'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { Text, View } from 'tamagui'
@@ -12,50 +11,41 @@ import AppModal from '~/components/molecules/common/AppModal'
 import BookingList from '~/components/organisms/BookingList'
 import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
-import useFetchAppointment from '~/hooks/useFetchAppointment'
 import useTranslation from '~/hooks/useTranslation'
+import type Appointment from '~/interfaces/Appointment'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
 
-const BookingUpcoming = (): React.ReactElement => {
+export interface BookingProps {
+  appointments: Appointment[]
+  isLoading: boolean
+  removeLocalAppointment?: (id: string) => void
+  refetch?: () => void
+}
+
+const BookingUpcoming = ({
+  appointments,
+  isLoading,
+  removeLocalAppointment
+}: BookingProps): React.ReactElement => {
   const { t } = useTranslation()
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
-  const
-    {
-      appointments,
-      isLoading,
-      removeLocalAppointment,
-      refetch
-    } = useFetchAppointment()
   const user = useSelector((state: RootState) => state.user.result)
   const [isModalVisible, setIsModalVisible] = React.useState(false)
   const [cancelId, setCancelId] = useState('')
 
-  useFocusEffect(
-    useCallback(() => {
-      refetch().catch((err) => {
-        console.error('Error refetching appointments:', err)
-      })
-    }, [refetch])
-  )
-
-  const pendingAppointments = appointments.filter(
-    (item) =>
-      item.status === Status.PENDING &&
-      !isNil(item.customer) &&
-      item.customer.id === user.id
-  ).reverse()
-  // .map((item) => ({
-  //   ...item,
-  //   payment_status:
-  //     item.payment_status === Status.PENDING
-  //       ? Status.CASH
-  //       : item.payment_status,
-  // }))
+  const pendingAppointments = appointments
+    .filter(
+      (item) =>
+        item.status === Status.PENDING &&
+        !isNil(item.customer) &&
+        item.customer.id === user.id
+    )
 
   const confirmCancelBooking = async (id: string): Promise<void> => {
     try {
+      if (isNil(removeLocalAppointment)) return
       removeLocalAppointment(id)
       setIsModalVisible(false)
       const response = await request.get(
@@ -118,19 +108,28 @@ const BookingUpcoming = (): React.ReactElement => {
             viewBookingPress={(id) => {
               viewBooking(id)
             }}
-          />)
-        : (<Text color={colors.text}>{t('booking.upcoming')}</Text>)}
+          />
+        )
+        : (
+          <Text color={colors.text}>{t('booking.upcoming')}</Text>
+        )}
 
       <AppModal
         visible={isModalVisible}
         title="Cảnh báo!"
         type="INFO"
-        ontClose={() => { setIsModalVisible(false) }}
+        ontClose={() => {
+          setIsModalVisible(false)
+        }}
         subtitle="Bạn có chắc chắn muốn huỷ lịch hẹn này không?"
         cancelText="Hủy"
-        onCancel={() => { setIsModalVisible(false) }}
+        onCancel={() => {
+          setIsModalVisible(false)
+        }}
         confirmText="Chắc chắn"
-        onConfirm={async () => { await confirmCancelBooking(cancelId) }}
+        onConfirm={async () => {
+          await confirmCancelBooking(cancelId)
+        }}
       />
     </View>
   )

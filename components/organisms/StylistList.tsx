@@ -1,14 +1,18 @@
 import dayjs from 'dayjs'
-import { isNil } from 'lodash'
+import { isEqual, isNil } from 'lodash'
 import React from 'react'
 import { FlatList } from 'react-native'
+import { useSelector } from 'react-redux'
 import { Image, Sheet, Text, View, XStack, YStack } from 'tamagui'
 
 import getColors from '~/constants/Colors'
+import { setStylists } from '~/features/stylistSlice'
+import { useAppDispatch } from '~/hooks/useAppDispatch'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchStylist from '~/hooks/useFetchStylist'
 import { GenderEnum } from '~/interfaces/enum/Gender'
 import type Stylist from '~/interfaces/Stylist'
+import { type RootState } from '~/redux/store'
 
 export const overlayStyles = {
   enterStyle: { opacity: 0 },
@@ -19,10 +23,18 @@ const StylistList = (): JSX.Element => {
   const { colorScheme } = useColorScheme()
   const colors = getColors(colorScheme)
   const { stylist } = useFetchStylist()
+  const dispatch = useAppDispatch()
+  const stylistInRedux = useSelector((state: RootState) => state.stylists)
   const [isOpenBottomSheet, setIsOpenBottomSheet] = React.useState(false)
   const [selectedStylist, setSelectedStylist] = React.useState<Stylist | null>(
     null
   )
+
+  React.useEffect(() => {
+    if (stylist.length > 0 && !isEqual(stylist, stylistInRedux)) {
+      dispatch(setStylists(stylist))
+    }
+  }, [stylist.length])
 
   const renderStylistItem = ({
     item

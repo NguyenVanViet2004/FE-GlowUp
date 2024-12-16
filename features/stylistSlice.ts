@@ -12,11 +12,11 @@ const stylistSlice = createSlice({
       state.push(action.payload)
     },
     removeStylist: (state, action: PayloadAction<string>) => {
-      return state.filter((s) => s._id !== action.payload)
+      return state.filter((s) => s.id !== action.payload)
     },
     setStylists: (state, action: PayloadAction<Stylist[]>) => action.payload,
     updateStylist: (state, action: PayloadAction<Stylist>) => {
-      const index = state.findIndex((s) => s._id === action.payload._id)
+      const index = state.findIndex((s) => s.id === action.payload.id)
       if (index !== -1) state[index] = action.payload
     }
   }

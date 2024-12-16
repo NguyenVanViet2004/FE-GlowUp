@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { isNil } from 'lodash'
-import { type Dispatch, type SetStateAction, useState } from 'react'
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
 import { Button, Stack, Text } from 'tamagui'
 
@@ -24,7 +24,6 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const { t } = useTranslation()
   const colors = getColors(useColorScheme().colorScheme)
   const selectedDate = dayjs(props.selectedDate)
-  console.log(selectedDate)
 
   const generateTimes = (): string[] => {
     const times: string[] = []
@@ -67,8 +66,7 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const isOutOfWorkingHours =
     times.length === 0 &&
     selectedDate.isSame(dayjs(), 'day') &&
-    (dayjs().hour() > 22 ||
-      (dayjs().hour() === 22 && dayjs().minute() > 30))
+    (dayjs().hour() > 22 || (dayjs().hour() === 22 && dayjs().minute() > 30))
 
   if (isOutOfWorkingHours) {
     return (
@@ -78,6 +76,17 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
       </Text>
     )
   }
+
+  // useEffect(() => {
+  //   if (times.length > 0) {
+  //     if (isNil(props.toSetSelectedTime)) return
+  //     props.toSetSelectedTime(times[0])
+  //     const [hour, minute] = times[0].split(":")
+  //     setSelectedHour(hour)
+  //     setSelectedMinute(minute)
+  //     setSelectedTime(times[0])
+  //   }
+  // }, [times.length, selectedDate])
 
   const handleTimeSelection = (time: string): void => {
     setSelectedTime(time)

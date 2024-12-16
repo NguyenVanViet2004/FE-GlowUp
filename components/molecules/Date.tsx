@@ -89,6 +89,8 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
 
       if (fetchedData.length > 0) {
         setSelectedDay(fetchedData[0].day)
+        if (isNil(props.toSetSelectedDay)) return
+        props.toSetSelectedDay(fetchedData[0].day)
       }
       setDays(fetchedData)
     } catch (error) {

@@ -47,7 +47,7 @@ const ProfileTemplate = (): React.ReactElement => {
       removeItem('userData')
       removeItem('card_info')
 
-      router.replace('/authentication/Login')
+      router.push('/authentication/Login')
       setIsModalVisible(false)
 
       Toast.show({

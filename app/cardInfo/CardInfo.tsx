@@ -1,6 +1,6 @@
-import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
+import { ChevronLeft, ChevronRight, EyeOff } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty, isEqual, isNil, isString } from 'lodash'
 import React, { useState } from 'react'
 import { FlatList, TouchableOpacity } from 'react-native'
 import Toast from 'react-native-toast-message'
@@ -56,7 +56,8 @@ const CardInfo = (): React.JSX.Element => {
       !isEmpty(user.result.card_info.cardNumber) &&
       !isEmpty(user.result.card_info.expiryDate)
     ) {
-      setCardNumber(formatCardInfo(user.result.card_info.cardNumber))
+      setCardNumber(user.result.card_info.cardNumber)
+      console.log(user.result.card_info.cardNumber, user.result.card_info.bank)
       setCardHolder(user.result.card_info.cardHolder)
       setExpiryDate(user.result.card_info.expiryDate)
       setBankInput(user.result.card_info.bank?.bank_name ?? '')
@@ -100,10 +101,30 @@ const CardInfo = (): React.JSX.Element => {
     }
 
     const cardInfo = {
-      bank: selectedBank ?? undefined,
+      bank: selectedBank ?? user.result.card_info?.bank ?? undefined,
       cardHolder,
       cardNumber,
       expiryDate
+    }
+
+    if (isEqual(cardInfo, user.result.card_info)) {
+      Toast.show({
+        position: 'top',
+        text1: 'Thông báo!',
+        text2: 'Thông tin thẻ trùng khớp với thẻ cũ!',
+        type: 'error'
+      })
+      return
+    }
+
+    if (isNil(cardInfo.bank || isString(cardInfo.bank) || isEmpty(cardInfo))) {
+      Toast.show({
+        position: 'top',
+        text1: 'Lỗi!',
+        text2: 'Vui lòng chọn ngân hàng hợp lệ!',
+        type: 'error'
+      })
+      return
     }
 
     dispatch(updateCardInfo(cardInfo))
@@ -161,7 +182,7 @@ const CardInfo = (): React.JSX.Element => {
 
         <InputWithIcons
           label="Số thẻ"
-          value={cardNumber}
+          value={formatCardInfo(cardNumber)}
           onChangeText={setCardNumber}
           placeholder="Số thẻ"
           keyboardType="numeric"

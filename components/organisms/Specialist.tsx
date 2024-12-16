@@ -11,6 +11,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
+import { useSelector } from 'react-redux'
 import { Avatar, Text, View } from 'tamagui'
 
 import { request } from '~/apis/HttpClient'
@@ -19,6 +20,7 @@ import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import type Stylist from '~/interfaces/Stylist'
+import { type RootState } from '~/redux/store'
 
 interface ISpecialist {
   toSetSelectedUser?: Dispatch<SetStateAction<Stylist | null>>
@@ -32,46 +34,47 @@ const Specialist: React.FC<ISpecialist> = (props: ISpecialist) => {
   const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(
     null
   )
-  const [users, setUsers] = useState<Stylist[]>([])
+  // const [users, setUsers] = useState<Stylist[]>([])
+  const stylist = useSelector((state: RootState) => state.stylists)
 
   /* eslint-disable */
-  useEffect(() => {
-    const fetchStylists = async (): Promise<void> => {
-      try {
-        const response = await request.get<Stylist[]>("/stylist/")
-        if (
-          response?.success &&
-          Array.isArray(response.data) &&
-          response.data.length > 0
-        ) {
-          // Gán dữ liệu vào state
-          const formattedData = response.data.map((user) => ({
-            ...user,
-            profile: {
-              ...(user.profile ?? {}),
-              stylist: user.profile?.stylist ?? { isWorking: false }, // Đảm bảo stylist luôn tồn tại
-            },
-          }))
-          setUsers(formattedData)
-        } else {
-          console.error(
-            "Failed to fetch stylist data:",
-            response?.message || "Invalid response structure"
-          )
-        }
-      } catch (error) {
-        console.error("Error fetching stylist data:", error)
-      }
-    }
+  // useEffect(() => {
+  //   const fetchStylists = async (): Promise<void> => {
+  //     try {
+  //       const response = await request.get<Stylist[]>("/stylist/")
+  //       if (
+  //         response?.success &&
+  //         Array.isArray(response.data) &&
+  //         response.data.length > 0
+  //       ) {
+  //         // Gán dữ liệu vào state
+  //         const formattedData = response.data.map((user) => ({
+  //           ...user,
+  //           profile: {
+  //             ...(user.profile ?? {}),
+  //             stylist: user.profile?.stylist ?? { isWorking: false }, // Đảm bảo stylist luôn tồn tại
+  //           },
+  //         }))
+  //         setUsers(formattedData)
+  //       } else {
+  //         console.error(
+  //           "Failed to fetch stylist data:",
+  //           response?.message || "Invalid response structure"
+  //         )
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching stylist data:", error)
+  //     }
+  //   }
 
-    void fetchStylists()
-  }, [])
+  //   void fetchStylists()
+  // }, [])
 
   const handleAvatarPress = (index: number): void => {
     const idx = index === selectedUserIndex ? null : index
     if (!isNil(props.toSetSelectedUser)) {
       !isNil(idx)
-        ? props.toSetSelectedUser(users[idx])
+        ? props.toSetSelectedUser(stylist[idx])
         : props.toSetSelectedUser(null)
     }
     setSelectedUserIndex(idx)
@@ -132,7 +135,7 @@ const Specialist: React.FC<ISpecialist> = (props: ISpecialist) => {
         {t("specialist.speciaList")}
       </Text>
       <FlatList
-        data={users}
+        data={stylist}
         keyExtractor={(item) => item.id?.toString() || Math.random().toString()} // Xử lý khi id null
         renderItem={renderUser}
         horizontal
