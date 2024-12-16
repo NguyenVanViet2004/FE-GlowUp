@@ -36,7 +36,14 @@ const LoginTemplate: React.FC = (): JSX.Element => {
   }
 
   const validatePassword = (value: string): void => {
-    setPasswordError(value.length >= 6 ? '' : t('screens.login.emtyPassword'))
+    // setPasswordError(value.length >= 6 ? '' : t('screens.login.emtyPassword'))
+    if (value.length === 0) {
+      setPasswordError('')
+    } else if (value.length < 6) {
+      setPasswordError('Mật khẩu quá ngắn')
+    } else {
+      setPasswordError('')
+    }
   }
 
   const handleLogin = async (): Promise<void> => {
