@@ -20,7 +20,7 @@ import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import type Stylist from '~/interfaces/Stylist'
-import { RootState } from '~/redux/store'
+import { type RootState } from '~/redux/store'
 
 interface ISpecialist {
   toSetSelectedUser?: Dispatch<SetStateAction<Stylist | null>>

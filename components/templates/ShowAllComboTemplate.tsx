@@ -11,7 +11,7 @@ import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import type Combo from '~/interfaces/Combo'
-import { RootState } from '~/redux/store'
+import { type RootState } from '~/redux/store'
 
 const ShowAllComboTemplate = (): React.ReactElement => {
   const combos = useSelector((state: RootState) => state.combos)
@@ -48,44 +48,44 @@ const ShowAllComboTemplate = (): React.ReactElement => {
       isHeaderCenter={true}>
 
       {combos.map((item, index) => (
-          <Card
-            key={`${item.id} - ${index}`}
-            backgroundColor={colors.lightMist}
-            borderWidth={0.2}
-            borderColor={colors.gray}
-            mb={15}
-            onPress={() => { redirectToComboDetail(item) }}
-            p={10}>
-            <XStack gap={10}>
-              <Image
-                width={100}
-                height={100}
-                borderRadius={RADIUS_BUTTON}
-                source={
-                  !isEmpty(item.picture) && !isNil(item.picture)
-                    ? { uri: item.picture }
-                    : require('../../assets/images/backGroundDetail.png')
-                }
-              />
-              <View flex={1}>
-                <Text
-                  textAlign="center"
-                  color={colors.text}
-                  mb={20}
-                  fontFamily={fonts.JetBrainsMonoBold}>
-                  {item.name}
-                </Text>
+        <Card
+          key={`${item.id} - ${index}`}
+          backgroundColor={colors.lightMist}
+          borderWidth={0.2}
+          borderColor={colors.gray}
+          mb={15}
+          onPress={() => { redirectToComboDetail(item) }}
+          p={10}>
+          <XStack gap={10}>
+            <Image
+              width={100}
+              height={100}
+              borderRadius={RADIUS_BUTTON}
+              source={
+                !isEmpty(item.picture) && !isNil(item.picture)
+                  ? { uri: item.picture }
+                  : require('../../assets/images/backGroundDetail.png')
+              }
+            />
+            <View flex={1}>
+              <Text
+                textAlign="center"
+                color={colors.text}
+                mb={20}
+                fontFamily={fonts.JetBrainsMonoBold}>
+                {item.name}
+              </Text>
 
-                <Text
-                  numberOfLines={3}
-                  ellipsizeMode="tail"
-                  color={colors.text}>
-                  {item.description}
-                </Text>
-              </View>
-            </XStack>
-          </Card>
-        ))}
+              <Text
+                numberOfLines={3}
+                ellipsizeMode="tail"
+                color={colors.text}>
+                {item.description}
+              </Text>
+            </View>
+          </XStack>
+        </Card>
+      ))}
     </GradientScrollContainer>
   )
 }

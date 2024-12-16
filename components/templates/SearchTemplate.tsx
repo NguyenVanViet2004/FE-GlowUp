@@ -17,7 +17,7 @@ import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import type Combo from '~/interfaces/Combo'
-import { RootState } from '~/redux/store'
+import { type RootState } from '~/redux/store'
 
 const SearchTempale: React.FC = (): JSX.Element => {
   const { colorScheme } = useColorScheme()
@@ -74,16 +74,16 @@ const SearchTempale: React.FC = (): JSX.Element => {
       setSearchResults([])
       return
     }
-  
+
     const filteredCombos = combos.filter((combo) =>
       combo.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
     setSearchResults(filteredCombos)
   }, 500)
-  
+
   useEffect(() => {
     searchByName(searchInput)
-  
+
     if (
       searchInput.trim() !== '' &&
       !recentSearches.some(
@@ -96,7 +96,6 @@ const SearchTempale: React.FC = (): JSX.Element => {
       ])
     }
   }, [searchInput, combos])
-  
 
   const handleSearchItemClick = (text: string): void => {
     setSearchInput(text)

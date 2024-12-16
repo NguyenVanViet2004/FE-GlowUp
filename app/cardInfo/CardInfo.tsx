@@ -116,7 +116,7 @@ const CardInfo = (): React.JSX.Element => {
       })
       return
     }
-    
+
     if (isNil(cardInfo.bank || isString(cardInfo.bank) || isEmpty(cardInfo))) {
       Toast.show({
         position: 'top',

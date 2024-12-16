@@ -11,11 +11,12 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
-import { BookingProps } from './BookingUpcoming'
+
+import { type BookingProps } from './BookingUpcoming'
 
 const BookingCancelled = ({
   appointments,
-  isLoading,
+  isLoading
 }: BookingProps): React.ReactElement => {
   const { t } = useTranslation()
   const router = useRouter()

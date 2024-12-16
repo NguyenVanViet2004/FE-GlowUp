@@ -12,7 +12,7 @@ import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchStylist from '~/hooks/useFetchStylist'
 import { GenderEnum } from '~/interfaces/enum/Gender'
 import type Stylist from '~/interfaces/Stylist'
-import { RootState } from '~/redux/store'
+import { type RootState } from '~/redux/store'
 
 export const overlayStyles = {
   enterStyle: { opacity: 0 },

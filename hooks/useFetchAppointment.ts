@@ -44,7 +44,7 @@ const useFetchAppointment = (): {
         setAppointments(booking.result)
       }
       console.log('Data refreshed successfully')
-    }).catch(e => console.error(e))
+    }).catch(e => { console.error(e) })
   }
 
   useEffect(() => {

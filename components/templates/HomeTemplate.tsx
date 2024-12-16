@@ -53,7 +53,6 @@ const HomeTemplate = (): React.ReactElement => {
     }
   }, [banner, isLoading])
 
-
   useEffect(() => {
     if (combos.length > 0) {
       dispatch(setCombos(combos))
