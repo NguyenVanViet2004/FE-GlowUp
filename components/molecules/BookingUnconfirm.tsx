@@ -14,7 +14,7 @@ import { type RootState } from '~/redux/store'
 
 import { type BookingProps } from './BookingUpcoming'
 
-const BookingCancelled = ({
+const BookingUnconfirm = ({
   appointments,
   isLoading
 }: BookingProps): React.ReactElement => {
@@ -22,11 +22,18 @@ const BookingCancelled = ({
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
   const user = useSelector((state: RootState) => state.user.result)
-  const CancelledAppointments = appointments.filter(
-    (item) => item.status === Status.CANCELLED &&
-    !isNil(item.customer) &&
-    item.customer.id === user.id
-  )
+
+  const CompletedAppointments = appointments
+    .filter(
+      (item) =>
+        item.status === Status.UNCONFIRMED &&
+        !isNil(item.customer) &&
+        item.customer.id === user.id
+    )
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   const viewBooking = (id: string): void => {
     const viewCompletedAppointment = appointments.filter(
@@ -37,25 +44,25 @@ const BookingCancelled = ({
       pathname: '/checkout/BookingCheckout'
     })
   }
-
-  if (isLoading) {
-    return <Loading />
-  }
   return (
     <View>
-      {
-        CancelledAppointments.length > 0
-          ? (
-            <BookingList
-              dataCombo={CancelledAppointments}
-              visibleTextCancel={true}
-              visibleFormButton={true}
-              visibleTransparentButton={false}
-              viewBookingPress={id => { viewBooking(id) }}/>)
-          : (<Text color={colors.text}>{t('booking.cancelled')}</Text>)
-      }
+      {CompletedAppointments.length > 0
+        ? (
+          <BookingList
+            dataCombo={CompletedAppointments}
+            visibleTextCancel={false}
+            visibleFormButton={true}
+            visibleTransparentButton={false}
+            viewBookingPress={(id) => {
+              viewBooking(id)
+            }}
+          />
+        )
+        : (
+          <Text color={colors.text}>{t('booking.completed')}</Text>
+        )}
     </View>
   )
 }
 
-export default BookingCancelled
+export default BookingUnconfirm

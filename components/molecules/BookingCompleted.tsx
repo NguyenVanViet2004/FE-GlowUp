@@ -30,7 +30,6 @@ const BookingCompleted = ({
         !isNil(item.customer) &&
         item.customer.id === user.id
     )
-    .reverse()
 
   if (isLoading) {
     return <Loading />

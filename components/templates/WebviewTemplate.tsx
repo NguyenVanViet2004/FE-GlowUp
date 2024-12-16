@@ -47,15 +47,13 @@ const WebviewTemplate = (): React.ReactElement => {
   }
 
   const back = (): void => {
-    router.push('/(tabs)/booking')
+    router.back()
   }
 
   return (
     <>
       <AppHeader
-        onPress={() => {
-          router.push('/(tabs)/booking')
-        }}
+        onPress={back}
         headerTitle={'Quay lại'}
         isHeaderCenter={false}
         leftIcon={<ChevronLeft color={colors.blue} size={25} />}

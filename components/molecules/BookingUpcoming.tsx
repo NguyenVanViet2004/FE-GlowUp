@@ -38,11 +38,10 @@ const BookingUpcoming = ({
   const pendingAppointments = appointments
     .filter(
       (item) =>
-        (item.status === Status.PENDING || item.status === Status.UNCONFIRMED) &&
+        item.status === Status.PENDING &&
         !isNil(item.customer) &&
         item.customer.id === user.id
     )
-    .reverse()
   // .map((item) => ({
   //   ...item,
   //   payment_status:
