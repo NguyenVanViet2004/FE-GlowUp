@@ -7,4 +7,5 @@ export enum Status {
   REJECTED = 'rejected',
   PAID = 'PAID',
   CASH = 'CASH',
+  UNCONFIRMED = 'UNCONFIRMED'
 }

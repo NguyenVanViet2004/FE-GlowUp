@@ -73,7 +73,6 @@ const CheckoutTemplate = (): React.ReactElement => {
   const bookTime = bookingExample.start_time
   const validBookTime: string | number | null =
   typeof bookTime === 'string' || typeof bookTime === 'number' ? bookTime : null
-
   const vietnamTime = dayjs(validBookTime)
     .tz('Asia/Ho_Chi_Minh', true)
     .format('YYYY-MM-DDTHH:mm:ss[Z]')
@@ -198,7 +197,7 @@ const CheckoutTemplate = (): React.ReactElement => {
           })
           const paymentUrl = response?.paymentUrl
           if (paymentUrl !== null) {
-            router.replace({
+            router.push({
               params: { url: paymentUrl },
               pathname: '/payment/WebView'
             })
@@ -232,13 +231,15 @@ const CheckoutTemplate = (): React.ReactElement => {
     return (
       Array.isArray(boking) &&
       boking.length > 0 &&
-      boking[0]?.status === Status.PENDING &&
+      (boking[0]?.status === Status.PENDING || 
+      boking[0]?.status === Status.UNCONFIRMED) &&
       boking[0]?.payment_status === Status.PENDING
     )
   }
 
   const renderButtonCheckout = (): JSX.Element | null => {
     if (boking !== null && boking !== undefined && isPendingBooking(boking)) {
+      // console.log('renderButtonCheckout')
       return (
         <PositiveButton
           title={t('booking.checkout')}
@@ -346,7 +347,7 @@ const CheckoutTemplate = (): React.ReactElement => {
       {
         isNil(selectMethod) ||
         (selectMethod === PaymentMethod.ONLINE &&
-          bookingExample.payment_status === 'PENDING')
+          bookingExample.payment_status === Status.PENDING || bookingExample.payment_status === Status.UNCONFIRMED)
           ? (renderButtonCheckout())
           : undefined
       }

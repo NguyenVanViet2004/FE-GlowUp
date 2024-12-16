@@ -1,30 +1,35 @@
-import { useRouter } from 'expo-router'
-import { isNil } from 'lodash'
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Text, View } from 'tamagui'
+import { useRouter } from "expo-router"
+import { isNil } from "lodash"
+import React from "react"
+import { useSelector } from "react-redux"
+import { Text, View } from "tamagui"
 
-import Loading from '~/components/atoms/Loading'
-import BookingList from '~/components/organisms/BookingList'
-import getColors from '~/constants/Colors'
-import { useColorScheme } from '~/hooks/useColorScheme'
-import useFetchAppointment from '~/hooks/useFetchAppointment'
-import useTranslation from '~/hooks/useTranslation'
-import { Status } from '~/interfaces/enum/Status'
-import { type RootState } from '~/redux/store'
+import Loading from "~/components/atoms/Loading"
+import BookingList from "~/components/organisms/BookingList"
+import getColors from "~/constants/Colors"
+import { useColorScheme } from "~/hooks/useColorScheme"
+import useTranslation from "~/hooks/useTranslation"
+import { Status } from "~/interfaces/enum/Status"
+import { type RootState } from "~/redux/store"
+import { BookingProps } from "./BookingUpcoming"
 
-const BookingCompleted = (): React.ReactElement => {
+const BookingCompleted = ({
+  appointments,
+  isLoading,
+}: BookingProps): React.ReactElement => {
   const { t } = useTranslation()
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
-  const { appointments, isLoading } = useFetchAppointment()
   const user = useSelector((state: RootState) => state.user.result)
 
-  const CompletedAppointments = appointments.filter(
-    (item) => item.status === Status.COMPLETED &&
-    !isNil(item.customer) &&
-    item.customer.id === user.id
-  ).reverse()
+  const CompletedAppointments = appointments
+    .filter(
+      (item) =>
+        item.status === Status.COMPLETED &&
+        !isNil(item.customer) &&
+        item.customer.id === user.id
+    )
+    .reverse()
 
   if (isLoading) {
     return <Loading />
@@ -36,23 +41,24 @@ const BookingCompleted = (): React.ReactElement => {
     )
     router.push({
       params: { bookingData: JSON.stringify(viewCompletedAppointment) },
-      pathname: '/checkout/BookingCheckout'
+      pathname: "/checkout/BookingCheckout",
     })
   }
   return (
     <View>
-      {
-        CompletedAppointments.length > 0
-          ? (
-            <BookingList
-              dataCombo={CompletedAppointments}
-              visibleTextCancel={false}
-              visibleFormButton={true}
-              visibleTransparentButton={false}
-              viewBookingPress={id => { viewBooking(id) }}/>)
-          : (
-            <Text color={colors.text}>{t('booking.completed')}</Text>)
-      }
+      {CompletedAppointments.length > 0 ? (
+        <BookingList
+          dataCombo={CompletedAppointments}
+          visibleTextCancel={false}
+          visibleFormButton={true}
+          visibleTransparentButton={false}
+          viewBookingPress={(id) => {
+            viewBooking(id)
+          }}
+        />
+      ) : (
+        <Text color={colors.text}>{t("booking.completed")}</Text>
+      )}
     </View>
   )
 }

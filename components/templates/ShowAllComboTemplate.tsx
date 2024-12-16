@@ -2,19 +2,19 @@ import { ChevronLeft, ChevronRight } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import { isEmpty, isNil } from 'lodash'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Card, Image, Text, View, XStack } from 'tamagui'
 
-import Loading from '~/components/atoms/Loading'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
-import useFetchCombo from '~/hooks/useFetchCombo'
 import type Combo from '~/interfaces/Combo'
+import { RootState } from '~/redux/store'
 
 const ShowAllComboTemplate = (): React.ReactElement => {
-  const { combos, isLoading } = useFetchCombo()
+  const combos = useSelector((state: RootState) => state.combos)
   const router = useRouter()
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme().colorScheme)
@@ -46,10 +46,8 @@ const ShowAllComboTemplate = (): React.ReactElement => {
       leftIcon={leftIcon}
       rightIcon={rightIcon}
       isHeaderCenter={true}>
-      {isLoading ? <Loading /> : null}
 
-      {!isLoading &&
-        combos.map((item, index) => (
+      {combos.map((item, index) => (
           <Card
             key={`${item.id} - ${index}`}
             backgroundColor={colors.lightMist}

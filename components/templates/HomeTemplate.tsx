@@ -13,6 +13,8 @@ import OurSpecialist from '~/components/molecules/OurSpecialist'
 import SpecialComboCard from '~/components/molecules/SpecialComboCard'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
+import { setCombos } from '~/features/comboSlice'
+import { useAppDispatch } from '~/hooks/useAppDispatch'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useFetchBanner from '~/hooks/useFetchBanner'
 import useFetchCombo from '~/hooks/useFetchCombo'
@@ -35,6 +37,7 @@ const HomeTemplate = (): React.ReactElement => {
   const { combos, isLoading } = useFetchCombo()
   const { banner } = useFetchBanner()
   const [bannerData, setBannerData] = useState<Banner | null>(null)
+  const dispatch = useAppDispatch()
 
   const handleSelectCombo = (combo: Combo): void => {
     setSelectCombo(combo)
@@ -49,6 +52,13 @@ const HomeTemplate = (): React.ReactElement => {
       setSelectCombo(combos[0])
     }
   }, [banner, isLoading])
+
+
+  useEffect(() => {
+    if (combos.length > 0) {
+      dispatch(setCombos(combos))
+    }
+  }, [combos.length])
 
   const redirectToNotification = (): void => {
     router.push('/notification/Notification')

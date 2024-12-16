@@ -8,16 +8,18 @@ import Loading from '~/components/atoms/Loading'
 import BookingList from '~/components/organisms/BookingList'
 import getColors from '~/constants/Colors'
 import { useColorScheme } from '~/hooks/useColorScheme'
-import useFetchAppointment from '~/hooks/useFetchAppointment'
 import useTranslation from '~/hooks/useTranslation'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
+import { BookingProps } from './BookingUpcoming'
 
-const BookingCancelled = (): React.ReactElement => {
+const BookingCancelled = ({
+  appointments,
+  isLoading,
+}: BookingProps): React.ReactElement => {
   const { t } = useTranslation()
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
-  const { appointments, isLoading } = useFetchAppointment()
   const user = useSelector((state: RootState) => state.user.result)
   const CancelledAppointments = appointments.filter(
     (item) => item.status === Status.CANCELLED &&

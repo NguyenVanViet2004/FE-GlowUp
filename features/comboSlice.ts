@@ -12,11 +12,11 @@ const comboSlice = createSlice({
       state.push(action.payload)
     },
     removeCombo: (state, action: PayloadAction<string>) => {
-      return state.filter((c) => c._id !== action.payload)
+      return state.filter((c) => c.id !== action.payload)
     },
     setCombos: (_, action: PayloadAction<Combo[]>) => action.payload,
     updateCombo: (state, action: PayloadAction<Combo>) => {
-      const index = state.findIndex((c) => c._id === action.payload._id)
+      const index = state.findIndex((c) => c.id === action.payload.id)
       if (index !== -1) state[index] = action.payload
     }
   }

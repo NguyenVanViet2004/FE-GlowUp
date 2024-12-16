@@ -8,15 +8,16 @@ import Animated, {
   useSharedValue,
   withSpring
 } from 'react-native-reanimated'
+import { useSelector } from 'react-redux'
 import { Button, Image, Input, ScrollView, Text, XStack, YStack } from 'tamagui'
 
-import { BASE_URL } from '~/apis/HttpClient'
 import GradientScrollContainer from '~/components/molecules/container/GradientScrollContainer'
 import getColors from '~/constants/Colors'
 import { RADIUS_BUTTON } from '~/constants/Constants'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import type Combo from '~/interfaces/Combo'
+import { RootState } from '~/redux/store'
 
 const SearchTempale: React.FC = (): JSX.Element => {
   const { colorScheme } = useColorScheme()
@@ -26,6 +27,7 @@ const SearchTempale: React.FC = (): JSX.Element => {
 
   const [searchInput, setSearchInput] = useState('')
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const combos = useSelector((state: RootState) => state.combos)
   const [recentSearches, setRecentSearches] = useState([
     { id: '1', text: 'Cắt tóc nam' },
     { id: '2', text: 'Uốn tóc nam' },
@@ -35,9 +37,9 @@ const SearchTempale: React.FC = (): JSX.Element => {
 
   const popularTags = useMemo(
     () => [
-      { id: '1', text: 'Tóc ngắn gọn' },
+      { id: '1', text: 'Combo 1' },
       { id: '2', text: 'undercut' },
-      { id: '3', text: 'side part' },
+      { id: '3', text: 'Combo 2' },
       { id: '4', text: 'Tóc mohican' },
       { id: '5', text: 'two block' }
     ],
@@ -67,30 +69,21 @@ const SearchTempale: React.FC = (): JSX.Element => {
     transform: [{ scale: animationValue.value }]
   }))
 
-  const searchByName = debounce(async (searchQuery: string): Promise<void> => {
+  const searchByName = debounce((searchQuery: string): void => {
     if (isEmpty(searchQuery.trim())) {
       setSearchResults([])
       return
     }
-
-    try {
-      const response = await fetch(
-        `${BASE_URL}/combo/search?search=${encodeURIComponent(searchQuery)}`,
-        { headers: { Accept: '*/*' }, method: 'GET' }
-      )
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data: SearchResult[] = await response.json()
-      setSearchResults(data)
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
+  
+    const filteredCombos = combos.filter((combo) =>
+      combo.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    setSearchResults(filteredCombos)
   }, 500)
-
+  
   useEffect(() => {
-    searchByName(searchInput)?.catch(e => { console.error(e) })
+    searchByName(searchInput)
+  
     if (
       searchInput.trim() !== '' &&
       !recentSearches.some(
@@ -102,7 +95,8 @@ const SearchTempale: React.FC = (): JSX.Element => {
         ...prevSearches
       ])
     }
-  }, [searchInput])
+  }, [searchInput, combos])
+  
 
   const handleSearchItemClick = (text: string): void => {
     setSearchInput(text)

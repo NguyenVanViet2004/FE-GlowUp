@@ -19,7 +19,6 @@ const BookingConfirmationTemplate = (): React.ReactElement => {
 
   const { bookingInfo } = useLocalSearchParams()
   const parseBooking = JSON.parse(bookingInfo as never)
-  console.log('Data: ', parseBooking)
   const bookingData = {
     bookingTime: new Date(parseBooking.start_time).toLocaleString(),
     customerName: parseBooking.customer?.full_name ?? 'N/A',

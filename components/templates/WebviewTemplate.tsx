@@ -47,14 +47,14 @@ const WebviewTemplate = (): React.ReactElement => {
   }
 
   const back = (): void => {
-    router.replace('/(tabs)/booking')
+    router.push('/(tabs)/booking')
   }
 
   return (
     <>
       <AppHeader
         onPress={() => {
-          router.replace('/(tabs)/booking')
+          router.push('/(tabs)/booking')
         }}
         headerTitle={'Quay lại'}
         isHeaderCenter={false}
