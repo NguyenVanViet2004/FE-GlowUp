@@ -13,11 +13,13 @@ import useFetchAppointment from "~/hooks/useFetchAppointment"
 import useTranslation from "~/hooks/useTranslation"
 import type MenuTab from "~/interfaces/MenuTab"
 import BookingUnconfirm from "../molecules/BookingUnconfirm"
+import { isNil } from "lodash"
 
 const BookingMenuTabList = ({
   appointments,
   isLoading,
   removeLocalAppointment,
+  refetch
 }: BookingProps): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
@@ -47,6 +49,8 @@ const BookingMenuTabList = ({
             <TouchableOpacity
               onPress={() => {
                 setTabIndexActive(index)
+                if(isNil(refetch)) return
+                refetch()
               }}>
               <YStack gap={5}>
                 <Text

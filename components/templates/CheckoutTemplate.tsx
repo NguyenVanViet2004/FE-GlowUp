@@ -197,7 +197,7 @@ const CheckoutTemplate = (): React.ReactElement => {
           })
           const paymentUrl = response?.paymentUrl
           if (paymentUrl !== null) {
-            router.push({
+            router.replace({
               params: { url: paymentUrl },
               pathname: '/payment/WebView'
             })

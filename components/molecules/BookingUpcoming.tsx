@@ -42,13 +42,6 @@ const BookingUpcoming = ({
         !isNil(item.customer) &&
         item.customer.id === user.id
     )
-  // .map((item) => ({
-  //   ...item,
-  //   payment_status:
-  //     item.payment_status === Status.PENDING
-  //       ? Status.CASH
-  //       : item.payment_status,
-  // }))
 
   const confirmCancelBooking = async (id: string): Promise<void> => {
     try {

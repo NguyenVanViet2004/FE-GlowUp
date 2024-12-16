@@ -23,6 +23,9 @@ const BottomTab = (): React.JSX.Element => {
       tabBarLabelStyle: {
         fontFamily: fonts.JetBrains
       },
+      lazy: false,
+      // keepScreenMounted: true,
+      unmountOnBlur: false,
       tabBarStyle: {
         borderRadius: RADIUS_BUTTON,
         borderTopWidth: 0,

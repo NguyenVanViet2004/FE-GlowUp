@@ -36,9 +36,10 @@ const useFetchAppointment = (): {
   const refreshData = (): void => {
     console.log('Refreshing data...')
     request.get<Appointment[]>('booking').then(booking => {
-      if (isEqual(booking, appointments)) {
-        return
-      }
+      console.log('Appointments')
+      // if (isEqual(booking, appointments)) {
+      //   return
+      // }
 
       if (booking?.success === true && !isNil(booking.result)) {
         setAppointments(booking.result)
