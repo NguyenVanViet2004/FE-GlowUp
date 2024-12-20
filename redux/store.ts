@@ -11,6 +11,7 @@ import stepSlice from '~/features/stepSlice'
 import stylistSlice from '~/features/stylistSlice'
 import userSlice from '~/features/userSlice'
 import voucherSlice from '~/features/voucherSlice'
+import modalSlice from '~/features/appModalSlice'
 
 // Define a Redux store
 const store = configureStore({
@@ -25,7 +26,8 @@ const store = configureStore({
     steps: stepSlice,
     stylists: stylistSlice,
     user: userSlice,
-    vouchers: voucherSlice
+    vouchers: voucherSlice,
+    modal: modalSlice
   }
 })
 
