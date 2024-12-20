@@ -23,8 +23,8 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const colors = getColors(useColorScheme().colorScheme)
   const selectedDate = dayjs(props.selectedDate)
 
-  const generateTimes = (): { even: string[]; odd: string[]; half: string[] } => {
-    const times: { even: string[]; odd: string[]; half: string[] } = { even: [], odd: [], half: [] }
+  const generateTimes = (): { even: string[], odd: string[], half: string[] } => {
+    const times: { even: string[], odd: string[], half: string[] } = { even: [], half: [], odd: [] }
     const now = dayjs()
     const isToday = selectedDate.isSame(now, 'day')
 

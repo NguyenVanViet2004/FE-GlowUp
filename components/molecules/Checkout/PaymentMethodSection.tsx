@@ -1,20 +1,20 @@
-import React, { useState } from "react"
-import { RadioGroup, Text, View } from "tamagui"
+import React, { useState } from 'react'
+import { RadioGroup, Text, View } from 'tamagui'
 
-import RadioGroupItemWithLabel from "~/components/molecules/common/RadioGroupItemWithLabel"
-import getColors from "~/constants/Colors"
-import { useColorScheme } from "~/hooks/useColorScheme"
-import useTranslation from "~/hooks/useTranslation"
-import { PaymentMethod } from "~/interfaces/enum/Payment"
+import RadioGroupItemWithLabel from '~/components/molecules/common/RadioGroupItemWithLabel'
+import getColors from '~/constants/Colors'
+import { useColorScheme } from '~/hooks/useColorScheme'
+import useTranslation from '~/hooks/useTranslation'
+import { PaymentMethod } from '~/interfaces/enum/Payment'
 
 const PaymentMethodSection = ({
-  isLocked,
+  isLocked
 }: {
   isLocked: boolean
 }): {
-  renderPaymentMethods: () => JSX.Element
-  selectedMethodID: string
-} => {
+    renderPaymentMethods: () => JSX.Element
+    selectedMethodID: string
+  } => {
   const colors = getColors(useColorScheme().colorScheme)
   const [selectedMethodID, setSelectedMethodID] = useState<string>(
     PaymentMethod.CASH
@@ -23,22 +23,22 @@ const PaymentMethodSection = ({
 
   const paymentMethods = [
     {
-      descriptions: t("payment.onlineDescription"),
+      descriptions: t('payment.onlineDescription'),
       id: PaymentMethod.CASH,
-      label: t("payment.payAtSalon"),
+      label: t('payment.payAtSalon')
     },
     {
+      descriptions: t('payment.salonDescription'),
       id: PaymentMethod.ONLINE,
-      label: t("payment.payOnlineNow"),
-      descriptions: t("payment.salonDescription"),
-    },
+      label: t('payment.payOnlineNow')
+    }
   ]
 
   const renderPaymentMethods = (): React.JSX.Element => {
     return (
-      <View width='100%'>
-        <Text color={colors.text} textAlign='center'>
-          {t("payment.title")}
+      <View width="100%">
+        <Text color={colors.text} textAlign="center">
+          {t('payment.title')}
         </Text>
         <RadioGroup
           value={selectedMethodID}
@@ -58,7 +58,7 @@ const PaymentMethodSection = ({
 
   return {
     renderPaymentMethods,
-    selectedMethodID,
+    selectedMethodID
   }
 }
 

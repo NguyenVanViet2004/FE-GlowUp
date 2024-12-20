@@ -1,9 +1,10 @@
-import { isEqual, isNil } from "lodash"
-import { useCallback, useEffect, useState } from "react"
+import { isEqual, isNil } from 'lodash'
+import { useCallback, useEffect, useState } from 'react'
 
-import { request } from "~/apis/HttpClient"
-import type Appointment from "~/interfaces/Appointment"
-import useNotifications from "./useNotifications"
+import { request } from '~/apis/HttpClient'
+import type Appointment from '~/interfaces/Appointment'
+
+import useNotifications from './useNotifications'
 
 const useFetchAppointment = (): {
   appointments: Appointment[]
@@ -18,12 +19,12 @@ const useFetchAppointment = (): {
   const fetchAppointments = useCallback(async (): Promise<void> => {
     try {
       setIsLoading(true)
-      const response = await request.get<Appointment[]>("booking")
+      const response = await request.get<Appointment[]>('booking')
       if (response?.success === true && !isNil(response.result)) {
         setAppointments(response.result)
       }
     } catch (err) {
-      console.error("Error fetching appointments:", err)
+      console.error('Error fetching appointments:', err)
     } finally {
       setIsLoading(false)
     }
@@ -37,9 +38,9 @@ const useFetchAppointment = (): {
 
   const refreshData = (): void => {
     request
-      .get<Appointment[]>("booking")
+      .get<Appointment[]>('booking')
       .then((booking) => {
-        console.log("Appointments")
+        console.log('Appointments')
         if (isEqual(booking, appointments)) {
           return
         }
@@ -67,7 +68,7 @@ const useFetchAppointment = (): {
     appointments,
     isLoading,
     refetch: refreshData,
-    removeLocalAppointment,
+    removeLocalAppointment
   }
 }
 

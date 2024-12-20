@@ -17,6 +17,8 @@ import DateComponent from '~/components/molecules/Date'
 import TimePicker from '~/components/molecules/Time'
 import Specialist from '~/components/organisms/Specialist'
 import getColors from '~/constants/Colors'
+import { showModal } from '~/features/appModalSlice'
+import { useAppDispatch } from '~/hooks/useAppDispatch'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
@@ -25,8 +27,6 @@ import type Stylist from '~/interfaces/Stylist'
 import type User from '~/interfaces/User'
 
 import AppModal from '../molecules/common/AppModal'
-import { useAppDispatch } from '~/hooks/useAppDispatch'
-import { showModal } from '~/features/appModalSlice'
 
 const SpecialistTemplate: React.FC = (): JSX.Element => {
   const router = useRouter()
@@ -78,9 +78,9 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
     if (isNil(selectedDay) || isNil(selectedTime)) {
       dispatch(
         showModal({
-          title:  "Ngày giờ không hợp lệ!",
           subtitle: 'Vui lòng chọn ngày giờ hợp lệ!',
-          type: 'ERROR',
+          title: 'Ngày giờ không hợp lệ!',
+          type: 'ERROR'
         })
       )
 
@@ -90,9 +90,9 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
     if (isNil(selectedStylist)) {
       dispatch(
         showModal({
-          title:  "Bạn chưa chọn nhân viên!",
           subtitle: 'Vui lòng chọn nhân viên phục vụ!',
-          type: 'ERROR',
+          title: 'Bạn chưa chọn nhân viên!',
+          type: 'ERROR'
         })
       )
 
@@ -133,9 +133,9 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       } else {
         dispatch(
           showModal({
-            title:  "Lỗi!",
             subtitle: response.message ?? 'Vui lòng thử lại sau!',
-            type: 'ERROR',
+            title: 'Lỗi!',
+            type: 'ERROR'
           })
         )
       }

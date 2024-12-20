@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 interface ModalState {
   visible: boolean
@@ -8,27 +8,27 @@ interface ModalState {
 }
 
 const initialState: ModalState = {
-  visible: false,
-  title: undefined,
   subtitle: undefined,
-  type: 'INFO'
+  title: undefined,
+  type: 'INFO',
+  visible: false
 }
 
 const modalSlice = createSlice({
-  name: 'modal',
   initialState,
+  name: 'modal',
   reducers: {
-    showModal: (state, action: PayloadAction<Pick<ModalState, 'title' | 'subtitle' | 'type'>>) => {
-      state.visible = true
-      state.title = action.payload.title
-      state.subtitle = action.payload.subtitle
-      state.type = action.payload.type || 'INFO'
-    },
     hideModal: (state) => {
       state.visible = false
       state.title = undefined
       state.subtitle = undefined
       state.type = 'INFO'
+    },
+    showModal: (state, action: PayloadAction<Pick<ModalState, 'title' | 'subtitle' | 'type'>>) => {
+      state.visible = true
+      state.title = action.payload.title
+      state.subtitle = action.payload.subtitle
+      state.type = action.payload.type || 'INFO'
     }
   }
 })

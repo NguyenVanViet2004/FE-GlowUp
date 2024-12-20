@@ -18,14 +18,13 @@ const BottomTab = (): React.JSX.Element => {
   return (
     <Tabs screenOptions={{
       headerShown: false,
+      lazy: false,
       tabBarActiveTintColor: Colors(colorScheme).blue,
       tabBarInactiveTintColor: Colors(colorScheme).gray,
       tabBarLabelStyle: {
         fontFamily: fonts.JetBrains
       },
-      lazy: false,
-      // keepScreenMounted: true,
-      unmountOnBlur: false,
+
       tabBarStyle: {
         borderRadius: RADIUS_BUTTON,
         borderTopWidth: 0,
@@ -47,7 +46,9 @@ const BottomTab = (): React.JSX.Element => {
         backgroundColor: Colors(colorScheme).lightMist,
         height: 70,
         paddingBottom: 10
-      }
+      },
+      // keepScreenMounted: true,
+      unmountOnBlur: false
     }}>
       <Tabs.Screen name="home" options={{
         freezeOnBlur: true,
