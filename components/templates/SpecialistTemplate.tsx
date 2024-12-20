@@ -5,7 +5,6 @@ import duration from 'dayjs/plugin/duration'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -26,6 +25,8 @@ import type Stylist from '~/interfaces/Stylist'
 import type User from '~/interfaces/User'
 
 import AppModal from '../molecules/common/AppModal'
+import { useAppDispatch } from '~/hooks/useAppDispatch'
+import { showModal } from '~/features/appModalSlice'
 
 const SpecialistTemplate: React.FC = (): JSX.Element => {
   const router = useRouter()
@@ -41,6 +42,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [isModalVisible, setIsModalVisible] = React.useState(false)
+  const dispatch = useAppDispatch()
 
   const { getObjectItem } = useStorage()
   const dataCombo = useLocalSearchParams()
@@ -73,35 +75,26 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       return
     }
 
-    if (isNil(selectedDay)) {
-      Toast.show({
-        position: 'top',
-        text1: 'Đã xảy ra lỗi!',
-        text2: 'Vui lòng chọn ngày giờ hợp lệ!',
-        type: 'error'
-      })
-
-      return
-    }
-
-    if (isNil(selectedTime)) {
-      Toast.show({
-        position: 'top',
-        text1: 'Đã xảy ra lỗi!',
-        text2: 'Vui lòng chọn khung giờ hợp lệ!',
-        type: 'error'
-      })
+    if (isNil(selectedDay) || isNil(selectedTime)) {
+      dispatch(
+        showModal({
+          title:  "Ngày giờ không hợp lệ!",
+          subtitle: 'Vui lòng chọn ngày giờ hợp lệ!',
+          type: 'ERROR',
+        })
+      )
 
       return
     }
 
     if (isNil(selectedStylist)) {
-      Toast.show({
-        position: 'top',
-        text1: 'Đã xảy ra lỗi!',
-        text2: 'Bạn chưa chọn nhân viên!',
-        type: 'error'
-      })
+      dispatch(
+        showModal({
+          title:  "Bạn chưa chọn nhân viên!",
+          subtitle: 'Vui lòng chọn nhân viên phục vụ!',
+          type: 'ERROR',
+        })
+      )
 
       return
     }
@@ -138,15 +131,22 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
           pathname: '/checkout/BookingCheckout'
         })
       } else {
-        Toast.show({
-          position: 'top',
-          text1: 'Đã có lỗi xảy ra!',
-          text2: response.message ?? 'Vui lòng thử lại sau!',
-          type: 'error'
-        })
+        dispatch(
+          showModal({
+            title:  "Lỗi!",
+            subtitle: response.message ?? 'Vui lòng thử lại sau!',
+            type: 'ERROR',
+          })
+        )
       }
     } catch (error) {
       console.error('Error push booking', error)
+      Toast.show({
+        position: 'top',
+        text1: 'Đã có lỗi xảy ra!',
+        text2: 'Vui lòng thử lại sau!',
+        type: 'error'
+      })
     }
   }
 

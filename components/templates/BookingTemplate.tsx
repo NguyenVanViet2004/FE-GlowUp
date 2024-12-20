@@ -1,4 +1,3 @@
-import { useFocusEffect } from "@react-navigation/native"
 import React from "react"
 import { StyleSheet } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -16,25 +15,8 @@ const BookingTemplate = (): React.ReactElement => {
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
-  const { appointments, isLoading, removeLocalAppointment, refetch } =
+  const { appointments, isLoading, removeLocalAppointment } =
     useFetchAppointment()
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     const interval = setInterval(() => {
-  //       refetch()
-  //     }, 0) // 3 giây
-
-  //     // Cleanup interval khi màn hình bị unfocus
-  //     return () => clearInterval(interval)
-  //   }, [refetch])
-  // )
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     refetch()
-  //   }, [])
-  // )
 
   return (
     <LinearGradientBackground>
@@ -53,7 +35,6 @@ const BookingTemplate = (): React.ReactElement => {
             appointments={appointments}
             isLoading={isLoading}
             removeLocalAppointment={removeLocalAppointment}
-            refetch={refetch}
           />
         </View>
       </SafeAreaView>

@@ -19,7 +19,7 @@ const BookingMenuTabList = ({
   appointments,
   isLoading,
   removeLocalAppointment,
-  refetch
+  // refetch
 }: BookingProps): React.ReactElement => {
   const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
@@ -49,8 +49,6 @@ const BookingMenuTabList = ({
             <TouchableOpacity
               onPress={() => {
                 setTabIndexActive(index)
-                if(isNil(refetch)) return
-                refetch()
               }}>
               <YStack gap={5}>
                 <Text
