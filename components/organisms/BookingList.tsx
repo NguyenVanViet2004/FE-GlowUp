@@ -1,4 +1,6 @@
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import { isEmpty, isNil } from 'lodash'
 import React from 'react'
 import { FlatList, StyleSheet } from 'react-native'
@@ -15,6 +17,9 @@ import useFetchAppointment from '~/hooks/useFetchAppointment'
 import useTranslation from '~/hooks/useTranslation'
 import type Appointment from '~/interfaces/Appointment'
 
+import { localDate } from '../templates/SpecialistTemplate'
+dayjs.extend(utc)
+dayjs.extend(timezone)
 interface Props {
   visibleTextCancel?: boolean
   visibleTransparentButton?: boolean
@@ -37,6 +42,12 @@ const RenderBookingItem = ({
   const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
   const dataCombo: any = item.combo
+  const { start_time, end_time } = item
+
+  const VN_UTC = {
+    end_time: `${localDate(new Date(end_time))?.getHours()}:${localDate(new Date(end_time))?.getMinutes()}`,
+    start_time: `${localDate(new Date(start_time))?.getHours()}:${localDate(new Date(start_time))?.getMinutes()}`
+  }
 
   return (
     <View
@@ -50,7 +61,7 @@ const RenderBookingItem = ({
           <Text
             color={
               colors.text
-            }>{`${dayjs(item.start_time).format('HH:MM')} - ${dayjs(item.end_time).format('HH:MM')} ${dayjs(item.end_time).format('DD/MM/YYYY')}`}</Text>
+            }>{`${VN_UTC.start_time} - ${VN_UTC.end_time} ${dayjs(start_time).format('DD/MM/YYYY')}`}</Text>
           <Text
             display={
               !isNil(visibleTextCancel) && visibleTextCancel ? 'flex' : 'none'

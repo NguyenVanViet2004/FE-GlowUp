@@ -28,11 +28,41 @@ import type User from '~/interfaces/User'
 
 import AppModal from '../molecules/common/AppModal'
 
+export function localDate (date: Date) {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return
+  }
+  const localHours = date.getUTCHours() + 7
+  if (localHours === date.getHours()) {
+    return date
+  }
+  return new Date(date.getTime() + 7 * 60 * 60 * 1000)
+}
+
+export function utcDate (date: Date) {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return
+  }
+
+  const utcHours = date.getUTCHours()
+  if (utcHours === date.getHours()) {
+    return date
+  }
+
+  return new Date(date.getTime() - 7 * 60 * 60 * 1000)
+}
+
 const SpecialistTemplate: React.FC = (): JSX.Element => {
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
   const leftIcon = (
-    <ChevronLeft size={25} color={colors.text} onPress={() => { router.back() }} />
+    <ChevronLeft
+      size={25}
+      color={colors.text}
+      onPress={() => {
+        router.back()
+      }}
+    />
   )
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
@@ -83,7 +113,6 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
           type: 'ERROR'
         })
       )
-
       return
     }
 
@@ -101,22 +130,17 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
 
     if (isNil(parsedItem)) return
 
-    const startTime = dayjs.tz(
-      `${selectedDay} ${selectedTime}`,
-      'YYYY-MM-DD hh:mm A',
-      'Asia/Ho_Chi_Minh'
-    )
+    const selectedDateTime = `${selectedDay} ${selectedTime}`
+    const date = dayjs(selectedDateTime, 'YYYY-MM-DD hh:mm A')
 
-    const endTime = startTime.add(parsedItem.total_time, 'minute')
-
-    const startTimeUTC = startTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
-    const endTimeUTC = endTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
+    const endTimeNew = date.add(parsedItem.total_time, 'minute').toDate()
+    const startTimeNew = dayjs(date).toDate()
 
     const payload = {
       combo_id: parsedItem?.id,
       customer_id: user?.result?.id,
-      end_time: endTimeUTC,
-      start_time: startTimeUTC,
+      end_time: endTimeNew,
+      start_time: startTimeNew,
       stylist_id: selectedStylist?.id
     }
 
