@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { request } from '~/apis/HttpClient'
 import type Appointment from '~/interfaces/Appointment'
 
+import useNotifications from './useNotifications'
+
 const useFetchAppointment = (): {
   appointments: Appointment[]
   isLoading: boolean
@@ -12,6 +14,7 @@ const useFetchAppointment = (): {
 } => {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const { notification } = useNotifications()
 
   const fetchAppointments = useCallback(async (): Promise<void> => {
     try {
@@ -34,22 +37,30 @@ const useFetchAppointment = (): {
   }
 
   const refreshData = (): void => {
-    console.log('Refreshing data...')
-    request.get<Appointment[]>('booking').then(booking => {
-      console.log('Appointments')
-      // if (isEqual(booking, appointments)) {
-      //   return
-      // }
+    request
+      .get<Appointment[]>('booking')
+      .then((booking) => {
+        if (isEqual(booking, appointments)) {
+          return
+        }
 
-      if (booking?.success === true && !isNil(booking.result)) {
-        setAppointments(booking.result)
-      }
-      console.log('Data refreshed successfully')
-    }).catch(e => { console.error(e) })
+        if (booking?.success === true && !isNil(booking.result)) {
+          setAppointments(booking.result)
+        }
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   useEffect(() => {
-    fetchAppointments().catch((err) => { console.log(err) })
+    refreshData()
+  }, [notification])
+
+  useEffect(() => {
+    fetchAppointments().catch((err) => {
+      console.log(err)
+    })
   }, [fetchAppointments])
 
   return {

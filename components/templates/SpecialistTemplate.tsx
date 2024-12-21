@@ -5,7 +5,6 @@ import duration from 'dayjs/plugin/duration'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { useExpoRouter } from 'expo-router/build/global-state/router-store'
 import { isNil } from 'lodash'
 import React, { useLayoutEffect, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -18,6 +17,8 @@ import DateComponent from '~/components/molecules/Date'
 import TimePicker from '~/components/molecules/Time'
 import Specialist from '~/components/organisms/Specialist'
 import getColors from '~/constants/Colors'
+import { showModal } from '~/features/appModalSlice'
+import { useAppDispatch } from '~/hooks/useAppDispatch'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useStorage from '~/hooks/useStorage'
 import useTranslation from '~/hooks/useTranslation'
@@ -27,11 +28,41 @@ import type User from '~/interfaces/User'
 
 import AppModal from '../molecules/common/AppModal'
 
+export function localDate (date: Date) {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return
+  }
+  const localHours = date.getUTCHours() + 7
+  if (localHours === date.getHours()) {
+    return date
+  }
+  return new Date(date.getTime() + 7 * 60 * 60 * 1000)
+}
+
+export function utcDate (date: Date) {
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return
+  }
+
+  const utcHours = date.getUTCHours()
+  if (utcHours === date.getHours()) {
+    return date
+  }
+
+  return new Date(date.getTime() - 7 * 60 * 60 * 1000)
+}
+
 const SpecialistTemplate: React.FC = (): JSX.Element => {
   const router = useRouter()
   const colors = getColors(useColorScheme().colorScheme)
   const leftIcon = (
-    <ChevronLeft size={25} color={colors.text} onPress={() => { router.back() }} />
+    <ChevronLeft
+      size={25}
+      color={colors.text}
+      onPress={() => {
+        router.back()
+      }}
+    />
   )
   const rightIcon = <ChevronRight size={25} opacity={0} />
   const { t } = useTranslation()
@@ -41,6 +72,7 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [isModalVisible, setIsModalVisible] = React.useState(false)
+  const dispatch = useAppDispatch()
 
   const { getObjectItem } = useStorage()
   const dataCombo = useLocalSearchParams()
@@ -73,57 +105,42 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
       return
     }
 
-    if (isNil(selectedDay)) {
-      Toast.show({
-        position: 'top',
-        text1: 'Đã xảy ra lỗi!',
-        text2: 'Vui lòng chọn ngày giờ hợp lệ!',
-        type: 'error'
-      })
-
-      return
-    }
-
-    if (isNil(selectedTime)) {
-      Toast.show({
-        position: 'top',
-        text1: 'Đã xảy ra lỗi!',
-        text2: 'Vui lòng chọn khung giờ hợp lệ!',
-        type: 'error'
-      })
-
+    if (isNil(selectedDay) || isNil(selectedTime)) {
+      dispatch(
+        showModal({
+          subtitle: 'Vui lòng chọn ngày giờ hợp lệ!',
+          title: 'Ngày giờ không hợp lệ!',
+          type: 'ERROR'
+        })
+      )
       return
     }
 
     if (isNil(selectedStylist)) {
-      Toast.show({
-        position: 'top',
-        text1: 'Đã xảy ra lỗi!',
-        text2: 'Bạn chưa chọn nhân viên!',
-        type: 'error'
-      })
+      dispatch(
+        showModal({
+          subtitle: 'Vui lòng chọn nhân viên phục vụ!',
+          title: 'Bạn chưa chọn nhân viên!',
+          type: 'ERROR'
+        })
+      )
 
       return
     }
 
     if (isNil(parsedItem)) return
 
-    const startTime = dayjs.tz(
-      `${selectedDay} ${selectedTime}`,
-      'YYYY-MM-DD hh:mm A',
-      'Asia/Ho_Chi_Minh'
-    )
+    const selectedDateTime = `${selectedDay} ${selectedTime}`
+    const date = dayjs(selectedDateTime, 'YYYY-MM-DD hh:mm A')
 
-    const endTime = startTime.add(parsedItem.total_time, 'minute')
-
-    const startTimeUTC = startTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
-    const endTimeUTC = endTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
+    const endTimeNew = date.add(parsedItem.total_time, 'minute').toDate()
+    const startTimeNew = dayjs(date).toDate()
 
     const payload = {
       combo_id: parsedItem?.id,
       customer_id: user?.result?.id,
-      end_time: endTimeUTC,
-      start_time: startTimeUTC,
+      end_time: endTimeNew,
+      start_time: startTimeNew,
       stylist_id: selectedStylist?.id
     }
 
@@ -138,15 +155,22 @@ const SpecialistTemplate: React.FC = (): JSX.Element => {
           pathname: '/checkout/BookingCheckout'
         })
       } else {
-        Toast.show({
-          position: 'top',
-          text1: 'Đã có lỗi xảy ra!',
-          text2: response.message ?? 'Vui lòng thử lại sau!',
-          type: 'error'
-        })
+        dispatch(
+          showModal({
+            subtitle: response.message ?? 'Vui lòng thử lại sau!',
+            title: 'Lỗi!',
+            type: 'ERROR'
+          })
+        )
       }
     } catch (error) {
       console.error('Error push booking', error)
+      Toast.show({
+        position: 'top',
+        text1: 'Đã có lỗi xảy ra!',
+        text2: 'Vui lòng thử lại sau!',
+        type: 'error'
+      })
     }
   }
 

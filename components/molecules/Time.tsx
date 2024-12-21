@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { isNil } from 'lodash'
-import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
+import { type Dispatch, type SetStateAction, useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
 import { Button, Stack, Text } from 'tamagui'
 
@@ -16,46 +16,32 @@ interface ITimePicker {
 
 const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedHour, setSelectedHour] = useState<string | null>(null)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedMinute, setSelectedMinute] = useState<string | null>(null)
   const { fonts } = useAppFonts()
   const { t } = useTranslation()
   const colors = getColors(useColorScheme().colorScheme)
   const selectedDate = dayjs(props.selectedDate)
 
-  const generateTimes = (): string[] => {
-    const times: string[] = []
+  const generateTimes = (): { even: string[], odd: string[], half: string[] } => {
+    const times: { even: string[], odd: string[], half: string[] } = { even: [], half: [], odd: [] }
     const now = dayjs()
     const isToday = selectedDate.isSame(now, 'day')
 
     for (let hour = 7; hour < 23; hour++) {
-      if (hour === 7) {
-        // Bắt đầu từ 07:30
-        const time = dayjs().hour(7).minute(30)
-        if (!isToday || time.isAfter(now)) {
-          times.push(time.format('hh:mm A'))
+      const timeOnHour = dayjs().hour(hour).minute(0)
+      const timeHalf = dayjs().hour(hour).minute(30)
+
+      if (!isToday || timeOnHour.isAfter(now)) {
+        if (hour % 2 === 0) {
+          times.even.push(timeOnHour.format('hh:mm A'))
+        } else {
+          times.odd.push(timeOnHour.format('hh:mm A'))
         }
-      } else if (hour === 22) {
-        // Dừng ở 22:30
-        const time1 = dayjs().hour(22).minute(0)
-        const time2 = dayjs().hour(22).minute(30)
-        if (!isToday || time1.isAfter(now)) {
-          times.push(time1.format('hh:mm A'))
-        }
-        if (!isToday || time2.isAfter(now)) {
-          times.push(time2.format('hh:mm A'))
-        }
-      } else {
-        const time1 = dayjs().hour(hour).minute(0)
-        const time2 = dayjs().hour(hour).minute(30)
-        if (!isToday || time1.isAfter(now)) {
-          times.push(time1.format('hh:mm A'))
-        }
-        if (!isToday || time2.isAfter(now)) {
-          times.push(time2.format('hh:mm A'))
-        }
+      }
+
+      if (!isToday || timeHalf.isAfter(now)) {
+        times.half.push(timeHalf.format('hh:mm A'))
       }
     }
 
@@ -64,29 +50,19 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
 
   const times = generateTimes()
   const isOutOfWorkingHours =
-    times.length === 0 &&
+    times.even.length === 0 &&
+    times.odd.length === 0 &&
+    times.half.length === 0 &&
     selectedDate.isSame(dayjs(), 'day') &&
     (dayjs().hour() > 22 || (dayjs().hour() === 22 && dayjs().minute() > 30))
 
   if (isOutOfWorkingHours) {
     return (
       <Text color={colors.text} mx={20}>
-        Khung giờ hiện tại nằm ngoài làm việc của chúng tôi, vui lòng quay lại
-        sau
+        Khung giờ hiện tại nằm ngoài làm việc của chúng tôi, vui lòng quay lại sau
       </Text>
     )
   }
-
-  // useEffect(() => {
-  //   if (times.length > 0) {
-  //     if (isNil(props.toSetSelectedTime)) return
-  //     props.toSetSelectedTime(times[0])
-  //     const [hour, minute] = times[0].split(":")
-  //     setSelectedHour(hour)
-  //     setSelectedMinute(minute)
-  //     setSelectedTime(times[0])
-  //   }
-  // }, [times.length, selectedDate])
 
   const handleTimeSelection = (time: string): void => {
     setSelectedTime(time)
@@ -109,7 +85,7 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
       borderColor={
         selectedTime === time ? colors.blueSapphire : colors.placeholderColor
       }
-      borderRadius={50}
+      borderRadius={15}
       onPress={() => {
         handleTimeSelection(time)
       }}
@@ -126,7 +102,21 @@ const TimePicker: React.FC<ITimePicker> = (props: ITimePicker) => {
         {t('specialist.time')}
       </Text>
       <FlatList
-        data={times}
+        data={times.even}
+        keyExtractor={(item) => item}
+        horizontal
+        renderItem={renderItem}
+        showsHorizontalScrollIndicator={false}
+      />
+      <FlatList
+        data={times.odd}
+        keyExtractor={(item) => item}
+        horizontal
+        renderItem={renderItem}
+        showsHorizontalScrollIndicator={false}
+      />
+      <FlatList
+        data={times.half}
         keyExtractor={(item) => item}
         horizontal
         renderItem={renderItem}

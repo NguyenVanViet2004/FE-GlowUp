@@ -1,20 +1,25 @@
-import dayjs from "dayjs"
-import { isEmpty, isNil } from "lodash"
-import React from "react"
-import { FlatList, StyleSheet } from "react-native"
-import { Image, Text, View, XStack, YStack } from "tamagui"
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+import { isEmpty, isNil } from 'lodash'
+import React from 'react'
+import { FlatList, StyleSheet } from 'react-native'
+import { Image, Text, View, XStack, YStack } from 'tamagui'
 
-import { PositiveButton } from "~/components/atoms/PositiveButton"
-import TransparentButton from "~/components/atoms/TransparentButton"
-import getColors from "~/constants/Colors"
-import { HEIGHT_BUTTON } from "~/constants/Constants"
-import { useAppFonts } from "~/hooks/useAppFonts"
-import { useColorScheme } from "~/hooks/useColorScheme"
-import formatDate from "~/hooks/useDate"
-import useFetchAppointment from "~/hooks/useFetchAppointment"
-import useTranslation from "~/hooks/useTranslation"
-import type Appointment from "~/interfaces/Appointment"
+import { PositiveButton } from '~/components/atoms/PositiveButton'
+import TransparentButton from '~/components/atoms/TransparentButton'
+import getColors from '~/constants/Colors'
+import { HEIGHT_BUTTON } from '~/constants/Constants'
+import { useAppFonts } from '~/hooks/useAppFonts'
+import { useColorScheme } from '~/hooks/useColorScheme'
+import formatDate from '~/hooks/useDate'
+import useFetchAppointment from '~/hooks/useFetchAppointment'
+import useTranslation from '~/hooks/useTranslation'
+import type Appointment from '~/interfaces/Appointment'
 
+import { localDate } from '../templates/SpecialistTemplate'
+dayjs.extend(utc)
+dayjs.extend(timezone)
 interface Props {
   visibleTextCancel?: boolean
   visibleTransparentButton?: boolean
@@ -31,12 +36,18 @@ const RenderBookingItem = ({
   visibleTransparentButton,
   visibleFormButton,
   cancellPress,
-  viewBookingPress,
+  viewBookingPress
 }: { item: Appointment } & Props): React.ReactElement => {
   const { fonts } = useAppFonts()
   const colors = getColors(useColorScheme().colorScheme)
   const { t } = useTranslation()
   const dataCombo: any = item.combo
+  const { start_time, end_time } = item
+
+  const VN_UTC = {
+    end_time: `${localDate(new Date(end_time))?.getHours()}:${localDate(new Date(end_time))?.getMinutes()}`,
+    start_time: `${localDate(new Date(start_time))?.getHours()}:${localDate(new Date(start_time))?.getMinutes()}`
+  }
 
   return (
     <View
@@ -44,23 +55,23 @@ const RenderBookingItem = ({
       padding={10}
       borderRadius={10}
       marginBottom={10}
-      justifyContent='center'>
+      justifyContent="center">
       <YStack gap={10}>
-        <XStack justifyContent='space-between'>
+        <XStack justifyContent="space-between">
           <Text
             color={
               colors.text
-            }>{`${dayjs(item.start_time).format("HH:MM")} - ${dayjs(item.end_time).format("HH:MM")} ${dayjs(item.end_time).format("DD/MM/YYYY")}`}</Text>
+            }>{`${VN_UTC.start_time} - ${VN_UTC.end_time} ${dayjs(start_time).format('DD/MM/YYYY')}`}</Text>
           <Text
             display={
-              !isNil(visibleTextCancel) && visibleTextCancel ? "flex" : "none"
+              !isNil(visibleTextCancel) && visibleTextCancel ? 'flex' : 'none'
             }
             fontSize={12}
-            color={"red"}>
-            {t("screens.booking.cancelled")}
+            color={'red'}>
+            {t('screens.booking.cancelled')}
           </Text>
         </XStack>
-        <XStack gap={10} alignItems='center'>
+        <XStack gap={10} alignItems="center">
           <Image
             width={90}
             height={90}
@@ -68,7 +79,7 @@ const RenderBookingItem = ({
             source={
               !isEmpty(dataCombo.picture)
                 ? { uri: dataCombo.picture }
-                : require("../../assets/images/backGroundDetail.png")
+                : require('../../assets/images/backGroundDetail.png')
             }
           />
           <YStack gap={10}>
@@ -76,14 +87,14 @@ const RenderBookingItem = ({
               Dịch vụ: {dataCombo.name}
             </Text>
             <Text color={colors.text}>
-              Thành tiền:{" "}
-              {item.total_price.toLocaleString("vi-VN", {
-                currency: "VND",
-                style: "currency",
+              Thành tiền:{' '}
+              {item.total_price.toLocaleString('vi-VN', {
+                currency: 'VND',
+                style: 'currency'
               })}
             </Text>
             <Text color={colors.text} fontFamily={fonts.JetBrains}>
-              Nhân viên: {item.stylist?.full_name ?? "Không có nhân viên"}
+              Nhân viên: {item.stylist?.full_name ?? 'Không có nhân viên'}
             </Text>
             {/* <Text>{item.rate}</Text> */}
           </YStack>
@@ -91,7 +102,7 @@ const RenderBookingItem = ({
         <XStack
           gap={10}
           display={
-            !isNil(visibleFormButton) && visibleFormButton ? "flex" : "none"
+            !isNil(visibleFormButton) && visibleFormButton ? 'flex' : 'none'
           }>
           <TransparentButton
             onPress={() => cancellPress?.(item.id)}
@@ -100,10 +111,10 @@ const RenderBookingItem = ({
             flex={1}
             display={
               !isNil(visibleTransparentButton) && visibleTransparentButton
-                ? "flex"
-                : "none"
+                ? 'flex'
+                : 'none'
             }
-            title={t("screens.booking.cancelBooking")}
+            title={t('screens.booking.cancelBooking')}
             colorProps={colors.blueSapphire}
           />
 
@@ -111,7 +122,7 @@ const RenderBookingItem = ({
             onPress={() => viewBookingPress?.(item.id)}
             paddingHorizontal={5}
             flex={1}
-            title={t("screens.booking.viewReceipt")}
+            title={t('screens.booking.viewReceipt')}
           />
         </XStack>
       </YStack>
@@ -121,7 +132,7 @@ const RenderBookingItem = ({
 
 const BookingList = (props: Props): React.ReactElement => {
   const [refreshing, setRefreshing] = React.useState(false)
-  const {refetch } = useFetchAppointment()
+  const { refetch } = useFetchAppointment()
 
   const handleRefresh = React.useCallback(() => {
     setRefreshing(true)
@@ -144,8 +155,8 @@ const BookingList = (props: Props): React.ReactElement => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 150,
-  },
+    paddingBottom: 150
+  }
 })
 
 export default BookingList

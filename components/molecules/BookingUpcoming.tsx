@@ -38,7 +38,7 @@ const BookingUpcoming = ({
   const pendingAppointments = appointments
     .filter(
       (item) =>
-        item.status === Status.PENDING &&
+        (item.status === Status.CONFIRMED || item.status === Status.PENDING) &&
         !isNil(item.customer) &&
         item.customer.id === user.id
     )

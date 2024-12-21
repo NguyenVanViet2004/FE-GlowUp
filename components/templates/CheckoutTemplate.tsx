@@ -27,9 +27,7 @@ import useTranslation from '~/hooks/useTranslation'
 import { PaymentMethod } from '~/interfaces/enum/Payment'
 import { Status } from '~/interfaces/enum/Status'
 import { type RootState } from '~/redux/store'
-import {
-  formatDateToLongForm
-} from '~/utils/formatDateToLongForm'
+import { formatDateToLongForm } from '~/utils/formatDateToLongForm'
 
 const CheckoutTemplate = (): React.ReactElement => {
   const fonts = useAppFonts()
@@ -57,7 +55,9 @@ const CheckoutTemplate = (): React.ReactElement => {
     <ChevronLeft
       color={colors.text}
       size={25}
-      onPress={() => { router.back() }}
+      onPress={() => {
+        router.back()
+      }}
     />
   )
   const rightIcon = <ChevronRight size={25} opacity={0} />
@@ -72,7 +72,9 @@ const CheckoutTemplate = (): React.ReactElement => {
   const user = useSelector((state: RootState) => state.user)
   const bookTime = bookingExample.start_time
   const validBookTime: string | number | null =
-  typeof bookTime === 'string' || typeof bookTime === 'number' ? bookTime : null
+    typeof bookTime === 'string' || typeof bookTime === 'number'
+      ? bookTime
+      : null
   const vietnamTime = dayjs(validBookTime)
     .tz('Asia/Ho_Chi_Minh', true)
     .format('YYYY-MM-DDTHH:mm:ss[Z]')
@@ -81,7 +83,9 @@ const CheckoutTemplate = (): React.ReactElement => {
       const method = await getItem(`SELECTED_METHOD_${bookingExample.id}`)
       setSelectMethod(method)
     }
-    fetchMethod().catch((e) => { console.error(e) })
+    fetchMethod().catch((e) => {
+      console.error(e)
+    })
   }, [])
 
   const bookingData = [
@@ -180,8 +184,10 @@ const CheckoutTemplate = (): React.ReactElement => {
         pathname: '/checkout/BookingConfirmation'
       })
     } else if (selectedMethodID === 'online') {
-      await setItem(`SELECTED_METHOD_${bookingExample.id}`,
-        PaymentMethod.ONLINE)
+      await setItem(
+        `SELECTED_METHOD_${bookingExample.id}`,
+        PaymentMethod.ONLINE
+      )
       if (
         isNil(user.result.card_info) ||
         isEmpty(user.result.card_info.cardHolder) ||
@@ -232,7 +238,7 @@ const CheckoutTemplate = (): React.ReactElement => {
       Array.isArray(boking) &&
       boking.length > 0 &&
       (boking[0]?.status === Status.PENDING ||
-      boking[0]?.status === Status.UNCONFIRMED) &&
+        boking[0]?.status === Status.UNCONFIRMED) &&
       boking[0]?.payment_status === Status.PENDING
     )
   }
@@ -252,8 +258,7 @@ const CheckoutTemplate = (): React.ReactElement => {
             handleSubmitPress().catch((e) => {
               console.error(e)
             })
-          }
-          }
+          }}
         />
       )
     }
@@ -288,32 +293,33 @@ const CheckoutTemplate = (): React.ReactElement => {
                 selectMethod === PaymentMethod.ONLINE
                   ? (
                     bookingExample.payment_status === 'PAID'
-                      ? (
-                            <Text
+                          ? (
+                        <Text
                           textAlign="center"
                           color={colors.blueSapphire}
                           fontFamily={fonts.fonts.JetBrainsMonoBold}
-                          marginBottom={10}
-                        >
-                          Bạn đã thanh toán. Vui lòng đến đúng giờ.
-                        </Text>)
+                          marginBottom={10}>
+                              Bạn đã thanh toán. Vui lòng đến đúng giờ.
+                        </Text>
+                            )
                       : (
-                        renderPaymentMethods())
+                        renderPaymentMethods()
+                      )
                   )
                   : (
                       <Text
                       textAlign="center"
                       color={colors.blueSapphire}
                       fontFamily={fonts.fonts.JetBrainsMonoBold}
-                      marginBottom={10}
-                    >
-                      Bạn sẽ thanh toán khi thực hiện xong các bước
-                      tại salon. Vui lòng đến đúng giờ.
-                    </Text>)
-                )
+                      marginBottom={10}>
+                      Bạn sẽ thanh toán khi thực hiện xong các bước tại salon. Vui
+                      lòng đến đúng giờ.
+                    </Text>
+                  )
+              )
               : (
                 renderPaymentMethods()
-                )}
+              )}
           </View>
 
           <View gap={5} justifyContent="center" alignItems="center" mt={10}>
@@ -344,13 +350,12 @@ const CheckoutTemplate = (): React.ReactElement => {
         </Card>
       </GradientScrollContainer>
 
-      {
-        isNil(selectMethod) ||
-        (selectMethod === PaymentMethod.ONLINE &&
-          bookingExample.payment_status === Status.PENDING || bookingExample.payment_status === Status.UNCONFIRMED)
-          ? (renderButtonCheckout())
-          : undefined
-      }
+      {isNil(selectMethod) ||
+      (selectMethod === PaymentMethod.ONLINE &&
+        bookingExample.payment_status === Status.PENDING) ||
+      bookingExample.payment_status === Status.UNCONFIRMED
+        ? renderButtonCheckout()
+        : undefined}
     </>
   )
 }

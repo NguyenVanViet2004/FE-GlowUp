@@ -204,7 +204,7 @@ const DateComponent: React.FC<IDateComponent> = (props: IDateComponent) => {
                 }}
                 margin={5}
                 padding={10}
-                borderRadius={50}
+                borderRadius={20}
                 backgroundColor={isSelected ? '#007B83' : colors.lightGray}
                 width={55}
                 height={77}

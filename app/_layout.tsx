@@ -8,16 +8,18 @@ import { isNil } from 'lodash'
 import React, { useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import Toast from 'react-native-toast-message'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { TamaguiProvider } from 'tamagui'
 
 import AppModal from '~/components/molecules/common/AppModal'
 import getColors from '~/constants/Colors'
+import { hideModal, showModal } from '~/features/appModalSlice'
+import { useAppDispatch } from '~/hooks/useAppDispatch'
 import { useAppFonts } from '~/hooks/useAppFonts'
 import { useColorScheme } from '~/hooks/useColorScheme'
 import useNotifications from '~/hooks/useNotifications'
 import useTranslation, { useInitializeI18n } from '~/hooks/useTranslation'
-import store from '~/redux/store'
+import store, { type RootState } from '~/redux/store'
 import config from '~/tamagui.config'
 
 export {
@@ -61,26 +63,30 @@ function RootLayoutNav (): React.ReactElement {
   const { notification, expoPushToken } = useNotifications()
   const colors = getColors(colorScheme)
 
-  // State to control the modal visibility
-  const [isModalVisible, setIsModalVisible] = React.useState(false)
-  const [message, setMessage] = React.useState('')
-  const [titleNotify, setTitleNotify] = React.useState('')
+  const { visible, title, subtitle, type } = useSelector(
+    (state: RootState) => state.modal
+  )
+  const dispatch = useAppDispatch()
 
-  React.useEffect(() => {
-    console.log(JSON.stringify(notification, null, 2))
-    console.log(JSON.stringify(expoPushToken, null, 2))
-  }, [notification, expoPushToken])
+  // React.useEffect(() => {
+  //   console.log(JSON.stringify(notification, null, 2))
+  //   console.log(JSON.stringify(expoPushToken, null, 2))
+  // }, [notification, expoPushToken])
 
   useEffect(() => {
     if (!isNil(notification)) {
-      setMessage(notification.request.content.body ?? '')
-      setTitleNotify(notification.request.content.title ?? '')
-      setIsModalVisible(true)
+      dispatch(
+        showModal({
+          subtitle: notification.request.content.title ?? '',
+          title: notification.request.content.body ?? '',
+          type
+        })
+      )
     }
   }, [notification])
 
   const handleCloseModal = (): void => {
-    setIsModalVisible(false)
+    dispatch(hideModal())
   }
 
   return (
@@ -185,11 +191,11 @@ function RootLayoutNav (): React.ReactElement {
       </TamaguiProvider>
 
       <AppModal
-        visible={isModalVisible}
+        visible={visible}
         ontClose={handleCloseModal}
-        // type='SUCCESS'
-        title={titleNotify}
-        subtitle={message}
+        type={type}
+        title={title ?? ''}
+        subtitle={subtitle}
         cancelText="Đóng"
         cancelColor={colors.white}
         onCancel={handleCloseModal}

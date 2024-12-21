@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import modalSlice from '~/features/appModalSlice'
 import appointmentSlice from '~/features/appointmentSlice'
 import authSlice from '~/features/authSlice'
 import colorSchemeSlice from '~/features/colorSlice'
@@ -20,6 +21,7 @@ const store = configureStore({
     colorScheme: colorSchemeSlice,
     combos: comboSlice,
     membership: membershipSlice,
+    modal: modalSlice,
     payments: paymentSlice,
     reviews: reviewSlice,
     steps: stepSlice,
