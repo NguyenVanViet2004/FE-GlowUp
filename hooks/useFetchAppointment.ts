@@ -40,7 +40,6 @@ const useFetchAppointment = (): {
     request
       .get<Appointment[]>('booking')
       .then((booking) => {
-        console.log('Appointments')
         if (isEqual(booking, appointments)) {
           return
         }
